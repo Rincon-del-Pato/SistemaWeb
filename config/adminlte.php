@@ -322,12 +322,12 @@ return [
         ],
         [
             'text' => 'Roles',
-            'url' => 'admin/settings',
+            'route'  => 'roles.index',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'Usuario',
-            'url' => 'admin/settings',
+            'route'  => 'usuarios.index',
             'icon' => 'fas fa-fw fa-user',
         ],
 
@@ -408,7 +408,51 @@ return [
                 ],
             ],
         ],
-        
+        [
+            'text'    => 'Empleados',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    // 'text' => 'Crear Empleado',
+                    // 'route'  => 'empleados.create',
+                ],
+                [
+                    // 'text' => 'Listar Empleados',
+                    // 'route'  => 'empleados.index',
+                ],
+            ],
+        ],
+
+        [
+            'text'    => 'Roles',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'Crear Rol',
+                    'route'  => 'roles.create',
+                ],
+                [
+                    'text' => 'Listar Roles',
+                    'route'  => 'roles.index',
+                ],
+            ],
+        ],
+
+        [
+            'text'    => 'Permisos',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                // [
+                //     'text' => 'Crear Permiso',
+                //     'route'  => 'permisos.create',
+                // ],
+                [
+                    'text' => 'Listar Permisos',
+                    'route'  => 'permisos.index',
+                ],
+            ],
+        ],
+
     ],
 
     /*
