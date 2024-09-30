@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\PermissionsionController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +30,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])->names('roles');
+Route::resource('permisos', PermissionsionController::class)->names('permisos');
+Route::resource('usuarios', UserController::class)->names('usuarios');
+
+
