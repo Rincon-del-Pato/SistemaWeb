@@ -33,10 +33,11 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         Role::create([
-            'name' => $request->nombre,
-        ]);
+        'name' => $request->name,
+        'description' => $request->description,
+        'tipo'=>'cargo']);
         return redirect()->route('roles.index');
     }
 
@@ -69,9 +70,11 @@ class RolController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+
         $role->update([
             'name' => $request->name,
-        ]);
+            'description' => $request->description,
+            'tipo'=>'cargo']);
 
         $role->permissions()->sync($request->permissions);
         return redirect()->route('roles.index')->with('success', 'Rol actualizado con éxito');
@@ -82,7 +85,6 @@ class RolController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
         $role->delete();
 
         return redirect()->route('roles.index');

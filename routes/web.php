@@ -17,9 +17,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+
 
 Route::middleware([
     'auth:sanctum',
@@ -28,11 +26,14 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
+        Route::get('/', function () {
+            return view('dashboard');
+        });
     })->name('dashboard');
+    Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])->names('roles');
+    Route::resource('permisos', PermissionsionController::class)->names('permisos');
+    Route::resource('usuarios', UserController::class)->names('usuarios');
 });
 
-Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])->names('roles');
-Route::resource('permisos', PermissionsionController::class)->names('permisos');
-Route::resource('usuarios', UserController::class)->names('usuarios');
 
 

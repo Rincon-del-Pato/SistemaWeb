@@ -61,10 +61,21 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function roles()
+    public function adminlte_image()
     {
-        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
+        return 'https://picsum.photos/300/300';
     }
+
+    public function adminlte_desc()
+    {
+        return 'Admin';
+    }
+
+    public function adminlte_profile_url()
+    {
+        return 'profile/username';
+    }
+
 
 
 

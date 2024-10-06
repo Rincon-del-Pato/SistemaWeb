@@ -27,11 +27,11 @@ class RolesPermisosSeeder extends Seeder
 
         //*roles actor
         $role7 = Role::create(['name' => 'gerente_general','description' => 'Gerente General','tipo'=>'cargo']);
-        $role8 = Role::create(['name' => 'cocinero','description' => 'chef','tipo'=>'cargo']);
+        $role8 = Role::create(['name' => 'cocinero','description' => 'Chef','tipo'=>'cargo']);
         $role9 = Role::create(['name' => 'asistente_cosina','description' => 'Asistente de cocina','tipo'=>'cargo']);
         $role10 = Role::create(['name' => 'encargado_publico','description' => 'Encargados atención al público','tipo'=>'cargo']);
         $role11 = Role::create(['name' => 'gerente_ventas','description' => 'Gerente de ventas','tipo'=>'cargo']);
-        $role12 = Role::create(['name' => 'mesero','description' => 'mesero','tipo'=>'cargo']);
+        $role12 = Role::create(['name' => 'mesero','description' => 'Mesero','tipo'=>'cargo']);
         //roles actor de venta y finanzas
         // $role11 = Role::create(['name' => 'Contador','tipo'=>'cargo']);
         // $role12 = Role::create(['name' => 'Vendedor','tipo'=>'cargo']);
@@ -46,36 +46,32 @@ class RolesPermisosSeeder extends Seeder
         Permission::create(
             [
                 'name' => 'panel.Abastecimiento',
-                'description' => 'Acceso al panel de abastecimiento',
+                'description' => 'Acceso al panel de Inventario',
                 'tipo' => 'panel'
             ]
         )->syncRoles([ $role7, $role8, $role9, $role10]);
         Permission::create([
             'name' => 'panel.Compras',
-            'description' => 'Acceso al panel de compras',
+            'description' => 'Acceso al panel de Compras',
             'tipo' => 'panel'
 
         ])->syncRoles([$role7, $role8]);
         Permission::create([
             'name' => 'panel.Finanzas',
-            'description' => 'Acceso al panel de finanzas',
+            'description' => 'Acceso al panel de Administracion',
             'tipo' => 'panel'
         ])->syncRoles([$role10, $role9]);
         Permission::create([
             'name' => 'panel.Ventas',
-            'description' => 'Acceso al panel de ventas',
+            'description' => 'Acceso al panel de Ventas',
             'tipo' => 'panel'
         ])->syncRoles([$role11, $role12]);
         Permission::create([
             'name' => 'panel.Adminstrar',
-            'description' => 'Acceso al panel de administracion',
+            'description' => 'Acceso al panel de Abastecimiento ',
             'tipo' => 'panel'
         ])->syncRoles([$role9, $role11]);
-        Permission::create([
-            'name' => 'panel.Seguridad',
-            'description' => 'Acceso al panel de seguridad',
-            'tipo' => 'panel'
-        ])->syncRoles([$role8, $role11]);
+
 
         //Todo lo que puede hacer el supervisor en el area de abastecimiento OJO EL GERENTE TAMBIEN
         //* Productos:

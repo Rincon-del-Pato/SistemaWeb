@@ -16,35 +16,35 @@ class UserSeeder extends Seeder
     {
             //Administracion
             $user =User::create([
-                'name' => 'Jhosep',
+                'name' => 'Fernando',
                 'email'    => 'admin@example.com',
                 'password' => Hash::make('12345678'), // password
 
             ])->assignRole('gerente_general');
 
             $user =User::create([
-                'name' => 'Jorge',
-                'email'    => 'jorge@gmail.com',
+                'name' => 'Xiomara',
+                'email'    => 'xiomara@gmail.com',
                 'password' => Hash::make('12345678'), // password
 
             ])->assignRole('gerente_ventas');
 
             $user =User::create([
-                'name' => 'Juan',
+                'name' => 'Luis',
                 'email'    => 'chef@gmail.com',
                 'password' => Hash::make('12345678'), // password
 
             ])->assignRole('cocinero');
 
             $user =User::create([
-                'name' => 'José',
+                'name' => 'Nilo',
                 'email'    => 'mesero@gmail.com',
                 'password' => Hash::make('12345678'), // password
 
             ])->assignRole('mesero');
 
             $user =User::create([
-                'name' => 'Julio',
+                'name' => 'Julia',
                 'email'    => 'asistentecosina1@gmail.com',
                 'password' => Hash::make('12345678'), // password
 

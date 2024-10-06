@@ -3,7 +3,7 @@
 @section('title', 'Empleados')
 
 @section('content_header')
-    <h1>Lista de Empleados</h1>
+    <h1>Lista de Roles</h1>
 @stop
 
 @section('content')
@@ -22,7 +22,7 @@
             @foreach ($roles as $rol)
                 <tr>
                     <td>{{$rol->id}}</td>
-                    <td>{{$rol->name}}  </td>
+                    <td>{{$rol->description}}  </td>
 
 
                     <td>
