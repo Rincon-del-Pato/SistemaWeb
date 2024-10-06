@@ -8,45 +8,39 @@
 
 @section('content')
 
-    <a href="roles/create" class="mb-3 btn btn-primary">CREAR</a>
+    <a href="roles/create" class="btn btn-primary mb-3">CREAR</a>
 
-    <table id="empleados" class="table mt-4 shadow-lg  table-striped table-bordered" style="width:100%">
-        <thead class="text-white bg-primary">
+    <table id="empleados" class=" table table-striped table-bordered shadow-lg mt-4" style="width:100%">
+        <thead class="bg-primary text-white">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Email</th>
                 <th scope="col">Rol</th>
-                <th scope="col">Accion</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($usuarios as $usuario)
+            @foreach ($roles as $rol)
                 <tr>
-                    <td>{{$usuario->id}}</td>
-                    <td>{{$usuario->name}}  </td>
-                    <td>{{$usuario->email}}  </td>
-                    <td>
-                        @foreach ($usuario->roles as $rol)
-                            {{$rol->description}}
-                        @endforeach
-
-                    </td>
+                    <td>{{$rol->id}}</td>
+                    <td>{{$rol->name}}  </td>
 
 
                     <td>
-                        {{-- <form action="{{route('roles.destroy',$rol)}}" method="POST">
+                        <form action="{{route('roles.destroy',$rol)}}" method="POST">
                             <a href="{{route('roles.edit',$rol)}}" class="btn btn-info">Editar</a>
                             <a href="{{route('roles.show',$rol)}}" class="btn btn-info">Ver</a>
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Borrar</button>
-                        </form> --}}
+                        </form>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+
+
+
 
 
 

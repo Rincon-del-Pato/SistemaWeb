@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Tables;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolController;
-use App\Http\Controllers\PermissionsionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TablesController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\PermissionsionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +38,5 @@ Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])-
 Route::resource('permisos', PermissionsionController::class)->names('permisos');
 Route::resource('usuarios', UserController::class)->names('usuarios');
 
-
+Route::resource('settings', SettingsController::class)->names('settings');
+Route::resource('tables', TablesController::class)->names('tables');
