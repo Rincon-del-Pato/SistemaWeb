@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Tables;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolController;
-use App\Http\Controllers\PermissionsionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TablesController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\PermissionsionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +39,5 @@ Route::middleware([
 });
 
 
-
+Route::resource('settings', SettingsController::class)->names('settings');
+Route::resource('tables', TablesController::class)->names('tables');

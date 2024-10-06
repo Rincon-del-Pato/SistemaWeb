@@ -14,7 +14,7 @@ return [
     'sign_in' => 'Sign In',
     'log_out' => 'Log Out',
     'toggle_navigation' => 'Toggle navigation',
-    'login_message' => 'Iniciar Sesion',
+    'login_message' => 'Sign in to start your session',
     'register_message' => 'Register a new membership',
     'password_reset_message' => 'Reset Password',
     'reset_password' => 'Reset Password',
