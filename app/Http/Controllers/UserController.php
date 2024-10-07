@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -11,7 +14,89 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = User::all();
-
         return view('usuarios.index', compact('usuarios'));
     }
+
+    public function create()
+    {
+        $usuario = new User;
+        $roles = Role::pluck('description', 'name');
+        return view('usuarios.create', compact('usuario','roles'));
+    }
+
+    public function store(Request $request)
+    {
+        request()->validate(User::$rules);
+
+        // $usuario = User::create([
+        //         'name' => $request->name,
+        //         'email' => $request->email,
+        //         'password' => Hash::make($request->password),
+        //     ]);
+
+        // $usuario->syncRoles($request->rols);
+
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' =>Hash::make($request->password),
+        ])->syncRoles($request->rols);
+
+
+
+
+        return redirect()->route('usuarios.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $usuario)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(User $usuario)
+    {
+        //
+
+        $roles = Role::pluck('description', 'name');
+
+        return view('usuarios.edit', compact('usuario', 'roles'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, User $usuario)
+    {
+        //
+        request()->validate(User::$rules);
+
+        $usuario->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        $usuario->syncRoles($request->rols);
+
+        return redirect()->route('usuarios.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $usuario)
+    {
+        //
+        $usuario->delete();
+
+        return redirect()->route('usuarios.index');
+    }
+
 }

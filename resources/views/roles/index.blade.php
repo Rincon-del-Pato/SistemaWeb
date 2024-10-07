@@ -1,48 +1,51 @@
 @extends('adminlte::page')
 
-@section('title', 'Empleados')
+@section('title', 'Roles')
 
 @section('content_header')
-    <h1>Lista de Roles</h1>
+    <h1 class="mb-4">Lista de Roles</h1>
 @stop
 
 @section('content')
 
-    <a href="roles/create" class="btn btn-primary mb-3">CREAR</a>
+    <a href="{{ route('roles.create') }}" class="mb-3 btn btn-primary">
+        <i class="fas fa-plus"></i> CREAR NUEVO ROL
+    </a>
 
-    <table id="empleados" class=" table table-striped table-bordered shadow-lg mt-4" style="width:100%">
-        <thead class="bg-primary text-white">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Rol</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($roles as $rol)
+    <div class="table-responsive">
+        <table id="roles" class="table shadow-sm table-hover table-striped table-bordered" style="width:100%">
+            <thead class="text-white bg-primary">
                 <tr>
-                    <td>{{$rol->id}}</td>
-                    <td>{{$rol->description}}  </td>
-
-
-                    <td>
-                        <form action="{{route('roles.destroy',$rol)}}" method="POST">
-                            <a href="{{route('roles.edit',$rol)}}" class="btn btn-info">Editar</a>
-                            <a href="{{route('roles.show',$rol)}}" class="btn btn-info">Ver</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Borrar</button>
-                        </form>
-                    </td>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col" class="text-center">Acciones</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-
-
-
-
+            </thead>
+            <tbody>
+                @foreach ($roles as $rol)
+                    <tr>
+                        <td class="text-center">{{ $rol->id }}</td>
+                        <td>{{ $rol->description }}</td>
+                        <td class="text-center">
+                            <form action="{{ route('roles.destroy', $rol) }}" method="POST">
+                                <a href="{{ route('roles.edit', $rol) }}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                {{-- <a href="{{ route('roles.show', $rol) }}" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-eye"></i> Ver
+                                </a> --}}
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este rol?')">
+                                    <i class="fas fa-trash"></i> Borrar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
 @stop
 

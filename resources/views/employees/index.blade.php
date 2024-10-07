@@ -3,13 +3,13 @@
 @section('title', 'Empleados')
 
 @section('content_header')
-    <h1 class="mb-4">Lista de Usuarios</h1>
+    <h1 class="mb-4">Lista de Empleados</h1>
 @stop
 
 @section('content')
 
-    <a href="{{ route('usuarios.create') }}" class="mb-3 btn btn-primary">
-        <i class="fas fa-user-plus"></i> CREAR NUEVO USUARIO
+    <a href="{{ route('employees.create') }}" class="mb-3 btn btn-primary">
+        <i class="fas fa-plus"></i> CREAR NUEVO EMPLEADO
     </a>
 
     <div class="table-responsive">
@@ -17,37 +17,38 @@
             <thead class="text-white bg-primary">
                 <tr>
                     <th scope="col" class="text-center">#</th>
-                    <th scope="col">Usuario</th>
+                    <th scope="col">Empleado</th>
                     <th scope="col">Email</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Celular</th>
                     <th scope="col">Rol</th>
-                    <th scope="col" class="text-center">Acción</th>
+                    <th scope="col" class="text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($usuarios as $usuario)
+                @foreach ($employees as $employee)
                     <tr>
-                        <td class="text-center">{{ $usuario->id }}</td>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->email }}</td>
+                        <td class="text-center">{{ $employee->id }}</td>
+                        <td>{{ $employee->lastname }}  {{ $employee->user()->first()->name }}</td>
+                        <td>{{ $employee->user()->first()->email }}</td>
+                        <td>{{ $employee->dni }}</td>
+                        <td>{{ $employee->phone }}</td>
                         <td>
-                            @foreach ($usuario->roles as $rol)
-                                <span class="badge bg-info text-dark me-1"
-                                    style="font-size: 1rem">{{ $rol->description }}</span>
-                            @endforeach
+                            <span class="badge bg-info text-dark me-1"
+                                    style="font-size: 1rem">{{ $employee->user->getRoleNames()->implode(', ') }}</span>
                         </td>
-
                         <td class="text-center">
-                            <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST">
-                                <a href="{{ route('usuarios.edit', $usuario) }}" class="btn btn-sm btn-warning">
+                            <form action="{{ route('employees.destroy', $employee) }}" method="POST">
+                                <a href="{{ route('employees.edit', $employee) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                {{-- <a href="{{ route('usuarios.show', $usuario) }}" class="btn btn-sm btn-secondary">
+                                <a href="{{ route('employees.show', $employee) }}" class="btn btn-sm btn-secondary">
                                     <i class="fas fa-eye"></i> Ver
-                                </a> --}}
+                                </a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                    onclick="return confirm('¿Estás seguro de eliminar este empleado?')">
                                     <i class="fas fa-trash"></i> Borrar
                                 </button>
                             </form>

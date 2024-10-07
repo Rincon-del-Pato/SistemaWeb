@@ -20,6 +20,15 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use HasRoles;
 
+    public static $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'password' => 'required',
+        'rols' => 'required',
+
+        //J&z?3*Z.2zjK
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -75,7 +84,6 @@ class User extends Authenticatable
     {
         return 'profile/username';
     }
-
 
 
 

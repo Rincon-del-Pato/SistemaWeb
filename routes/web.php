@@ -7,6 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TablesController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PermissionsionController;
 
 /*
@@ -38,6 +40,7 @@ Route::middleware([
     Route::resource('usuarios', UserController::class)->names('usuarios');
 });
 
-
+Route::resource('employees', EmployeesController::class)->names('employees');
 Route::resource('settings', SettingsController::class)->names('settings');
 Route::resource('tables', TablesController::class)->names('tables');
+Route::resource('categories', CategoriesController::class)->names('categories');
