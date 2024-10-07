@@ -29,8 +29,9 @@ class EmployeesController extends Controller
         //
         $roles = Role::pluck('description', 'name');
         $employee = new Employees;
+        $user = new User;
 
-        return view('employees.create', compact('employee', 'roles'));
+        return view('employees.create', compact('employee', 'roles','user'));
     }
 
     /**
@@ -92,6 +93,25 @@ class EmployeesController extends Controller
     public function update(Request $request, Employees $employee)
     {
         //
+        $employee->update([
+            'lastname' => $request->lastname,
+            'dni' => $request->dni,
+            'age' => $request->age,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+        ]);
+
+        $user = User::find($employee->user_id);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        $user->syncRoles($request->rols);
+
+        return redirect()->route('employees.index');
     }
 
     /**
