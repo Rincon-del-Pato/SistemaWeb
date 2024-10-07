@@ -38,10 +38,8 @@ Route::middleware([
     Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])->names('roles');
     Route::resource('permisos', PermissionsionController::class)->names('permisos');
     Route::resource('usuarios', UserController::class)->names('usuarios');
+    Route::resource('employees', EmployeesController::class)->names('employees');
+    Route::resource('settings', SettingsController::class)->names('settings');
+    Route::resource('tables', TablesController::class)->names('tables');
+    Route::resource('categories', CategoriesController::class)->names('categories');
 });
-
-Route::resource('employees', EmployeesController::class)->names('employees');
-Route::resource('settings', SettingsController::class)->names('settings');
-Route::get('/settings/ciudades', [SettingsController::class, 'getCiudades'])->name('settings.ciudades');
-Route::resource('tables', TablesController::class)->names('tables');
-Route::resource('categories', CategoriesController::class)->names('categories');
