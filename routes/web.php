@@ -42,5 +42,6 @@ Route::middleware([
 
 Route::resource('employees', EmployeesController::class)->names('employees');
 Route::resource('settings', SettingsController::class)->names('settings');
+Route::get('/settings/ciudades', [SettingsController::class, 'getCiudades'])->name('settings.ciudades');
 Route::resource('tables', TablesController::class)->names('tables');
 Route::resource('categories', CategoriesController::class)->names('categories');

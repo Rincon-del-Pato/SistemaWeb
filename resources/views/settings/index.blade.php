@@ -8,55 +8,55 @@
 
 @section('content')
 
-<div class="p-6">
-    @if($settings)
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Información General</h3>
-                <ul class="space-y-2">
-                    <li><strong>Nombre:</strong> {{ $settings->name }}</li>
-                    <li><strong>RUC:</strong> {{ $settings->ruc }}</li>
-                    <li><strong>Dirección:</strong> {{ $settings->address }}</li>
-                    <li><strong>Teléfono:</strong> {{ $settings->phone }}</li>
-                    <li><strong>Email:</strong> {{ $settings->email }}</li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Logo</h3>
-                @if($settings->logo)
-                    <img src="" alt="Logo del Restaurante" class="max-w-full h-auto rounded-lg shadow-md">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                @if ($settings)
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="mb-4 h4">Información General</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><strong>Nombre:</strong> {{ $settings->name }}</li>
+                                <li class="mb-2"><strong>RUC:</strong> {{ $settings->ruc }}</li>
+                                <li class="mb-2"><strong>Dirección:</strong> {{ $settings->address }}</li>
+                                <li class="mb-2"><strong>Teléfono:</strong> {{ $settings->phone }}</li>
+                                <li class="mb-2"><strong>Email:</strong> {{ $settings->email }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="mb-4 h4">Logo</h3>
+                            @if ($settings->logo)
+                                <img src="{{ asset('imagen/logo.png') }}" alt="Logo del Restaurante"
+                                    class="rounded shadow-sm img-fluid w-50">
+                            @else
+                                <p class="text-muted fst-italic">No se ha cargado un logo</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="" class="btn btn-primary">
+                            Editar Configuración
+                        </a>
+                    </div>
                 @else
-                    <p class="text-gray-500 italic">No se ha cargado un logo</p>
+                    <div class="py-5 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
+                            class="mb-4 bi bi-folder-plus text-secondary" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 3l.04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.684.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z" />
+                            <path
+                                d="M13.5 10a.5.5 0 0 1 .5.5V12h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V13h-1.5a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                        <h3 class="mb-2 h5">No hay información del restaurante</h3>
+                        <p class="mb-4 text-muted">Comienza agregando la información de tu restaurante.</p>
+                        <a href="{{ route('admin.settings.create') }}" class="btn btn-primary">
+                            Agregar información del restaurante
+                        </a>
+                    </div>
                 @endif
             </div>
         </div>
-        <div class="mt-8">
-            <h3 class="text-lg font-semibold text-gray-700 mb-2">Mesas</h3>
-            <p class="text-xl font-bold text-blue-600">Total de mesas:</p>
-        </div>
-        <div class="mt-6 flex justify-end">
-            <a href="" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                Editar Configuración
-            </a>
-        </div>
-    @else
-        <div class="text-center py-8">
-            {{-- <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> --}}
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-            </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No hay información del restaurante</h3>
-            <p class="mt-1 text-sm text-gray-500">Comienza agregando la información de tu restaurante.</p>
-            <div class="mt-6">
-                <a href="" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-black bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    {{-- <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg> --}}
-                    Agregar Información del Restaurante
-                </a>
-            </div>
-        </div>
-    @endif
-</div>
+    </div>
 @stop
 
 @section('css')
@@ -64,5 +64,7 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script>
+        console.log('Hi!');
+    </script>
 @stop

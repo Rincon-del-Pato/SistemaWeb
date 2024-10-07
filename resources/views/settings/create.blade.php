@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
-@section('title', 'Rol')
+@section('title', 'Configuracion')
 
 
 
 @section('content_header')
-    <h1>Ingresar Informacion del Restaurante</h1>
+    <h1>Ingresar informacion del Restaurante</h1>
 @stop
 
 @section('content')
@@ -17,9 +17,9 @@
             @includeif('partials.errors')
 
             <div class="card card-default">
-                <div class="card-header">
+                {{-- <div class="card-header">
                     <span class="card-title">{{ __('Create') }} Role</span>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <form method="POST" action="{{ route('settings.store') }}"  role="form" enctype="multipart/form-data">
                         @csrf

@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('ruc');
+            $table->string('ruc');
             $table->string('address');
             $table->string('phone');
             $table->string('email');
-            $table->string('logo');
+            $table->string('province');
+            $table->string('city');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }
