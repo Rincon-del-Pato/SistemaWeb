@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum TableStatus: string
+enum TableStatusTab: string
 {
     case Disponible = 'Disponible';
     case Ocupado = 'Ocupado';

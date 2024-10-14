@@ -14,61 +14,105 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-            //Administracion
-            $user =User::create([
-                'name' => 'Fernando',
+        $users = [
+            [
+                'name' => 'Admin',
                 'email'    => 'admin@example.com',
                 'password' => Hash::make('12345678'), // password
-
-            ])->assignRole('gerente_general');
-
-            $user =User::create([
-                'name' => 'Xiomara',
-                'email'    => 'xiomara@gmail.com',
-                'password' => Hash::make('12345678'), // password
-
-            ])->assignRole('gerente_ventas');
-
-            $user =User::create([
-                'name' => 'Luis',
-                'email'    => 'chef@gmail.com',
-                'password' => Hash::make('12345678'), // password
-
-            ])->assignRole('cocinero');
-
-            $user =User::create([
+                'role' => 'gerente_general',
+                'image_employee' => 'employees/2NcHZB9PykfmhanUC9onDMqGwHhHmqybtBYinhlf.jpg',
+            ],
+            [
+                'name' => 'Luis Alberto',
+                'email' => 'chef@gmail.com',
+                'password' => Hash::make('chef1234'), // password
+                'role' => 'cocinero',
+                'image_employee' => 'employees/xrJAwxz7N8NTB3HyLYFKhtErsl1wv3wTgGyw7wo9.jpg',
+            ],
+            [
                 'name' => 'Nilo',
-                'email'    => 'mesero@gmail.com',
-                'password' => Hash::make('12345678'), // password
-
-            ])->assignRole('mesero');
-
-            $user =User::create([
+                'email' => 'mesero@gmail.com',
+                'password' => Hash::make('mesera1234'), // password
+                'role' => 'mesero',
+                'image_employee' => 'employees/s5jOH8CztSVmaS8QzhAAHrcopztCnlKlnMv1wbe4.jpg',
+            ],
+            [
                 'name' => 'Julia',
-                'email'    => 'asistentecosina1@gmail.com',
-                'password' => Hash::make('12345678'), // password
+                'email' => 'asistentecocina1@gmail.com',
+                'password' => Hash::make('asistente11234'), // password
+                'role' => 'asistente_cocina',
+                'image_employee' => 'employees/a6E74Z2SDWoVea0lcjVFpkKV5vmkdy6YXEGDM5pd.jpg',
+            ],
+        ];
 
-            ])->assignRole('asistente_cosina');
+        // Insertar varios usuarios y asignarles roles
+        foreach ($users as $userData) {
+            $user = User::create([
+                'name' => $userData['name'],
+                'email' => $userData['email'],
+                'password' => $userData['password'],
+                'profile_photo_path' => $userData['image_employee'] ?? null,
+            ]);
 
-            // $user =User::create([
-            //     'name' => 'Jhosep',
-            //     'email'    => 'asistentecosina1@example.com',
-            //     'password' => Hash::make('12345678'), // password
+            // Asignar rol al usuario recién creado
+            $user->assignRole($userData['role']);
+        }
 
-            // ])->assignRole('admin');
+        //Administracion
+        // $user = User::create([
+        //     'name' => 'Fernando',
+        //     'email'    => 'admin@example.com',
+        //     'password' => Hash::make('12345678'), // password
 
-            // $user =User::create([
-            //     'name' => 'Jhosep',
-            //     'email'    => 'admin@example.com',
-            //     'password' => Hash::make('12345678'), // password
+        // ])->assignRole('gerente_general');
 
-            // ])->assignRole('admin');
+        // $user =User::create([
+        //     'name' => 'Xiomara',
+        //     'email'    => 'xiomara@gmail.com',
+        //     'password' => Hash::make('12345678'), // password
 
-            // $user =User::create([
-            //     'name' => 'Jhosep',
-            //     'email'    => 'admin@example.com',
-            //     'password' => Hash::make('12345678'), // password
+        // ])->assignRole('gerente_ventas');
 
-            // ])->assignRole('admin');
+        // $user =User::create([
+        //     'name' => 'Luis',
+        //     'email'    => 'chef@gmail.com',
+        //     'password' => Hash::make('12345678'), // password
+
+        // ])->assignRole('cocinero');
+
+        // $user =User::create([
+        //     'name' => 'Nilo',
+        //     'email'    => 'mesero@gmail.com',
+        //     'password' => Hash::make('12345678'), // password
+
+        // ])->assignRole('mesero');
+
+        // $user =User::create([
+        //     'name' => 'Julia',
+        //     'email'    => 'asistentecosina1@gmail.com',
+        //     'password' => Hash::make('12345678'), // password
+
+        // ])->assignRole('asistente_cosina');
+
+        // $user =User::create([
+        //     'name' => 'Jhosep',
+        //     'email'    => 'asistentecosina1@example.com',
+        //     'password' => Hash::make('12345678'), // password
+
+        // ])->assignRole('admin');
+
+        // $user =User::create([
+        //     'name' => 'Jhosep',
+        //     'email'    => 'admin@example.com',
+        //     'password' => Hash::make('12345678'), // password
+
+        // ])->assignRole('admin');
+
+        // $user =User::create([
+        //     'name' => 'Jhosep',
+        //     'email'    => 'admin@example.com',
+        //     'password' => Hash::make('12345678'), // password
+
+        // ])->assignRole('admin');
     }
 }

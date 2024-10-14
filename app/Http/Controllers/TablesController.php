@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\tables;
-use App\Enums\TableStatus;
+use App\Enums\TableStatusTab;
 use Illuminate\Http\Request;
 
 class TablesController extends Controller
@@ -14,7 +14,8 @@ class TablesController extends Controller
     public function index()
     {
         //
-        $tables = Tables::all();
+
+        $tables = Tables::paginate(12);
         return view('tables.index', compact('tables'));
     }
 
@@ -24,9 +25,10 @@ class TablesController extends Controller
     public function create()
     {
         //
+        $statuses = TableStatusTab::cases();
         $table = Tables::all();
         // $table = new Tables;
-        return view('tables.create', compact('table'));
+        return view('tables.create', compact('table', 'statuses'));
     }
 
     /**
@@ -72,7 +74,7 @@ class TablesController extends Controller
     public function edit(Tables $table)
     {
         //
-        $statuses = TableStatus::cases();
+        $statuses = TableStatusTab::cases();
         return view('tables.edit', compact('table', 'statuses'));
     }
 

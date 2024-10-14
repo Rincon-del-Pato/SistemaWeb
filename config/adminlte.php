@@ -259,13 +259,13 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -365,13 +365,21 @@ return [
             // 'label_color' => 'success',
         ],
 
-        // [
-        //     'text' => 'Productos',
-        //     'url' => 'products',
-        //     'icon' => 'fas fa-cart-arrow-down',
-        //     // 'label' => 4,
-        //     // 'label_color' => 'success',
-        // ],
+        [
+            'text' => 'Productos',
+            'url' => 'products',
+            'icon' => 'fas fa-box',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
+            'text' => 'Carta',
+            'url' => 'menus',
+            'icon' => 'far fa-file-alt',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
 
         [
             'text' => 'Configuración',

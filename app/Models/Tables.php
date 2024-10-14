@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TableStatus;
+use App\Enums\TableStatusTab;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -24,6 +25,6 @@ class Tables extends Model
     ];
 
     protected $casts = [
-        'status' => TableStatus::class,
+        'status' => TableStatusTab::class,
     ];
 }

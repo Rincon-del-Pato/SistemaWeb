@@ -22,6 +22,7 @@ class Employees extends Model
         'password' => 'required',
         'address' => 'required|string',
         'city' => 'required|string',
+        'image' => 'image|mimes:jpeg,png,jpg|max:2048',
     ];
 
     protected $fillable = [
@@ -31,6 +32,7 @@ class Employees extends Model
         'phone',
         'address',
         'city',
+        'image_employee',
         'user_id',
     ];
 
@@ -43,5 +45,7 @@ class Employees extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    
 
 }

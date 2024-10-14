@@ -10,10 +10,18 @@ class CategoriesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $categories = Categories::all();
+        $query = Categories::query();
+
+        if($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where('name', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+        }
+
+        $categories = $query->paginate(10);
         return view('categories.index', compact('categories'));
     }
 

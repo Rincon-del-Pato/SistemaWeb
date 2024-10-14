@@ -86,6 +86,41 @@
         @endforeach
     </div>
 
+    <!-- Paginación -->
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- Mostrando registros -->
+        <div>
+            Mostrando {{ $tables->firstItem() }} a {{ $tables->lastItem() }} de {{ $tables->total() }}
+            productos
+        </div>
+
+        <!-- Paginación -->
+        <nav aria-label="Page navigation">
+            <ul class="mb-0 pagination">
+                <!-- Botón 'Anterior' -->
+                <li class="page-item {{ $tables->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $tables->previousPageUrl() }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo; Anterior</span>
+                    </a>
+                </li>
+
+                <!-- Números de página -->
+                @for ($i = 1; $i <= $tables->lastPage(); $i++)
+                    <li class="page-item {{ $i == $tables->currentPage() ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $tables->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+
+                <!-- Botón 'Siguiente' -->
+                <li class="page-item {{ $tables->hasMorePages() ? '' : 'disabled' }}">
+                    <a class="page-link" href="{{ $tables->nextPageUrl() }}" aria-label="Next">
+                        <span aria-hidden="true">Siguiente &raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
 
 
 @stop

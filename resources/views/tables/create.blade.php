@@ -5,16 +5,17 @@
 
 
 @section('content_header')
-    <h1>Crear mesas</h1>
+    {{-- <h1>Crear mesas</h1> --}}
 @stop
 
 @section('content')
     <section class="content container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="mt-4 col-md-12">
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Create') }} Mesas</span>
+                        {{-- <span class="card-title">{{ __('Create') }} Mesas</span> --}}
+                        <h2 class="mt-0 mb-0">Crear mesas</h2>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('tables.store') }}" method="POST">
@@ -48,9 +49,17 @@
                                 <button type="button" class="btn btn-primary" onclick="addTableType()">
                                     <i class="fas fa-plus-circle"></i> Agregar Tipo de Mesa
                                 </button>
-                                <button type="submit" class="btn btn-success">
+                                {{-- <button type="submit" class="btn btn-success">
                                     Crear Mesas
-                                </button>
+                                </button> --}}
+                                <div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-plus-circle"></i> <span class="ml-1">Crear Mesas</span>
+                                    </button>
+                                    <a href="{{ route('tables.index') }}" class="btn btn-danger">
+                                        <i class="fas fa-ban"></i> <span class="ml-1">Cancelar</span>
+                                    </a>
+                                </div>
                             </div>
                         </form>
                     </div>

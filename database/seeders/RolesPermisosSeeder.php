@@ -27,8 +27,8 @@ class RolesPermisosSeeder extends Seeder
 
         //*roles actor
         $role7 = Role::create(['name' => 'gerente_general','description' => 'Gerente General','tipo'=>'cargo']);
-        $role8 = Role::create(['name' => 'cocinero','description' => 'Chef','tipo'=>'cargo']);
-        $role9 = Role::create(['name' => 'asistente_cosina','description' => 'Asistente de cocina','tipo'=>'cargo']);
+        $role8 = Role::create(['name' => 'cocinero','description' => 'Cocinero','tipo'=>'cargo']);
+        $role9 = Role::create(['name' => 'asistente_cocina','description' => 'Asistente de cocina','tipo'=>'cargo']);
         $role10 = Role::create(['name' => 'encargado_publico','description' => 'Encargados atención al público','tipo'=>'cargo']);
         $role11 = Role::create(['name' => 'gerente_ventas','description' => 'Gerente de ventas','tipo'=>'cargo']);
         $role12 = Role::create(['name' => 'mesero','description' => 'Mesero','tipo'=>'cargo']);

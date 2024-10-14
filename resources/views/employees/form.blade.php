@@ -60,20 +60,31 @@
 
         <div class="form-group row">
             <!-- Dirección -->
-            <div class="col-md-6">
+            <div class="col-md-5">
                 {{ Form::label('address', 'Dirección') }}
                 {{ Form::text('address', $employee->address, ['class' => 'form-control' . ($errors->has('address') ? ' is-invalid' : ''), 'placeholder' => 'Ingrese su dirección']) }}
                 {!! $errors->first('address', '<div class="invalid-feedback">:message</div>') !!}
             </div>
             <!-- Ciudad -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 {{ Form::label('city', 'Ciudad') }}
                 {{ Form::text('city', $employee->city, ['class' => 'form-control' . ($errors->has('city') ? ' is-invalid' : ''), 'placeholder' => 'Ingrese su ciudad']) }}
                 {!! $errors->first('city', '<div class="invalid-feedback">:message</div>') !!}
             </div>
+            <div class="col-md-3">
+                {{ Form::label('image', 'Subir archivo') }}
+                {{ Form::file('image', ['class' => 'form-control' . ($errors->has('image') ? ' is-invalid' : '')]) }}
+                {!! $errors->first('image', '<div class="invalid-feedback">:message</div>') !!}
+            </div>
         </div>
     </div>
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        {{-- <button type="submit" class="btn btn-primary">Enviar</button> --}}
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> <span class="ml-1">Enviar</span>
+        </button>
+        <a href="{{ route('employees.index') }}" class="btn btn-danger">
+            <i class="fas fa-ban"></i> <span class="ml-1">Cancelar</span>
+        </a>
     </div>
 </div>
