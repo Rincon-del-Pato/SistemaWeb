@@ -25,6 +25,10 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 |
 */
 
+Route::get('/', function () {
+    return redirect()->route('login'); // Redirige a la página de login
+});
+
 // Rutas de autenticación
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->name('login');
