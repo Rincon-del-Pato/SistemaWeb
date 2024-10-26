@@ -26,6 +26,9 @@ class MenuController extends Controller
     public function create()
     {
         //
+        $products = Products::with('category')->get();
+        $categories = Categories::all();
+        return view('menu.create', compact('products', 'categories'));
     }
 
     /**

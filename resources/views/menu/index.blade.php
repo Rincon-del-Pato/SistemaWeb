@@ -11,9 +11,22 @@
         <div class="row">
             <div class="col-md-12 mt-4">
                 <div class="card card-default">
+                    <!-- Cabecera de la tarjeta con texto a la izquierda y botón a la derecha -->
                     <div class="card-header">
-                        <h2 class="">Lista de Productos</h2>
+                        <div class="row w-100 align-items-center">
+                            <div class="col">
+                                <h2 class="mb-0">Lista de Productos</h2>
+                            </div>
+                            <div class="col text-right">
+                                <a href="{{ route('menus.create') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Agregar Producto
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
+
+                    <!-- Cuerpo de la tarjeta -->
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="productTabs" role="tablist">
                             @foreach ($categories as $index => $category)
@@ -44,17 +57,6 @@
                                                     <small>Precio: ${{ number_format($product->price, 2) }}</small>
                                                 </div>
                                                 <div class="d-flex align-items-center">
-                                                    <form class="update-status-form mr-2" data-id="{{ $product->id }}">
-                                                        @csrf
-                                                        <select name="status" class="form-control">
-                                                            @foreach (['Disponible', 'Agotado', 'Oculto'] as $status)
-                                                                <option value="{{ $status }}"
-                                                                    {{ $product->status == $status ? 'selected' : '' }}>
-                                                                    {{ $status }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </form>
                                                     <span
                                                         class="badge badge-{{ $product->status == 'Disponible' ? 'success' : ($product->status == 'Agotado' ? 'danger' : 'secondary') }}">
                                                         {{ $product->status }}
@@ -71,6 +73,7 @@
             </div>
         </div>
     </section>
+
 @stop
 
 @section('css')
@@ -78,35 +81,7 @@
 @stop
 
 @section('js')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.update-status-form select').on('change', function() {
-                const $select = $(this);
-                const status = $select.val();
-                const productId = $select.closest('.update-status-form').data('id');
-                const $badge = $select.closest('li').find('.badge');
-
-                $.ajax({
-                    url: `/products/${productId}/status`,
-                    type: 'PUT',
-                    data: {
-                        status: status,
-                        _token: '{{ csrf_token() }}',
-                    },
-                    success: function(response) {
-                        $badge.text(status);
-                        $badge.removeClass('badge-success badge-danger badge-secondary')
-                            .addClass(
-                                `badge-${status === 'Disponible' ? 'success' : (status === 'Agotado' ? 'danger' : 'secondary')}`
-                                );
-                    },
-                    error: function(xhr) {
-                        console.error('Error al actualizar el estado:', xhr.responseText);
-                        $select.val($badge.text());
-                    }
-                });
-            });
-        });
+        console.log('Hi!');
     </script>
 @stop
