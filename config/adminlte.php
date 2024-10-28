@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Rincon del Pato',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,8 +63,8 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Rincon del</b> Pato',
+    'logo_img' => 'vendor/adminlte/dist/img/pato.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,13 +86,15 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/pato.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
             'height' => 50,
         ],
     ],
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -113,7 +115,7 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/pato.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
@@ -257,13 +259,13 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -306,27 +308,75 @@ return [
         ],
 
         // Sidebar items:
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'search',
+        // ],
+        // [
+        //     'text' => 'blog',
+        //     'url' => 'admin/blog',
+        //     'can' => 'manage-blog',
+        // ],
+        // [
+        //     'text' => 'pages',
+        //     'url' => 'admin/pages',
+        //     'icon' => 'far fa-fw fa-file',
+        //     'label' => 4,
+        //     'label_color' => 'success',
+        // ],
+
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
+            'text' => 'Roles',
+            'url' => 'roles',
+            'icon' => 'fas fa-user-lock',
+            // 'label' => 4,
+            // 'label_color' => 'success',
         ],
 
         [
             'text' => 'Usuarios',
             'url' => 'usuarios',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fas fa-user-plus',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
+            'text' => 'Empleados',
+            'url' => 'employees',
+            'icon' => 'fas fa-users',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
+            'text' => 'Mesas',
+            'url' => 'tables',
+            'icon' => 'fas fa-chair',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
+            'text' => 'Categorias',
+            'url' => 'categories',
+            'icon' => 'fas fa-archive',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
+            'text' => 'Productos',
+            'url' => 'products',
+            'icon' => 'fas fa-box',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
+            'text' => 'Carta',
+            'url' => 'menus',
+            'icon' => 'far fa-file-alt',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -334,76 +384,76 @@ return [
         [
             'text' => 'Configuración',
             'url' => 'settings',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fas fa-cog	',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
 
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
-        ],
+        // ['header' => 'account_settings'],
+        // [
+        //     'text' => 'profile',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
+        // [
+        //     'text' => 'change_password',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
+        // [
+        //     'text' => 'multilevel',
+        //     'icon' => 'fas fa-fw fa-share',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'level_one',
+        //             'url' => '#',
+        //         ],
+        //         [
+        //             'text' => 'level_one',
+        //             'url' => '#',
+        //             'submenu' => [
+        //                 [
+        //                     'text' => 'level_two',
+        //                     'url' => '#',
+        //                 ],
+        //                 [
+        //                     'text' => 'level_two',
+        //                     'url' => '#',
+        //                     'submenu' => [
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url' => '#',
+        //                         ],
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url' => '#',
+        //                         ],
+        //                     ],
+        //                 ],
+        //             ],
+        //         ],
+        //         [
+        //             'text' => 'level_one',
+        //             'url' => '#',
+        //         ],
+        //     ],
+        // ],
+        // ['header' => 'labels'],
+        // [
+        //     'text' => 'important',
+        //     'icon_color' => 'red',
+        //     'url' => '#',
+        // ],
+        // [
+        //     'text' => 'warning',
+        //     'icon_color' => 'yellow',
+        //     'url' => '#',
+        // ],
+        // [
+        //     'text' => 'information',
+        //     'icon_color' => 'cyan',
+        //     'url' => '#',
+        // ],
     ],
 
     /*

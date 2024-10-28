@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\TableStatusProd;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Products extends Model
 {
@@ -13,9 +14,8 @@ class Products extends Model
         'name' => 'required',
         'price' => 'required',
         'description' => 'required',
-        'type' => 'required',
-        'stock' => 'required',
         'status' => 'required',
+        'image' => 'image|mimes:jpeg,png,jpg|max:2048',
         'category_id' => 'required',
     ];
 
@@ -23,9 +23,8 @@ class Products extends Model
         'name',
         'price',
         'description',
-        'type',
-        'stock',
         'status',
+        'image_producto',
         'category_id',
     ];
 

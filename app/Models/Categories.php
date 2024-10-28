@@ -10,15 +10,17 @@ class Categories extends Model
     use HasFactory;
 
     public static $rules = [
-        'name' => 'required',
+        'name' => 'required|string',
+        'description' => 'required|string',
     ];
 
     protected $fillable = [
         'name',
+        'description',
     ];
 
-    public function products()
-    {
-        return $this->hasMany(Products::class);
-    }
+    // public function products()
+    // {
+    //     return $this->hasMany(Products::class);
+    // }
 }

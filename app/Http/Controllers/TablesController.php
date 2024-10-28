@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\tables;
+use App\Enums\TableStatusTab;
 use Illuminate\Http\Request;
 
 class TablesController extends Controller
@@ -13,6 +14,9 @@ class TablesController extends Controller
     public function index()
     {
         //
+
+        $tables = Tables::paginate(12);
+        return view('tables.index', compact('tables'));
     }
 
     /**
@@ -21,6 +25,10 @@ class TablesController extends Controller
     public function create()
     {
         //
+        $statuses = TableStatusTab::cases();
+        $table = Tables::all();
+        // $table = new Tables;
+        return view('tables.create', compact('table', 'statuses'));
     }
 
     /**
@@ -29,9 +37,27 @@ class TablesController extends Controller
     public function store(Request $request)
     {
         //
+        // return $request;
+
         request()->validate([
             Tables::$rules
         ]);
+
+        $capacities = $request -> capacity;
+        $quantities = $request -> quantity;
+
+        foreach ($capacities as $index => $capacity) {
+            $quantity = $quantities[$index];
+            for ($i = 0; $i < $quantity; $i++) {
+                Tables::create([
+                    'name' => 'Mesa ' . (Tables::count() + 1),
+                    'capacity' => $capacity,
+                    'status' => 'Disponible',
+                ]);
+            }
+        }
+
+        return redirect()->route('tables.index');
     }
 
     /**
@@ -45,24 +71,31 @@ class TablesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(tables $tables)
+    public function edit(Tables $table)
     {
         //
+        $statuses = TableStatusTab::cases();
+        return view('tables.edit', compact('table', 'statuses'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, tables $tables)
+    public function update(Request $request, tables $table)
     {
         //
+        $table->update($request->all());
+        return redirect()->route('tables.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(tables $tables)
+    public function destroy(tables $table)
     {
         //
+        $table->delete();
+        return redirect()->route('tables.index');
+
     }
 }

@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
+use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -19,6 +21,15 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+
+    public static $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'password' => 'required',
+        'rols' => 'required',
+
+        //J&z?3*Z.2zjK
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -63,20 +74,29 @@ class User extends Authenticatable
 
     public function adminlte_image()
     {
+        // return 'https://picsum.photos/300/300';
+        if ($this->profile_photo_path) {
+            return asset('storage/' . $this->profile_photo_path);
+        }
+
         return 'https://picsum.photos/300/300';
     }
 
     public function adminlte_desc()
     {
-        return 'Admin';
+        // return 'Admin';
+        if ($this->roles->isNotEmpty()) {
+            return $this->getRoleNames()->first();
+        }
+
+        return 'No Role';
     }
 
     public function adminlte_profile_url()
     {
-        return 'profile/username';
+        return url('usuarios/' . $this->id);
+        //return 'profile/username';
     }
 
-
-
-
+    
 }

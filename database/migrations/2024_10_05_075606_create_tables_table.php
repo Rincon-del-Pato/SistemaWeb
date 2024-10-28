@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\TableStatus;
+use App\Enums\TableStatusTab;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,10 +15,9 @@ return new class extends Migration
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();
-            $table->string('description');
+            $table->string('name')->unique();
             $table->integer('capacity');
-            $table->string('status')->default(TableStatus::Available->value);
+            $table->string('status')->default(TableStatusTab::Disponible->value);
             $table->timestamps();
         });
     }
