@@ -6,6 +6,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\TablesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SettingsController;
@@ -24,6 +25,10 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/', function () {
+    return redirect()->route('login'); // Redirige a la página de login
+});
 
 // Rutas de autenticación
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
@@ -57,3 +62,5 @@ Route::middleware([
 Route::resource('products', ProductsController::class)->names('products');
 Route::put('/products/{id}/status', [ProductsController::class, 'updateStatus'])->name('products.updateStatus');
 Route::resource('menus', MenuController::class)->names('menus');
+
+Route::get('/order', [OrdersController::class, 'index'])->name('order.index');

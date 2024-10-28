@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TableStatusProd;
+use Database\Seeders\SizeSeeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -31,5 +32,10 @@ class Products extends Model
     public function category()
     {
         return $this->belongsTo(Categories::class);
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Sizes::class, 'product_size', 'product_id', 'size_id');
     }
 }

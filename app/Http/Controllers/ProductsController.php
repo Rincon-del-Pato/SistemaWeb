@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Enums\TableSize;
 use App\Models\Products;
 use App\Models\Categories;
 use Illuminate\Http\Request;
@@ -38,11 +39,6 @@ class ProductsController extends Controller
                 ->orWhere('description', 'LIKE', "%{$searchTerm}%");
         }
 
-        // // Aplicar filtro de categoría si existe
-        // if ($request->has('category') && $request->category != 'all') {
-        //     $query->where('category_id', $request->category);
-        // }
-
         // Paginar los resultados
         $products = $query->paginate(9);
 
@@ -55,10 +51,11 @@ class ProductsController extends Controller
     public function create()
     {
         //
+        $size = TableSize::cases();
         $status = TableStatusProd::cases();
         $product = new Products;
         $category = Categories::all();
-        return view('products.create', compact('product', 'status', 'category'));
+        return view('products.create', compact('product', 'status', 'category','size'));
     }
 
     /**

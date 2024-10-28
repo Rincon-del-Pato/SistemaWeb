@@ -374,6 +374,14 @@ return [
         ],
 
         [
+            'text' => 'Ordenes',
+            'url' => 'order',
+            'icon' => 'fas fa-box',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
             'text' => 'Carta',
             'url' => 'menus',
             'icon' => 'far fa-file-alt',

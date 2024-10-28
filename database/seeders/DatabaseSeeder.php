@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
+            SizeSeeder::class,
+            Product_SizeSeeder::class,
             TableSeeder::class,
             EmployeeSeeder::class,
         ]);
