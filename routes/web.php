@@ -56,11 +56,18 @@ Route::middleware([
     Route::resource('settings', SettingsController::class)->names('settings');
     Route::resource('tables', TablesController::class)->names('tables');
     Route::resource('categories', CategoriesController::class)->names('categories');
+    Route::resource('products', ProductsController::class)->names('products');
+    Route::put('/products/{id}/status', [ProductsController::class, 'updateStatus'])->name('products.updateStatus');
 });
 
 
-Route::resource('products', ProductsController::class)->names('products');
-Route::put('/products/{id}/status', [ProductsController::class, 'updateStatus'])->name('products.updateStatus');
+
 Route::resource('menus', MenuController::class)->names('menus');
 
-Route::get('/order', [OrdersController::class, 'index'])->name('order.index');
+Route::get('/orders', [OrdersController::class, 'index'])->name('order.index');
+Route::get('/orders/create/{tableId}', [OrdersController::class, 'create'])->name('orders.create');
+Route::post('/orders/table/{tableId}', [OrdersController::class, 'store'])->name('orders.store');
+
+
+Route::post('/orders/{order}/items', [OrdersController::class, 'addItems'])->name('orders.addItems');
+Route::post('/orders/{order}/complete', [OrdersController::class, 'completeOrder'])->name('orders.complete');

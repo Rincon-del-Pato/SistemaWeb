@@ -15,7 +15,7 @@ class MenuController extends Controller
     public function index()
     {
         //
-        $products = Products::with('category')->get();
+        $products = Products::with('category', 'sizes')->get();
         $categories = Categories::all();
         return view('menu.index', compact('products', 'categories'));
     }

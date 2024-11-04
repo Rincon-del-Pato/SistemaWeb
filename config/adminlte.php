@@ -375,8 +375,8 @@ return [
 
         [
             'text' => 'Ordenes',
-            'url' => 'order',
-            'icon' => 'fas fa-box',
+            'url' => 'orders',
+            'icon' => 'fas fa-concierge-bell',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],

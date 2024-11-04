@@ -14,11 +14,13 @@ class Sizes extends Model
     ];
 
     protected $fillable = [
-        'name',
+        'type',
+        'price',
+        'status',
     ];
 
     public function products()
     {
-        return $this->belongsToMany(Products::class);
+        return $this->belongsToMany(Products::class, 'product_size', 'size_id', 'product_id');
     }
 }

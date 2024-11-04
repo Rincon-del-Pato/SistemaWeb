@@ -65,7 +65,7 @@
                 {{ Form::label('type', 'Seleccionar Tipo(s)') }}
                 <div>
                     <div class="form-check">
-                        {{ Form::checkbox('types[]', 'Unico', false, [
+                        {{ Form::checkbox('types[]', 'Unico', in_array('Unico', $productTypes), [
                             'class' => 'form-check-input',
                             'id' => 'type_unico',
                             'onclick' => 'handleTypeSelection("Unico")',
@@ -73,7 +73,7 @@
                         {{ Form::label('type_unico', 'Único', ['class' => 'form-check-label']) }}
                     </div>
                     <div class="form-check">
-                        {{ Form::checkbox('types[]', 'Personal', false, [
+                        {{ Form::checkbox('types[]', 'Personal', in_array('Personal', $productTypes), [
                             'class' => 'form-check-input',
                             'id' => 'type_personal',
                             'onclick' => 'handleTypeSelection("Personal")',
@@ -81,7 +81,7 @@
                         {{ Form::label('type_personal', 'Personal', ['class' => 'form-check-label']) }}
                     </div>
                     <div class="form-check">
-                        {{ Form::checkbox('types[]', 'Fuente', false, [
+                        {{ Form::checkbox('types[]', 'Fuente', in_array('Fuente', $productTypes), [
                             'class' => 'form-check-input',
                             'id' => 'type_fuente',
                             'onclick' => 'handleTypeSelection("Fuente")',
@@ -95,43 +95,40 @@
                 <!-- Campos dinámicos para precios y estados -->
                 <div id="dynamic_fields" class="mt-3">
                     <div id="unico_fields" style="display: none;">
-                        {{-- <h5>Detalles para Único</h5> --}}
                         <div class="form-group row">
                             <div class="col-md-6">
                                 {{ Form::label('price_unico', 'Precio Único') }}
-                                {{ Form::number('prices[Unico]', null, ['class' => 'form-control', 'placeholder' => '0.00', 'min' => '0', 'step' => '0.01']) }}
+                                {{ Form::number('prices[Unico]', $prices['Unico'], ['class' => 'form-control', 'placeholder' => '0.00', 'min' => '0', 'step' => '0.01']) }}
                             </div>
                             <div class="col-md-6">
                                 {{ Form::label('status_unico', 'Estado Único') }}
-                                {{ Form::select('statuses[Unico]', ['Disponible' => 'Disponible', 'Oculto' => 'Oculto'], null, ['class' => 'form-control']) }}
+                                {{ Form::select('statuses[Unico]', ['Disponible' => 'Disponible', 'Oculto' => 'Oculto'], $statuses['Unico'], ['class' => 'form-control']) }}
                             </div>
                         </div>
                     </div>
 
                     <div id="personal_fields" style="display: none;">
-                        {{-- <h5>Detalles para Personal</h5> --}}
                         <div class="form-group row">
                             <div class="col-md-6">
                                 {{ Form::label('price_personal', 'Precio Personal') }}
-                                {{ Form::number('prices[Personal]', null, ['class' => 'form-control', 'placeholder' => '0.00', 'min' => '0', 'step' => '0.01']) }}
+                                {{ Form::number('prices[Personal]', $prices['Personal'], ['class' => 'form-control', 'placeholder' => '0.00', 'min' => '0', 'step' => '0.01']) }}
                             </div>
                             <div class="col-md-6">
                                 {{ Form::label('status_personal', 'Estado Personal') }}
-                                {{ Form::select('statuses[Personal]', ['Disponible' => 'Disponible', 'Oculto' => 'Oculto'], null, ['class' => 'form-control']) }}
+                                {{ Form::select('statuses[Personal]', ['Disponible' => 'Disponible', 'Oculto' => 'Oculto'], $statuses['Personal'], ['class' => 'form-control']) }}
                             </div>
                         </div>
                     </div>
 
                     <div id="fuente_fields" style="display: none;">
-                        {{-- <h5>Detalles para Fuente</h5> --}}
                         <div class="form-group row">
                             <div class="col-md-6">
                                 {{ Form::label('price_fuente', 'Precio Fuente') }}
-                                {{ Form::number('prices[Fuente]', null, ['class' => 'form-control', 'placeholder' => '0.00', 'min' => '0', 'step' => '0.01']) }}
+                                {{ Form::number('prices[Fuente]', $prices['Fuente'], ['class' => 'form-control', 'placeholder' => '0.00', 'min' => '0', 'step' => '0.01']) }}
                             </div>
                             <div class="col-md-6">
                                 {{ Form::label('status_fuente', 'Estado Fuente') }}
-                                {{ Form::select('statuses[Fuente]', ['Disponible' => 'Disponible', 'Oculto' => 'Oculto'], null, ['class' => 'form-control']) }}
+                                {{ Form::select('statuses[Fuente]', ['Disponible' => 'Disponible', 'Oculto' => 'Oculto'], $statuses['Fuente'], ['class' => 'form-control']) }}
                             </div>
                         </div>
                     </div>
@@ -142,7 +139,11 @@
 
 </div>
 <div class="box-footer mt20">
-    <button type="submit" class="btn btn-primary">
+    {{-- <button type="submit" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> <span class="ml-1">Enviar</span>
+    </button> --}}
+
+    <button type="button" class="btn btn-primary" onclick="confirmarEnvio()">
         <i class="fas fa-plus-circle"></i> <span class="ml-1">Enviar</span>
     </button>
     <a href="{{ route('products.index') }}" class="btn btn-danger">
@@ -153,6 +154,7 @@
 
 
 <script>
+    // Función para mostrar/ocultar campos según los tipos seleccionados
     function handleTypeSelection(type) {
         const unicoCheckbox = document.getElementById('type_unico');
         const personalCheckbox = document.getElementById('type_personal');
@@ -185,6 +187,12 @@
 
     // Ejecutar al cargar la página para establecer el estado inicial
     document.addEventListener('DOMContentLoaded', function() {
-        handleTypeSelection('');
+        const types = ['Unico', 'Personal', 'Fuente'];
+        types.forEach(type => {
+            const checkbox = document.getElementById('type_' + type.toLowerCase());
+            if (checkbox.checked) {
+                handleTypeSelection(type);
+            }
+        });
     });
 </script>

@@ -19,28 +19,28 @@ class SizeSeeder extends Seeder
             [
                 'type' => 'Unico',
                 'price' => 4.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 20.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 20.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             // Pescados y Mariscos (category_id = 2)
             [
                 'type' => 'Unico',
                 'price' => 25.00, // Precio temporal
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 30.00, // Precio temporal
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             // Jaleas (category_id = 3)
             [
@@ -57,56 +57,56 @@ class SizeSeeder extends Seeder
             [
                 'type' => 'Unico',
                 'price' => 20.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 25.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             // Platos de la casa (category_id = 5)
             [
                 'type' => 'Unico',
                 'price' => 22.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 22.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             // Tacu tacu (category_id = 6)
             [
                 'type' => 'Unico',
                 'price' => 26.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 22.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             // Sopas (category_id = 7)
             [
                 'type' => 'Unico',
                 'price' => 10.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 10.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             // Refrescos (category_id = 8)
             [
                 'type' => 'Unico',
                 'price' => 10.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
             [
                 'type' => 'Unico',
                 'price' => 10.00,
-                'status' => 'Oculto',
+                'status' => 'Disponible',
             ],
         ]);
     }

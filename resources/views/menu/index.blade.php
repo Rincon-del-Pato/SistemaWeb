@@ -60,18 +60,38 @@
                                                     <div class="flex-grow-1">
                                                         <div class="mb-2 d-flex justify-content-between align-items-start">
                                                             <h5 class="mb-0">{{ $product->name }}</h5>
-                                                            <span
-                                                                class="text-muted fw-bold">${{ number_format($product->price, 2) }}</span>
-                                                        </div>
-                                                        <p class="mb-2 text-muted small">{{ $product->description }}</p>
-                                                        <div class="d-flex align-items-center">
-                                                            @if ($product->status != 'Oculto')
+                                                            @if ($product->sizes->isNotEmpty())
                                                                 <span
-                                                                    class="badge bg-{{ $product->status == 'Disponible' ? 'success' : 'danger' }}">
-                                                                    {{ $product->status }}
+                                                                    class="badge bg-{{ $product->sizes->first()->status == 'Disponible'  ? 'success' : ($product->sizes->first()->status == 'Oculto' ? 'gray' : 'danger') }}">
+                                                                    {{ $product->sizes->first()->status }}
                                                                 </span>
+                                                            @else
+                                                                <span class="text-muted">Sin tamaño disponible</span>
                                                             @endif
                                                         </div>
+                                                        <p class="mb-2 text-muted small">{{ $product->description }}</p>
+                                                        <!-- Mostrar tamaños del producto -->
+                                                        <div class="mt-2">
+                                                            {{-- <strong>Tamaños:</strong> --}}
+                                                            <ul class="mb-0 list-unstyled">
+                                                                @foreach ($product->sizes as $size)
+                                                                    @if ($size->type === 'Unico')
+                                                                        <li>
+                                                                            <span
+                                                                                class="text-muted">S/.{{ number_format($size->price, 2) }}</span>
+                                                                        </li>
+                                                                    @else
+                                                                        <li>
+                                                                            <span>{{ $size->type }}</span> -
+                                                                            <span
+                                                                                class="text-muted">S/.{{ number_format($size->price, 2) }}</span>
+                                                                        </li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                        <!-- Fin de tamaños del producto -->
+
                                                     </div>
                                                 </div>
                                             </div>

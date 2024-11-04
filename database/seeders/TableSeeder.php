@@ -37,32 +37,32 @@ class TableSeeder extends Seeder
             ],
             [
                 'name' => 'Mesa 5',
-                'capacity' => 4,
+                'capacity' => 6,
                 'status' => 'Disponible',
             ],
             [
                 'name' => 'Mesa 6',
-                'capacity' => 4,
+                'capacity' => 6,
                 'status' => 'Disponible',
             ],
             [
                 'name' => 'Mesa 7',
-                'capacity' => 4,
+                'capacity' => 6,
                 'status' => 'Disponible',
             ],
             [
                 'name' => 'Mesa 8',
-                'capacity' => 4,
+                'capacity' => 8,
                 'status' => 'Disponible',
             ],
             [
                 'name' => 'Mesa 9',
-                'capacity' => 4,
+                'capacity' => 8,
                 'status' => 'Disponible',
             ],
             [
                 'name' => 'Mesa 10',
-                'capacity' => 4,
+                'capacity' => 8,
                 'status' => 'Disponible',
             ]
         ]);

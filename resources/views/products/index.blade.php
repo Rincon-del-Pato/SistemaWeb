@@ -164,12 +164,17 @@
                                                         class="mr-1 btn btn-sm btn-warning">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('products.destroy', $product) }}" method="POST"
+                                                    <form id="delete-form-{{ $product->id }}"
+                                                        action="{{ route('products.destroy', $product) }}" method="POST"
                                                         class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                        {{-- <button type="submit" class="btn btn-sm btn-danger"
                                                             onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button> --}}
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                            onclick="confirmDelete('delete-form-{{ $product->id }}')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -208,12 +213,17 @@
                                                 class="mr-1 btn btn-sm btn-warning">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('products.destroy', $product) }}" method="POST"
+                                            <form id="delete-form-{{ $product->id }}"
+                                                action="{{ route('products.destroy', $product) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                {{-- <button type="submit" class="btn btn-sm btn-danger"
                                                     onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button> --}}
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    onclick="confirmDelete('delete-form-{{ $product->id }}')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
@@ -270,6 +280,36 @@
 
 @section('js')
     <script>
-        console.log('Hi!');
+        function confirmDelete(formId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                    // Luego, muestra la segunda alerta de confirmación
+                    Swal.fire({
+                        title: "¡Eliminado!",
+                        text: "El producto ha sido eliminado.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // Swal.fire(
+                    //     '¡Eliminado!',
+                    //     'El producto ha sido eliminado.',
+                    //     'success',
+                    //     showConfirmButton: false,
+                    //     timer: 1500
+                    // );
+                }
+            });
+        }
     </script>
 @stop
