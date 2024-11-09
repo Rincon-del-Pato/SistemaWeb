@@ -32,10 +32,16 @@
                 </header>
             @endif
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <div class="wrapper">
+                @include('layouts.navigation')
+
+                <div class="content-wrapper">
+                    <!-- Page Content -->
+                    <main class="py-4">
+                        @yield('content')
+                    </main>
+                </div>
+            </div>
         </div>
 
         @stack('modals')

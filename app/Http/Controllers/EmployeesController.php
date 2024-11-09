@@ -49,7 +49,7 @@ class EmployeesController extends Controller
     public function create()
     {
         //
-        $roles = Role::pluck('name', 'id');
+        $roles = Role::pluck('description', 'id');
         $employee = new Employees;
         $user = new User;
 

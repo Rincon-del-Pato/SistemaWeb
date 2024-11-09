@@ -2,46 +2,29 @@
 
 @section('title', 'Empleados')
 
-
-
 @section('content_header')
-    <h1>Crear empleados</h1>
+    <h1 class="text-2xl font-bold text-gray-800">Crear empleados</h1>
 @stop
 
 @section('content')
-
-<section class="content container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-
+<div class="py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             @includeif('partials.errors')
 
-            <div class="card card-default">
-                {{-- <div class="card-header">
-                    <span class="card-title">{{ __('Create') }} Empleados</span>
-                </div> --}}
-                <div class="card-body">
-                    <form method="POST" action="{{ route('employees.store') }}"  role="form" enctype="multipart/form-data">
-                        @csrf
-
-                        @include('employees.form')
-
-                    </form>
-                </div>
+            <div class="p-6 bg-white border-b border-gray-200">
+                <form method="POST" action="{{ route('employees.store') }}" role="form" enctype="multipart/form-data" class="space-y-6">
+                    @csrf
+                    @include('employees.form')
+                </form>
             </div>
         </div>
     </div>
-</section>
-
-
-
-
-
-
+</div>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    {{-- Podemos eliminar el CSS de Bootstrap si ya no lo necesitamos --}}
 @stop
 
 @section('js')

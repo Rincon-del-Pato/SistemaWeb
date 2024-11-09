@@ -3,81 +3,87 @@
 @section('title', 'Crear Orden')
 
 @section('content_header')
-    <h1> <i class="fas fa-concierge-bell"></i> Nueva Orden</h1>
+    {{-- <h1 class="flex items-center text-2xl font-bold text-gray-800">
+        <i class="fas fa-concierge-bell mr-2"></i> Nueva Orden
+    </h1> --}}
 @stop
 
 @section('content')
-    <div class="container-fluid mt-4">
-        <ul class="nav nav-tabs mb-4" id="categoryTabs" role="tablist">
+    <div class="container mx-auto px-4 py-4">
+        <!-- Tabs de Categorías -->
+        <nav class="flex flex-wrap gap-2 mb-4" id="categoryTabs" role="tablist">
             @foreach ($categories as $index => $category)
-                <li class="nav-item">
-                    <button class="nav-link {{ $index === 0 ? 'active' : '' }} px-3" id="category-{{ $category->id }}-tab"
-                        data-toggle="tab" data-target="#category-{{ $category->id }}" type="button" role="tab">
-                        {{ $category->name }}
-                    </button>
-                </li>
+                <button
+                    class="nav-link px-6 py-2.5 rounded-full font-medium transition-all duration-200 
+                    {{ $index === 0 ? 'active bg-blue-600 text-white' : 'bg-gray-100 text-gray-700' }}
+                    hover:bg-blue-600 hover:text-white"
+                    id="category-{{ $category->id }}-tab" 
+                    data-toggle="tab" 
+                    data-target="#category-{{ $category->id }}"
+                    type="button" role="tab">
+                    {{ $category->name }}
+                </button>
             @endforeach
-        </ul>
+        </nav>
 
-        <div class="row">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Carta</h2>
-                    </div>
-                    <div class="card-body">
-                        <!-- Contenido de las tabs -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Sección de Productos -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-md">
+                    <div class="p-6">
                         <div class="tab-content" id="categoryTabsContent">
                             @foreach ($categories as $category)
-                                <div class="tab-pane {{ $loop->first ? 'show active' : '' }}"
+                                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
                                     id="category-{{ $category->id }}" role="tabpanel">
-                                    <div class="row">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                                         @if (isset($products[$category->id]))
                                             @foreach ($products[$category->id] as $product)
-                                                <div class="mb-3 col-md-4">
-                                                    <div class="card product-card">
-                                                        <div class="card-body text-center">
-                                                            <img src="{{ $product->image_producto ? asset('storage/' . $product->image_producto) : asset('imagen/plato-vacio.png') }}"
-                                                                class="product-image mb-3" alt="{{ $product->name }}">
-                                                            <h5 class="card-title mb-3">{{ $product->name }}</h5>
-
-                                                            @if ($product->sizes->count() == 1)
-                                                                <div class="product-price single-price mb-2">
-                                                                    <strong class="d-block mb-2">S/.
-                                                                        {{ $product->sizes->first()->price }}</strong>
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block btn-add-product"
-                                                                        data-id="{{ $product->id }}"
-                                                                        data-name="{{ $product->name }}"
-                                                                        data-price="{{ $product->sizes->first()->price }}">
-                                                                        <i class="fas fa-cart-plus"></i> Agregar
-                                                                    </button>
+                                                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 h-[280px] flex flex-col">
+                                                    <div class="relative h-32">
+                                                        <img src="{{ $product->image_producto ? asset('storage/' . $product->image_producto) : asset('imagen/plato-vacio.png') }}"
+                                                            class="w-full h-full object-cover rounded-t-xl {{ !$product->image_producto ? 'py-2' : '' }}" 
+                                                            alt="{{ $product->name }}">
+                                                    </div>
+                                                    <div class="p-2.5 flex flex-col flex-1">
+                                                        <h5 class="text-base font-semibold text-gray-800 line-clamp-2 mb-1.5">{{ $product->name }}</h5>
+                                                        @if ($product->sizes->count() == 1)
+                                                            <div class="flex flex-col mt-auto">
+                                                                <div class="flex items-center justify-between mb-1.5">
+                                                                    <span class="text-lg font-bold text-blue-600">
+                                                                        S/. {{ $product->sizes->first()->price }}
+                                                                    </span>
                                                                 </div>
-                                                            @else
-                                                                <div class="product-price multiple-prices">
-                                                                    @foreach ($product->sizes as $size)
-                                                                        <div class="size-option mb-2">
-                                                                            <div
-                                                                                class="d-flex justify-content-between align-items-center">
-                                                                                <span>{{ $size->type }}</span>
-                                                                                <div>
-                                                                                    <span class="mr-2">S/.
-                                                                                        {{ $size->price }}</span>
-                                                                                    <button type="button"
-                                                                                        class="btn btn-primary btn-sm btn-add-product"
-                                                                                        data-id="{{ $product->id }}"
-                                                                                        data-name="{{ $product->name }}"
-                                                                                        data-size="{{ $size->type }}"
-                                                                                        data-price="{{ $size->price }}">
-                                                                                        <i class="fas fa-cart-plus"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
+                                                                <button type="button"
+                                                                    class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                                                                    transition-colors duration-200 flex items-center justify-center gap-2 btn-add-product text-sm"
+                                                                    data-id="{{ $product->id }}"
+                                                                    data-name="{{ $product->name }}"
+                                                                    data-price="{{ $product->sizes->first()->price }}">
+                                                                    <i class="fas fa-cart-plus"></i>
+                                                                    <span>Agregar</span>
+                                                                </button>
+                                                            </div>
+                                                        @else
+                                                            <div class="space-y-1 mt-auto">
+                                                                @foreach ($product->sizes as $size)
+                                                                    <div class="flex items-center justify-between p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100">
+                                                                        <div>
+                                                                            <span class="text-xs font-medium text-gray-600">{{ $size->type }}</span>
+                                                                            <span class="block text-base font-bold text-blue-600">S/. {{ $size->price }}</span>
                                                                         </div>
-                                                                    @endforeach
-                                                                </div>
-                                                            @endif
-                                                        </div>
+                                                                        <button type="button"
+                                                                            class="p-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                                                                            transition-all duration-200 btn-add-product flex items-center gap-2"
+                                                                            data-id="{{ $product->id }}"
+                                                                            data-name="{{ $product->name }}"
+                                                                            data-size="{{ $size->type }}"
+                                                                            data-price="{{ $size->price }}">
+                                                                            <i class="fas fa-cart-plus text-sm"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -90,64 +96,80 @@
                 </div>
             </div>
 
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h3 class="card-title mb-0">{{ $table->name }}</h3>
+            <!-- Panel de Orden -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-md sticky top-4">
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-t-xl">
+                        <h3 class="text-lg font-bold flex items-center gap-2">
+                            <i class="fas fa-receipt"></i>
+                            {{ $table->name }}
+                        </h3>
                     </div>
-                    <div class="card-body">
-                        <div class="row mb-3 pb-2 border-bottom">
-                            <div class="col-6">
-                                <div class="d-flex align-items-center h-100">
-                                    <i class="fas fa-user-circle fa-2x mr-2 text-primary"></i>
+                    <div class="p-4">
+                        <!-- Info empleado y personas -->
+                        <div class="grid grid-cols-2 gap-4 pb-4 border-b border-gray-200">
+                            <div class="bg-gray-50 rounded-lg p-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-blue-100 text-blue-600 p-2 rounded-lg">
+                                        <i class="fas fa-user-circle text-xl"></i>
+                                    </div>
                                     <div>
-                                        <small class="text-muted d-block">Empleado</small>
-                                        <strong>{{ Auth::user()->name }}</strong>
-                                        <span class="d-block text-muted">{{ $employees->lastname ?? '' }}</span>
+                                        <span class="text-xs text-gray-500">Empleado</span>
+                                        <strong class="block text-gray-900">{{ Auth::user()->name }}</strong>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center h-100">
-                                    <i class="fas fa-users fa-2x mr-2 text-primary"></i>
+                            <div class="bg-gray-50 rounded-lg p-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-blue-100 text-blue-600 p-2 rounded-lg">
+                                        <i class="fas fa-users text-xl"></i>
+                                    </div>
                                     <div>
-                                        <small class="text-muted d-block">Personas</small>
-                                        <strong class="h4 mb-0">{{ $peopleCount }}</strong>
+                                        <span class="text-xs text-gray-500">Personas</span>
+                                        <strong class="block text-2xl text-gray-900">{{ $peopleCount }}</strong>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="order-items-container">
-                            <table class="table table-borderless">
-                                <thead id="orderTableHeader" style="display: none;">
+                        <!-- Lista de items -->
+                        <div class="mt-4 max-h-[calc(100vh-400px)] overflow-y-auto hide-scrollbar">
+                            <table class="w-full" id="orderItems">
+                                <thead class="bg-gray-50 text-gray-600 text-sm" style="display: none;">
                                     <tr>
-                                        <th>Cant</th>
-                                        <th>Plato</th>
-                                        <th>P. Unit</th>
-                                        <th>Subtotal</th>
-                                        <th>Acciones</th>
+                                        <th class="py-2 px-2 text-left w-20">Cant.</th>
+                                        <th class="py-2 px-2 text-left">Plato</th>
+                                        <th class="py-2 px-2 text-right">Precio</th>
+                                        <th class="py-2 px-2 text-right">Total</th>
+                                        <th class="py-2 px-2 w-10"></th>
                                     </tr>
                                 </thead>
-                                <tbody id="orderItems">
-                                    <!-- Aquí se mostrarán los items dinámicamente -->
+                                <tbody>
+                                    <!-- Items se agregarán dinámicamente -->
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="border-top pt-3 mt-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Total:</h5>
-                                <h4 class="mb-0 text-primary">S/. <span id="orderTotal">0.00</span></h4>
+                        <!-- Total y acciones -->
+                        <div class="mt-4 pt-3 border-t border-gray-200">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-lg text-gray-600">Total:</span>
+                                <span class="text-2xl font-bold text-blue-600">S/. <span id="orderTotal">0.00</span></span>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <button class="mt-3 btn btn-success btn-lg" id="confirmOrder">
-                                <i class="fas fa-check mr-2"></i>Confirmar
-                            </button>
-                            <a href=" {{ route('order.index') }}" class="mt-3 btn btn-danger btn-lg">
-                                <i class="fas fa-ban"></i> <span class="ms-1">Cancelar</span>
-                            </a>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="confirmOrder"
+                                    class="bg-green-600 text-white rounded-lg hover:bg-green-700 
+                                    transition-colors duration-200 flex items-center justify-center gap-2 text-sm py-2.5 px-4">
+                                    <i class="fas fa-check text-base"></i>
+                                    <span>Confirmar</span>
+                                </button>
+                                <a href="{{ route('order.index') }}"
+                                    class="bg-red-600 text-white rounded-lg hover:bg-red-700 
+                                    transition-colors duration-200 flex items-center justify-center gap-2 text-sm py-2.5 px-4">
+                                    <i class="fas fa-times text-base"></i>
+                                    <span>Cancelar</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,21 +177,17 @@
         </div>
     </div>
 
-    <!-- Modal para selección de tamaños -->
-    <div class="modal fade" id="sizeSelectionModal" tabindex="-1" role="dialog" aria-labelledby="sizeSelectionModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="sizeSelectionModalLabel">Seleccionar Tamaño</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <!-- Modal de selección de tamaños -->
+    <div class="modal fade" id="sizeSelectionModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="bg-white rounded-lg shadow-xl">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h5 class="text-xl font-semibold">Seleccionar Tamaño</h5>
                 </div>
-                <div class="modal-body">
-                    <h6 id="modalProductName" class="mb-3"></h6>
-                    <div id="sizeOptions" class="list-group">
-                        <!-- Las opciones de tamaño se insertarán dinámicamente -->
+                <div class="p-6">
+                    <h6 id="modalProductName" class="mb-4 text-gray-700"></h6>
+                    <div id="sizeOptions" class="space-y-2">
+                        <!-- Opciones de tamaño se insertarán dinámicamente -->
                     </div>
                 </div>
             </div>
@@ -179,201 +197,139 @@
 
 @section('css')
     <style>
-        .nav-tabs {
-            border-bottom: none;
+        /* Ocultar scrollbar pero mantener funcionalidad */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        #categoryTabs .nav-item {
-            margin-bottom: 0;
+        /* Estilos para las pestañas */
+        .tab-content > .tab-pane {
+            display: none;
         }
 
-        #categoryTabs .nav-link {
-            transition: all 0.3s;
-            border-radius: 8px !important;
-            margin: 0 3px;
-            font-size: 0.9rem;
-            padding: 0.5rem 1.5rem;
-            border: 1px solid #ddd !important;
-            background: white;
-            box-shadow: none !important;
-            outline: none !important;
+        .tab-content > .tab-pane.show.active {
+            display: block;
         }
 
-        #categoryTabs .nav-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        /* Estilos para el botón activo */
+        .nav-tabs .nav-link {
+            border: none;
+            background: transparent;
         }
 
-        #categoryTabs .nav-link.active {
-            background-color: #007bff !important;
-            border-color: #007bff !important;
+        .nav-link.active {
+            background-color: rgb(37, 99, 235) !important;
             color: white !important;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
         }
 
-        #categoryTabs .nav-link:not(.active) {
-            background-color: #f8f9fa;
-            color: #6c757d;
+        .nav-link.active:hover {
+            background-color: rgb(37, 99, 235) !important;
+            color: white !important;
         }
 
-        .product-card {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            height: 100%;
+        /* Estilos para la tabla de orden */
+        #orderTableHeader {
+            display: none;
+        }
+        
+        #orderTableHeader.show {
+            display: table-header-group;
         }
 
-        .product-card .card-body {
-            background-color: #ffffff !important;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            padding: 1rem;
+        /* Asegurar mismo tamaño en cards */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .product-image {
-            max-height: 150px;
-            height: 150px;
+        /* Mejorar apariencia de tabla */
+        #orderItems {
+            border-collapse: collapse;
             width: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 1rem;
         }
 
-        .product-price {
-            font-size: 1.2rem;
-            color: #2c3e50;
-            margin-top: auto;
-            /* Empuja el precio al fondo del card */
+        #orderItems th {
+            position: sticky;
+            top: 0;
+            background: rgb(249 250 251);
+            z-index: 10;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Asegurar que los cards tengan el mismo tamaño */
-        .mb-3.col-md-4 {
-            display: flex;
-        }
-
-        .card.product-card {
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-
-        /* Fondo beige para el panel principal */
-        .card>.card-body {
-            background-color: #fff8f0;
-        }
-
-        .list-group-item {
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .list-group-item:hover {
-            background-color: #f8f9fa;
-        }
-
-        .modal-content {
-            border-radius: 10px;
-        }
-
-        .modal-header {
-            background-color: #007bff;
-            color: white;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .modal-header .close {
-            color: white;
-        }
-
-        .product-price.multiple-prices {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .size-types {
-            display: flex;
-            justify-content: space-around;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .price-values {
-            display: flex;
-            justify-content: space-around;
-            color: #2c3e50;
-        }
-
-        .size-type,
-        .price-value {
-            padding: 0.1rem 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .single-price {
-            padding: 0.5rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .order-items-container {
-            max-height: calc(100vh - 400px);
-            overflow-y: auto;
-            margin: 0 -1rem;
-            padding: 0 1rem;
-        }
-
-        .text-primary {
-            color: #007bff !important;
-        }
-
-        .card-header.bg-primary {
-            background-color: #007bff !important;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
+        /* Ajuste para imagen genérica */
+        img.py-2 {
+            object-fit: contain !important;
+            padding: 0.75rem 0;
         }
     </style>
 @stop
 
 @section('js')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar las pestañas
+            const tabButtons = document.querySelectorAll('#categoryTabs button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            function switchTab(targetId) {
+                // Remover active de todos los botones y paneles
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-700');
+                });
+                tabPanes.forEach(pane => {
+                    pane.classList.remove('show', 'active');
+                });
+
+                // Activar el botón y panel seleccionado
+                const selectedButton = document.querySelector(`[data-target="#${targetId}"]`);
+                const selectedPane = document.getElementById(targetId);
+
+                selectedButton.classList.remove('bg-white', 'text-gray-700');
+                selectedButton.classList.add('active', 'bg-blue-600', 'text-white');
+                selectedPane.classList.add('show', 'active');
+            }
+
+            // Event listeners para las pestañas
+            tabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = button.getAttribute('data-target').substring(1);
+                    switchTab(targetId);
+                });
+            });
+
             const orderManager = {
                 items: [],
 
                 init: function() {
                     this.bindEvents();
+                    // Activar la primera pestaña al iniciar
+                    const firstTab = tabButtons[0];
+                    if (firstTab) {
+                        const targetId = firstTab.getAttribute('data-target').substring(1);
+                        switchTab(targetId);
+                    }
                 },
 
                 bindEvents: function() {
-                    // Agregar productos
-                    document.querySelectorAll('.btn-add-product').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            const btn = e.currentTarget;
+                    // Agregar productos - Corregido el selector y la referencia al botón
+                    document.querySelectorAll('.btn-add-product').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const productButton = e.currentTarget;
                             this.addProduct({
-                                id: btn.dataset.id,
-                                name: btn.dataset.name,
-                                size: btn.dataset.size || '',
-                                price: parseFloat(btn.dataset.price)
+                                id: productButton.dataset.id,
+                                name: productButton.dataset.name,
+                                size: productButton.dataset.size || '',
+                                price: parseFloat(productButton.dataset.price)
                             });
                         });
                     });
@@ -439,54 +395,44 @@
 
                 updateDisplay: function() {
                     const container = document.getElementById('orderItems');
-                    const header = document.getElementById('orderTableHeader');
+                    const thead = container.querySelector('thead');
+                    const tbody = container.querySelector('tbody');
                     let total = 0;
 
-                    if (this.items.length > 0) {
-                        header.style.display = 'table-header-group';
-                    } else {
-                        header.style.display = 'none';
-                    }
+                    // Mostrar/ocultar encabezados según haya items
+                    thead.style.display = this.items.length > 0 ? 'table-header-group' : 'none';
 
-                    container.innerHTML = this.items.map((item, index) => {
+                    tbody.innerHTML = this.items.map((item, index) => {
                         const subtotal = item.price * item.quantity;
                         total += subtotal;
 
                         return `
-                        <tr>
-                            <!-- Quantity Controls -->
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-outline-secondary btn-quantity" data-index="${index}" data-change="-1">-</button>
-                                    <span class="btn btn-light disabled">${item.quantity}</span>
-                                    <button class="btn btn-outline-secondary btn-quantity" data-index="${index}" data-change="1">+</button>
-                                </div>
-                            </td>
-
-                            <!-- Product Info -->
-                            <td>
-                                <strong>${item.name}</strong>
-                                ${item.size ? `<br><small class="text-muted">${item.size}</small>` : ''}
-                            </td>
-
-                            <!-- Unit Price -->
-                            <td>S/.${item.price.toFixed(2)}</td>
-
-                            <!-- Subtotal -->
-                            <td>S/. ${subtotal.toFixed(2)}</td>
-
-                            <!-- Actions -->
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-sm btn-outline-info" title="Observación">
-                                        <i class="fas fa-comment"></i>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-2 px-2">
+                                    <div class="flex items-center space-x-1">
+                                        <button class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center btn-quantity" 
+                                            data-index="${index}" data-change="-1">
+                                            <i class="fas fa-minus text-xs"></i>
+                                        </button>
+                                        <span class="w-6 text-center">${item.quantity}</span>
+                                        <button class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center btn-quantity" 
+                                            data-index="${index}" data-change="1">
+                                            <i class="fas fa-plus text-xs"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="py-2 px-2">
+                                    <div class="font-medium text-sm">${item.name}</div>
+                                    ${item.size ? `<div class="text-xs text-gray-500">${item.size}</div>` : ''}
+                                </td>
+                                <td class="py-2 px-2 text-right text-sm">S/.${item.price.toFixed(2)}</td>
+                                <td class="py-2 px-2 text-right text-sm font-medium">S/.${subtotal.toFixed(2)}</td>
+                                <td class="py-2 px-2 text-center">
+                                    <button class="text-red-500 hover:text-red-700 btn-remove" data-index="${index}">
+                                        <i class="fas fa-times"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger btn-remove" data-index="${index}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         `;
                     }).join('');
 
@@ -552,7 +498,6 @@
                 }
             };
 
-            // Inicializar el administrador de órdenes
             orderManager.init();
         });
     </script>
