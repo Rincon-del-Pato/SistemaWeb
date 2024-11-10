@@ -28,13 +28,13 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <i class="fas fa-table text-gray-400 mr-2"></i>
-                                    <span class="text-sm font-medium text-gray-900">{{ $table->name }}</span>
+                                    <span class="text-sm font-medium text-gray-900">{{ $table->table_number }}</span>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <i class="fas fa-users text-gray-400 mr-2"></i>
-                                    <span class="text-sm text-gray-900">{{ $table->capacity }}</span>
+                                    <span class="text-sm text-gray-900">{{ $table->seating_capacity }}</span>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">

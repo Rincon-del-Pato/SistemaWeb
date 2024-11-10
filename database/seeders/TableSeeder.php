@@ -15,56 +15,16 @@ class TableSeeder extends Seeder
     {
         //
         DB::table('tables')->insert([
-            [
-                'name' => 'Mesa 1',
-                'capacity' => 4,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 2',
-                'capacity' => 4,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 3',
-                'capacity' => 4,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 4',
-                'capacity' => 4,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 5',
-                'capacity' => 6,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 6',
-                'capacity' => 6,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 7',
-                'capacity' => 6,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 8',
-                'capacity' => 8,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 9',
-                'capacity' => 8,
-                'status' => 'Disponible',
-            ],
-            [
-                'name' => 'Mesa 10',
-                'capacity' => 8,
-                'status' => 'Disponible',
-            ]
+            ['table_number' => '1', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '2', 'seating_capacity' => 4, 'status' => 'Ocupado', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '3', 'seating_capacity' => 6, 'status' => 'Reservado', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '4', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '5', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '6', 'seating_capacity' => 8, 'status' => 'Ocupado', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '7', 'seating_capacity' => 4, 'status' => 'Reservado', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '8', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '9', 'seating_capacity' => 2, 'status' => 'Ocupado', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '10', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
