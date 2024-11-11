@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('set null');
-            $table->foreignId('table_id')->constrained('tables')->onDelete('set null');
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->onDelete('set null');
+            $table->foreignId('table_id')->nullable()->constrained('tables')->onDelete('set null');
             $table->timestamp('reservation_time');
             $table->integer('num_guests');
             $table->string('status', 20)->default('confirmed');

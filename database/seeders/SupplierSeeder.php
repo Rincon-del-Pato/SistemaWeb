@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,13 +16,51 @@ class SupplierSeeder extends Seeder
     {
         //
         DB::table('suppliers')->insert([
-            ['name' => 'Proveedor Marítimo', 'contact_name' => 'Carlos Pérez', 'phone' => '123456789', 'email' => 'maritimo@example.com', 'address' => 'Av. Marítima 123'],
-            ['name' => 'Carnes y más', 'contact_name' => 'Lucía Rojas', 'phone' => '987654321', 'email' => 'carnesymas@example.com', 'address' => 'Calle Firme 456'],
-            ['name' => 'VeggiePro', 'contact_name' => 'Jorge Vega', 'phone' => '555666777', 'email' => 'veggiepro@example.com', 'address' => 'Av. Saludable 789'],
-            ['name' => 'Lácteos del Valle', 'contact_name' => 'Ana Gómez', 'phone' => '333444555', 'email' => 'lacteosvalle@example.com', 'address' => 'Calle Queso 321'],
-            ['name' => 'Especias y Sabores', 'contact_name' => 'Raúl Castro', 'phone' => '222111000', 'email' => 'especias@example.com', 'address' => 'Av. Aroma 654'],
-            ['name' => 'Panadería Central', 'contact_name' => 'Martín Fuentes', 'phone' => '666777888', 'email' => 'panaderiacentral@example.com', 'address' => 'Av. Panadero 101'],
-            ['name' => 'Bebidas Tropicales', 'contact_name' => 'Gabriela Sánchez', 'phone' => '111222333', 'email' => 'bebidastropicales@example.com', 'address' => 'Calle Refresco 909'],
+            [
+                'name' => 'Distribuidora Gourmet',
+                'contact_name' => 'Carlos Rivas',
+                'phone' => '555-1010',
+                'email' => 'carlos@gourmet.com',
+                'address' => 'Av. Principal 123, Ciudad A',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Frescos del Campo',
+                'contact_name' => 'Ana Beltrán',
+                'phone' => '555-2020',
+                'email' => 'ana@frescoscampo.com',
+                'address' => 'Calle Verde 456, Ciudad B',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Carnes Selectas',
+                'contact_name' => 'Miguel Díaz',
+                'phone' => '555-3030',
+                'email' => 'miguel@carnesselectas.com',
+                'address' => 'Av. Norte 789, Ciudad C',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Lácteos del Sur',
+                'contact_name' => 'Laura González',
+                'phone' => '555-4040',
+                'email' => 'laura@lacteossur.com',
+                'address' => 'Calle Central 101, Ciudad D',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Bebidas Premium',
+                'contact_name' => 'Raúl Márquez',
+                'phone' => '555-5050',
+                'email' => 'raul@bebidaspremium.com',
+                'address' => 'Av. Oeste 202, Ciudad E',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ]);
     }
 }

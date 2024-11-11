@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SizeSeeder extends Seeder
 {
@@ -15,8 +16,24 @@ class SizeSeeder extends Seeder
     {
         //
         DB::table('sizes')->insert([
-            ['size_name' => 'Personal', 'description' => 'Porción personal'],
-            ['size_name' => 'Fuente', 'description' => 'Porción para compartir']
+            [
+                'size_name' => 'Pequeño',
+                'description' => 'Tamaño pequeño',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'size_name' => 'Mediano',
+                'description' => 'Tamaño mediano',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'size_name' => 'Grande',
+                'description' => 'Tamaño grande',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ]);
     }
 }

@@ -1,0 +1,111 @@
+<?php
+
+namespace Database\Seeders;
+
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+class PaymentDetailsSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+        DB::table('payment_details')->insert([
+            ['order_id' => 1, 'payment_method_id' => 1, 'amount' => 25.50, 'payment_date' => Carbon::now()],
+            ['order_id' => 2, 'payment_method_id' => 2, 'amount' => 15.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 3, 'payment_method_id' => 3, 'amount' => 30.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 4, 'payment_method_id' => 4, 'amount' => 100.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 5, 'payment_method_id' => 5, 'amount' => 50.75, 'payment_date' => Carbon::now()],
+            ['order_id' => 6, 'payment_method_id' => 6, 'amount' => 20.20, 'payment_date' => Carbon::now()],
+            ['order_id' => 7, 'payment_method_id' => 7, 'amount' => 12.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 8, 'payment_method_id' => 8, 'amount' => 40.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 9, 'payment_method_id' => 9, 'amount' => 75.90, 'payment_date' => Carbon::now()],
+            ['order_id' => 10, 'payment_method_id' => 10, 'amount' => 65.60, 'payment_date' => Carbon::now()],
+            ['order_id' => 11, 'payment_method_id' => 1, 'amount' => 35.40, 'payment_date' => Carbon::now()],
+            ['order_id' => 12, 'payment_method_id' => 2, 'amount' => 22.30, 'payment_date' => Carbon::now()],
+            ['order_id' => 13, 'payment_method_id' => 3, 'amount' => 28.10, 'payment_date' => Carbon::now()],
+            ['order_id' => 14, 'payment_method_id' => 4, 'amount' => 80.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 15, 'payment_method_id' => 5, 'amount' => 45.50, 'payment_date' => Carbon::now()],
+            ['order_id' => 16, 'payment_method_id' => 6, 'amount' => 25.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 17, 'payment_method_id' => 7, 'amount' => 18.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 18, 'payment_method_id' => 8, 'amount' => 60.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 19, 'payment_method_id' => 9, 'amount' => 100.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 20, 'payment_method_id' => 10, 'amount' => 40.40, 'payment_date' => Carbon::now()],
+            ['order_id' => 21, 'payment_method_id' => 1, 'amount' => 50.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 22, 'payment_method_id' => 2, 'amount' => 30.50, 'payment_date' => Carbon::now()],
+            ['order_id' => 23, 'payment_method_id' => 3, 'amount' => 55.20, 'payment_date' => Carbon::now()],
+            ['order_id' => 24, 'payment_method_id' => 4, 'amount' => 90.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 25, 'payment_method_id' => 5, 'amount' => 60.30, 'payment_date' => Carbon::now()],
+            ['order_id' => 26, 'payment_method_id' => 6, 'amount' => 22.50, 'payment_date' => Carbon::now()],
+            ['order_id' => 27, 'payment_method_id' => 7, 'amount' => 15.90, 'payment_date' => Carbon::now()],
+            ['order_id' => 28, 'payment_method_id' => 8, 'amount' => 70.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 29, 'payment_method_id' => 9, 'amount' => 95.40, 'payment_date' => Carbon::now()],
+            ['order_id' => 30, 'payment_method_id' => 10, 'amount' => 80.10, 'payment_date' => Carbon::now()],
+            ['order_id' => 31, 'payment_method_id' => 1, 'amount' => 38.50, 'payment_date' => Carbon::now()],
+            ['order_id' => 32, 'payment_method_id' => 2, 'amount' => 19.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 33, 'payment_method_id' => 3, 'amount' => 62.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 34, 'payment_method_id' => 4, 'amount' => 110.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 35, 'payment_method_id' => 5, 'amount' => 52.60, 'payment_date' => Carbon::now()],
+            ['order_id' => 36, 'payment_method_id' => 6, 'amount' => 23.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 37, 'payment_method_id' => 7, 'amount' => 20.50, 'payment_date' => Carbon::now()],
+            ['order_id' => 38, 'payment_method_id' => 8, 'amount' => 55.30, 'payment_date' => Carbon::now()],
+            ['order_id' => 39, 'payment_method_id' => 9, 'amount' => 85.70, 'payment_date' => Carbon::now()],
+            ['order_id' => 40, 'payment_method_id' => 10, 'amount' => 45.80, 'payment_date' => Carbon::now()],
+            ['order_id' => 41, 'payment_method_id' => 1, 'amount' => 29.90, 'payment_date' => Carbon::now()],
+            ['order_id' => 42, 'payment_method_id' => 2, 'amount' => 27.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 43, 'payment_method_id' => 3, 'amount' => 50.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 44, 'payment_method_id' => 4, 'amount' => 95.60, 'payment_date' => Carbon::now()],
+            ['order_id' => 45, 'payment_method_id' => 5, 'amount' => 63.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 46, 'payment_method_id' => 6, 'amount' => 30.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 47, 'payment_method_id' => 7, 'amount' => 17.80, 'payment_date' => Carbon::now()],
+            ['order_id' => 48, 'payment_method_id' => 8, 'amount' => 80.40, 'payment_date' => Carbon::now()],
+            ['order_id' => 49, 'payment_method_id' => 9, 'amount' => 60.90, 'payment_date' => Carbon::now()],
+            ['order_id' => 50, 'payment_method_id' => 10, 'amount' => 70.20, 'payment_date' => Carbon::now()],
+            ['order_id' => 51, 'payment_method_id' => 1, 'amount' => 45.10, 'payment_date' => Carbon::now()],
+            ['order_id' => 52, 'payment_method_id' => 2, 'amount' => 33.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 53, 'payment_method_id' => 3, 'amount' => 38.00, 'payment_date' => Carbon::now()],
+            ['order_id' => 54, 'payment_method_id' => 4, 'amount' => 75.80, 'payment_date' => Carbon::now()],
+            ['order_id' => 55, 'payment_method_id' => 5, 'amount' => 66.50, 'payment_date' => Carbon::now()],
+            ['order_id' => 56, 'payment_method_id' => 6, 'amount' => 40.10, 'payment_date' => Carbon::now()],
+            ['order_id' => 57, 'payment_method_id' => 7, 'amount' => 28.60, 'payment_date' => Carbon::now()],
+            ['order_id' => 58, 'payment_method_id' => 8, 'amount' => 60.80, 'payment_date' => Carbon::now()],
+            ['order_id' => 59, 'payment_method_id' => 9, 'amount' => 50.30, 'payment_date' => Carbon::now()],
+            ['order_id' => 60, 'payment_method_id' => 10, 'amount' => 55.10, 'payment_date' => Carbon::now()],
+            // ['order_id' => 61, 'payment_method_id' => 1, 'amount' => 62.20, 'payment_date' => Carbon::now()],
+            // ['order_id' => 62, 'payment_method_id' => 2, 'amount' => 40.50, 'payment_date' => Carbon::now()],
+            // ['order_id' => 63, 'payment_method_id' => 3, 'amount' => 55.70, 'payment_date' => Carbon::now()],
+            // ['order_id' => 64, 'payment_method_id' => 4, 'amount' => 85.40, 'payment_date' => Carbon::now()],
+            // ['order_id' => 65, 'payment_method_id' => 5, 'amount' => 48.60, 'payment_date' => Carbon::now()],
+            // ['order_id' => 66, 'payment_method_id' => 6, 'amount' => 30.90, 'payment_date' => Carbon::now()],
+            // ['order_id' => 67, 'payment_method_id' => 7, 'amount' => 21.00, 'payment_date' => Carbon::now()],
+            // ['order_id' => 68, 'payment_method_id' => 8, 'amount' => 75.60, 'payment_date' => Carbon::now()],
+            // ['order_id' => 69, 'payment_method_id' => 9, 'amount' => 99.00, 'payment_date' => Carbon::now()],
+            // ['order_id' => 70, 'payment_method_id' => 10, 'amount' => 65.00, 'payment_date' => Carbon::now()],
+            // ['order_id' => 71, 'payment_method_id' => 1, 'amount' => 52.80, 'payment_date' => Carbon::now()],
+            // ['order_id' => 72, 'payment_method_id' => 2, 'amount' => 26.40, 'payment_date' => Carbon::now()],
+            // ['order_id' => 73, 'payment_method_id' => 3, 'amount' => 43.50, 'payment_date' => Carbon::now()],
+            // ['order_id' => 74, 'payment_method_id' => 4, 'amount' => 100.50, 'payment_date' => Carbon::now()],
+            // ['order_id' => 75, 'payment_method_id' => 5, 'amount' => 55.80, 'payment_date' => Carbon::now()],
+            // ['order_id' => 76, 'payment_method_id' => 6, 'amount' => 24.10, 'payment_date' => Carbon::now()],
+            // ['order_id' => 77, 'payment_method_id' => 7, 'amount' => 30.00, 'payment_date' => Carbon::now()],
+            // ['order_id' => 78, 'payment_method_id' => 8, 'amount' => 80.10, 'payment_date' => Carbon::now()],
+            // ['order_id' => 79, 'payment_method_id' => 9, 'amount' => 65.20, 'payment_date' => Carbon::now()],
+            // ['order_id' => 80, 'payment_method_id' => 10, 'amount' => 95.30, 'payment_date' => Carbon::now()],
+            // ['order_id' => 81, 'payment_method_id' => 1, 'amount' => 28.60, 'payment_date' => Carbon::now()],
+            // ['order_id' => 82, 'payment_method_id' => 2, 'amount' => 21.20, 'payment_date' => Carbon::now()],
+            // ['order_id' => 83, 'payment_method_id' => 3, 'amount' => 45.90, 'payment_date' => Carbon::now()],
+            // ['order_id' => 84, 'payment_method_id' => 4, 'amount' => 72.50, 'payment_date' => Carbon::now()],
+            // ['order_id' => 85, 'payment_method_id' => 5, 'amount' => 60.70, 'payment_date' => Carbon::now()],
+            // ['order_id' => 86, 'payment_method_id' => 6, 'amount' => 35.40, 'payment_date' => Carbon::now()],
+            // ['order_id' => 87, 'payment_method_id' => 7, 'amount' => 18.90, 'payment_date' => Carbon::now()],
+            // ['order_id' => 88, 'payment_method_id' => 8, 'amount' => 67.00, 'payment_date' => Carbon::now()],
+            // ['order_id' => 89, 'payment_method_id' => 9, 'amount' => 85.80, 'payment_date' => Carbon::now()],
+            // ['order_id' => 90, 'payment_method_id' => 10, 'amount' => 72.40, 'payment_date' => Carbon::now()],
+        ]);
+    }
+}

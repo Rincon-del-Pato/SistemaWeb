@@ -15,6 +15,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\IngredientController;
@@ -52,12 +53,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-        // Route::get('/', function () {
-        //     return view('dashboard');
-        // });
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Rutas adicionales para obtener datos específicos del dashboard
+    Route::get('/dashboard/sales-data', [DashboardController::class, 'getSalesData']);
+    Route::get('/dashboard/inventory-status', [DashboardController::class, 'getInventoryStatus']);
+    Route::get('/dashboard/employee-performance', [DashboardController::class, 'getEmployeePerformance']);
+
     Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])->names('roles');
     Route::resource('permisos', PermissionsionController::class)->names('permisos');
     Route::resource('usuarios', UserController::class)->names('usuarios');
@@ -78,9 +80,6 @@ Route::middleware([
     Route::resource('units', UnitController::class)->names('units');
     Route::resource('inventory', InventoryItemsController::class)->names('inventory');
     Route::resource('menu_items', MenuItemController::class)->names('menu-items');
-
-
-
 });
 
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,28 +16,45 @@ class MenuItemSizeSeeder extends Seeder
     {
         //
         DB::table('menu_item_sizes')->insert([
-            // Ejemplos de Jaleas
-            ['menu_item_id' => 1, 'size_id' => 1, 'price' => 28.00], // Jalea de Pescado - Personal
-            ['menu_item_id' => 1, 'size_id' => 2, 'price' => 55.00], // Jalea de Pescado - Fuente
-
-            ['menu_item_id' => 2, 'size_id' => 1, 'price' => 31.00], // Jalea Mixta - Personal
-            ['menu_item_id' => 2, 'size_id' => 2, 'price' => 60.00], // Jalea Mixta - Fuente
-
-            // Ejemplos de Conchas Negras
-            ['menu_item_id' => 6, 'size_id' => 1, 'price' => 28.00], // Sudado de Conchas Negras - Personal
-            ['menu_item_id' => 6, 'size_id' => 2, 'price' => 56.00], // Sudado de Conchas Negras - Fuente
-
-            // Ejemplos de Tortillas
-            ['menu_item_id' => 13, 'size_id' => 1, 'price' => 15.00], // Tortilla de Yuyo - Personal
-            ['menu_item_id' => 13, 'size_id' => 2, 'price' => 28.00], // Tortilla de Yuyo - Fuente
-
-            // Ejemplos de Pato
-            ['menu_item_id' => 25, 'size_id' => 1, 'price' => 26.00], // Arroz con Pato - Personal
-            ['menu_item_id' => 25, 'size_id' => 2, 'price' => 50.00], // Arroz con Pato - Fuente
-
-            // Ejemplos de Refrescos (solo un tamaño)
-            ['menu_item_id' => 35, 'size_id' => 1, 'price' => 12.00], // Chicha Morada
-            ['menu_item_id' => 36, 'size_id' => 1, 'price' => 7.50],  // Limonada
+            ['menu_item_id' => 1, 'size_id' => 1, 'price' => 3.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 1, 'size_id' => 2, 'price' => 5.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'size_id' => 1, 'price' => 2.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'size_id' => 2, 'price' => 4.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'size_id' => 1, 'price' => 3.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'size_id' => 2, 'price' => 4.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 4, 'size_id' => 1, 'price' => 1.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 4, 'size_id' => 2, 'price' => 2.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 5, 'size_id' => 1, 'price' => 4.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 5, 'size_id' => 2, 'price' => 6.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 6, 'size_id' => 1, 'price' => 2.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 6, 'size_id' => 2, 'price' => 3.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 7, 'size_id' => 1, 'price' => 1.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 7, 'size_id' => 2, 'price' => 3.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 8, 'size_id' => 1, 'price' => 3.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 8, 'size_id' => 2, 'price' => 5.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 9, 'size_id' => 1, 'price' => 2.20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 9, 'size_id' => 2, 'price' => 3.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 10, 'size_id' => 1, 'price' => 3.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 10, 'size_id' => 2, 'price' => 4.40, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 11, 'size_id' => 1, 'price' => 5.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 11, 'size_id' => 2, 'price' => 7.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 12, 'size_id' => 1, 'price' => 2.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 12, 'size_id' => 2, 'price' => 4.20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 13, 'size_id' => 1, 'price' => 1.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 13, 'size_id' => 2, 'price' => 3.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 14, 'size_id' => 1, 'price' => 4.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 14, 'size_id' => 2, 'price' => 5.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 15, 'size_id' => 1, 'price' => 2.20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 15, 'size_id' => 2, 'price' => 3.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'size_id' => 1, 'price' => 3.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'size_id' => 2, 'price' => 4.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'size_id' => 1, 'price' => 1.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'size_id' => 2, 'price' => 2.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 18, 'size_id' => 1, 'price' => 3.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 18, 'size_id' => 2, 'price' => 4.60, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 19, 'size_id' => 1, 'price' => 3.20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 19, 'size_id' => 2, 'price' => 4.40, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'size_id' => 1, 'price' => 2.70, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

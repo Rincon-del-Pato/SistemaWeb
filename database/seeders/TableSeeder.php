@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,16 +16,26 @@ class TableSeeder extends Seeder
     {
         //
         DB::table('tables')->insert([
-            ['table_number' => '1', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '2', 'seating_capacity' => 4, 'status' => 'Ocupado', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '3', 'seating_capacity' => 6, 'status' => 'Reservado', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '4', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '5', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '6', 'seating_capacity' => 8, 'status' => 'Ocupado', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '7', 'seating_capacity' => 4, 'status' => 'Reservado', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '8', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '9', 'seating_capacity' => 2, 'status' => 'Ocupado', 'created_at' => now(), 'updated_at' => now()],
-            ['table_number' => '10', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => now(), 'updated_at' => now()],
+            ['table_number' => '01', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '02', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '03', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '04', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '05', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '06', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '07', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '08', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '09', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '10', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '11', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '12', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '13', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '14', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '15', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '16', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '17', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '18', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '19', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '20', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

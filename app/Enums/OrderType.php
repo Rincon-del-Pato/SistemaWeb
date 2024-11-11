@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum OrderType: string
 {
-    case Mesas = 'Mesas';
+    case Mesa = 'Mesa';
     case ParaLlevar = 'ParaLlevar';
     case Delivery = 'Delivery';
 }

@@ -4,7 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\EmployeeSale;
 use App\Models\MenuItem;
+use App\Models\Order;
+use App\Models\PaymentMethod;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,18 +27,27 @@ class DatabaseSeeder extends Seeder
             RolesPermisosSeeder::class,
             UserSeeder::class,
             SettingsSeeder::class,
-            CategorySeeder::class,
-            MenuItemSeeder::class,
-            SizeSeeder::class,
-            MenuItemSizeSeeder::class,
-            TableSeeder::class,
-            EmployeeSeeder::class,
-            CustomersSeeder::class,
 
-            UnitSeeder::class,
+            CategorySeeder::class,
             SupplierSeeder::class,
+            UnitSeeder::class,
+            SizeSeeder::class,
+            PaymentMethodsSeeder::class,
+            TableSeeder::class,
+            CustomersSeeder::class,
+            EmployeeSeeder::class,
+            MenuItemSeeder::class,
+            MenuItemSizeSeeder::class,
             InventoryItemSeeder::class,
-            MenuItemSeeder::class
+            MenuItemInventorySeeder::class,
+            InventoryLogSeeder::class,
+            ReservationsSeeder::class,
+            OrdersSeeder::class,
+            OrderItemsSeeder::class,
+            PaymentDetailsSeeder::class,
+            EmployeeSalesSeeder::class,
+            InvoicesSeeder::class,
+            InvoiceItemsSeeder::class,
         ]);
     }
 }
