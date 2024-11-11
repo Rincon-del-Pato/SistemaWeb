@@ -3,83 +3,83 @@
 @section('title', 'Empleados')
 
 @section('content_header')
-    {{-- <h1 class="mb-4">Lista de Usuarios</h1> --}}
 @stop
 
 @section('content')
-
-    <div class="container-fluid">
-        <h1 class="mb-3">Usuarios</h1>
+    <div class="container px-4 mx-auto">
+        <h1 class="mb-6 text-3xl font-semibold">Usuarios</h1>
 
         <form action="{{ route('usuarios.index') }}" method="GET">
-            <div class="mb-3 row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="mb-2 col-md-4 mb-md-0">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Buscar usuarios..."
+            <div class="flex flex-col justify-between gap-4 mb-6 md:flex-row">
+                <div class="flex-1">
+                    <div class="flex flex-col gap-4 md:flex-row">
+                        <div class="flex-1 md:max-w-md">
+                            <div class="flex">
+                                <input type="text" name="search" 
+                                    class="w-full border-gray-300 rounded-l focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+                                    placeholder="Buscar usuarios..."
                                     value="{{ request('search') }}">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
+                                <button class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-r hover:bg-gray-200">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Botón para eliminar el filtro de búsqueda -->
                         @if (request('search'))
-                            <div class="mb-2 col-md-4 mb-md-0">
-                                <a href="{{ route('usuarios.index') }}" class="btn btn-outline-danger">
+                            <div>
+                                <a href="{{ route('usuarios.index') }}" 
+                                   class="inline-flex items-center px-4 py-2 text-red-600 bg-red-100 border border-red-200 rounded-md hover:bg-red-200">
                                     Eliminar búsqueda
                                 </a>
                             </div>
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4 text-md-right">
-                    <a href="{{ route('usuarios.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Agregar Producto
+                <div>
+                    <a href="{{ route('usuarios.create') }}" 
+                       class="inline-flex items-center px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        <i class="mr-2 fas fa-plus"></i> Agregar Usuario
                     </a>
                 </div>
             </div>
         </form>
 
-
-        <div class="card">
-            <div class="p-0 card-body table-responsive">
-                <table class="table table-hover text-nowrap">
-                    <thead>
+        <div class="overflow-hidden bg-white rounded-lg shadow">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="text-center">Nº</th>
-                            <th scope="col">Usuario</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Rol</th>
-                            <th scope="col" class="text-center">Acción</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Nº</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Usuario</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Rol</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Acción</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($usuarios as $usuario)
-                            <tr>
-                                <td class="text-center">{{ $usuario->id }}</td>
-                                <td>{{ $usuario->name }}</td>
-                                <td>{{ $usuario->email }}</td>
-                                <td>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 text-center whitespace-nowrap">{{ $usuario->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $usuario->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $usuario->email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     @foreach ($usuario->roles as $rol)
-                                        <span class="badge bg-info text-dark me-1"
-                                            style="font-size: 1rem">{{ $rol->description }}</span>
+                                        <span class="px-2 py-1 mr-2 text-sm text-blue-800 bg-blue-100 rounded-full">
+                                            {{ $rol->description }}
+                                        </span>
                                     @endforeach
                                 </td>
-
-                                <td class="text-center">
-                                    <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST">
-                                        <a href="{{ route('usuarios.edit', $usuario) }}" class="btn btn-sm btn-warning">
+                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                    <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" class="flex justify-center gap-2">
+                                        <a href="{{ route('usuarios.edit', $usuario) }}" 
+                                           class="px-2 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                        <button type="submit" 
+                                                class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                                                onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -91,51 +91,46 @@
             </div>
         </div>
 
-        <!-- Paginación -->
-        <div class="d-flex justify-content-between align-items-center">
-            <!-- Mostrando registros -->
-            <div>
-                Mostrando {{ $usuarios->firstItem() }} a {{ $usuarios->lastItem() }} de {{ $usuarios->total() }}
-                productos
+        <div class="flex flex-col items-center justify-between gap-4 mt-4 md:flex-row">
+            <div class="text-sm text-gray-600">
+                Mostrando {{ $usuarios->firstItem() }} a {{ $usuarios->lastItem() }} de {{ $usuarios->total() }} usuarios
             </div>
 
-            <!-- Paginación -->
-            <nav aria-label="Page navigation">
-                <ul class="mb-0 pagination">
-                    <!-- Botón 'Anterior' -->
-                    <li class="page-item {{ $usuarios->onFirstPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $usuarios->previousPageUrl() }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo; Anterior</span>
+            <nav>
+                <ul class="flex">
+                    <li class="{{ $usuarios->onFirstPage() ? 'opacity-50 cursor-not-allowed' : '' }}">
+                        <a href="{{ $usuarios->previousPageUrl() }}" 
+                           class="px-3 py-2 bg-white border rounded-l hover:bg-gray-50 {{ $usuarios->onFirstPage() ? 'pointer-events-none' : '' }}">
+                            &laquo; Anterior
                         </a>
                     </li>
 
-                    <!-- Números de página -->
                     @for ($i = 1; $i <= $usuarios->lastPage(); $i++)
-                        <li class="page-item {{ $i == $usuarios->currentPage() ? 'active' : '' }}">
-                            <a class="page-link" href="{{ $usuarios->url($i) }}">{{ $i }}</a>
+                        <li>
+                            <a href="{{ $usuarios->url($i) }}" 
+                               class="px-3 py-2 border-t border-b {{ $i == $usuarios->currentPage() ? 'bg-blue-50 text-blue-600' : 'bg-white hover:bg-gray-50' }}">
+                                {{ $i }}
+                            </a>
                         </li>
                     @endfor
 
-                    <!-- Botón 'Siguiente' -->
-                    <li class="page-item {{ $usuarios->hasMorePages() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $usuarios->nextPageUrl() }}" aria-label="Next">
-                            <span aria-hidden="true">Siguiente &raquo;</span>
+                    <li class="{{ !$usuarios->hasMorePages() ? 'opacity-50 cursor-not-allowed' : '' }}">
+                        <a href="{{ $usuarios->nextPageUrl() }}" 
+                           class="px-3 py-2 bg-white border rounded-r hover:bg-gray-50 {{ !$usuarios->hasMorePages() ? 'pointer-events-none' : '' }}">
+                            Siguiente &raquo;
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
-
     </div>
+@stop
 
-    @stop
+@section('css')
+@stop
 
-    @section('css')
-        <link rel="stylesheet" href="/css/admin_custom.css">
-    @stop
-
-    @section('js')
-        <script>
-            console.log('Hi!');
-        </script>
-    @stop
+@section('js')
+    <script>
+        console.log('Hi!');
+    </script>
+@stop

@@ -3,105 +3,97 @@
 @section('title', 'Empleados')
 
 @section('content_header')
-    {{-- <h1 class="mb-4">Lista de Empleados</h1> --}}
 @stop
 
 @section('content')
-
-    <div class="container-fluid">
-        <h1 class="mb-3">Empleados</h1>
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl font-semibold mb-6">Empleados</h1>
 
         <form action="{{ route('employees.index') }}" method="GET">
-            <div class="mb-3 row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="mb-2 col-md-4 mb-md-0">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Buscar empleados..."
+            <div class="flex flex-col md:flex-row justify-between gap-4 mb-6">
+                <div class="w-full md:w-2/3">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="relative w-full md:w-80">
+                            <div class="flex">
+                                <input type="text" name="search"
+                                    class="block w-full pl-4 pr-3 py-2.5 text-sm text-gray-900 bg-gray-50 rounded-l-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Buscar empleados..."
                                     value="{{ request('search') }}">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
+                                <button type="submit"
+                                    class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-r-lg border border-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Botón para eliminar el filtro de búsqueda -->
                         @if (request('search'))
-                            <div class="mb-2 col-md-4 mb-md-0">
-                                <a href="{{ route('employees.index') }}" class="btn btn-outline-danger">
-                                    Eliminar búsqueda
-                                </a>
-                            </div>
+                            <a href="{{ route('employees.index') }}"
+                                class="inline-flex items-center px-3 py-2.5 text-sm font-medium rounded-lg border border-red-300 text-red-700 bg-white hover:bg-red-50 focus:ring-2 focus:ring-red-200">
+                                <i class="fas fa-times"></i>
+                            </a>
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4 text-md-right">
-                    <a href="{{ route('employees.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Agregar Empleado
+                <div class="flex justify-end">
+                    <a href="{{ route('employees.create') }}"
+                        class="inline-flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                        <i class="fas fa-plus mr-2"></i>
+                        Agregar Empleado
                     </a>
                 </div>
             </div>
         </form>
 
-        <div class="card">
-            <div class="p-0 card-body table-responsive">
-                <table class="table table-hover text-nowrap">
-                    <thead>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="text-center">Nº</th>
-                            <th scope="col">Empleado</th>
-                            {{-- <th scope="col">Email</th> --}}
-                            <th scope="col">DNI</th>
-                            <th scope="col">Celular</th>
-                            <th scope="col">Rol</th>
-                            <th scope="col" class="text-center">Acciones</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Nº</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Empleado</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Celular</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($employees as $employee)
-                            <tr>
-                                <td class="text-center">{{ $employee->id }}</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $employee->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
                                         <img src="{{ asset('storage/' . $employee->user()->first()->profile_photo_path) }}"
-                                            class="mr-3 rounded-circle" width="40" height="40"
-                                            alt="{{ $employee->user()->first()->name }} ">
+                                            class="h-10 w-10 rounded-full mr-3" alt="{{ $employee->user()->first()->name }}">
                                         <div>
-                                            <p class="mb-0 font-weight-bold">
+                                            <div class="text-sm font-medium text-gray-900">
                                                 {{ $employee->user()->first()->name }} {{ $employee->lastname }}
-                                            </p>
-                                            <p class="mb-0 text-muted">
+                                            </div>
+                                            <div class="text-sm text-gray-500">
                                                 {{ $employee->user()->first()->email }}
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $employee->dni }}</td>
-                                <td>{{ $employee->phone }}</td>
-                                <td>
-                                    {{-- <span class="badge badge-success"> --}}
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $employee->dni }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $employee->phone }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">
                                     {{ $employee->user->getRoleNames()->implode(', ') }}
-                                    {{-- </span> --}}
                                 </td>
-                                {{-- <td>
-                            <span class="badge badge-{{ $employee->status == 'Online' ? 'success' : 'danger' }}">
-                                {{ $employee->status }}
-                            </span>
-                        </td> --}}
-                                <td class="text-center">
-                                    <form action="{{ route('employees.destroy', $employee) }}" method="POST">
-                                        <a href="{{ route('employees.edit', $employee) }}" class="btn btn-sm btn-warning">
+                                <td class="px-6 py-4 text-center">
+                                    <form action="{{ route('employees.destroy', $employee) }}" method="POST" class="flex justify-center space-x-2">
+                                        <a href="{{ route('employees.edit', $employee) }}"
+                                            class="p-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="{{ route('employees.show', $employee) }}"
-                                            class="btn btn-sm btn-secondary">
+                                            class="p-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"
+                                        <button type="submit"
+                                            class="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                                             onclick="return confirm('¿Estás seguro de eliminar este empleado?')">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -114,35 +106,33 @@
             </div>
         </div>
 
-        <!-- Paginación -->
-        <div class="d-flex justify-content-between align-items-center">
-            <!-- Mostrando registros -->
-            <div>
-                Mostrando {{ $employees->firstItem() }} a {{ $employees->lastItem() }} de {{ $employees->total() }}
-                productos
+        <div class="mt-4 flex flex-col sm:flex-row justify-between items-center">
+            <div class="text-sm text-gray-700">
+                Mostrando {{ $employees->firstItem() }} a {{ $employees->lastItem() }} de {{ $employees->total() }} registros
             </div>
 
-            <!-- Paginación -->
-            <nav aria-label="Page navigation">
-                <ul class="mb-0 pagination">
-                    <!-- Botón 'Anterior' -->
-                    <li class="page-item {{ $employees->onFirstPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $employees->previousPageUrl() }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo; Anterior</span>
+            <nav class="mt-4 sm:mt-0">
+                <ul class="flex space-x-1">
+                    <li class="{{ $employees->onFirstPage() ? 'opacity-50 cursor-not-allowed' : '' }}">
+                        <a href="{{ $employees->previousPageUrl() }}"
+                            class="px-3 py-2 bg-white border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            &laquo; Anterior
                         </a>
                     </li>
 
-                    <!-- Números de página -->
                     @for ($i = 1; $i <= $employees->lastPage(); $i++)
-                        <li class="page-item {{ $i == $employees->currentPage() ? 'active' : '' }}">
-                            <a class="page-link" href="{{ $employees->url($i) }}">{{ $i }}</a>
+                        <li>
+                            <a href="{{ $employees->url($i) }}"
+                                class="px-3 py-2 {{ $i == $employees->currentPage() ? 'bg-blue-500 text-white' : 'bg-white text-gray-700' }} border rounded-md text-sm font-medium hover:bg-gray-50">
+                                {{ $i }}
+                            </a>
                         </li>
                     @endfor
 
-                    <!-- Botón 'Siguiente' -->
-                    <li class="page-item {{ $employees->hasMorePages() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $employees->nextPageUrl() }}" aria-label="Next">
-                            <span aria-hidden="true">Siguiente &raquo;</span>
+                    <li class="{{ !$employees->hasMorePages() ? 'opacity-50 cursor-not-allowed' : '' }}">
+                        <a href="{{ $employees->nextPageUrl() }}"
+                            class="px-3 py-2 bg-white border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Siguiente &raquo;
                         </a>
                     </li>
                 </ul>
@@ -152,7 +142,7 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    {{-- Aquí puedes agregar estilos adicionales si es necesario --}}
 @stop
 
 @section('js')

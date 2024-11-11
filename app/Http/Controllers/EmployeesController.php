@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Employees;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +19,7 @@ class EmployeesController extends Controller
         //
         // $employees = Employees::with('user.roles')->get();
 
-        $query = Employees::query();
+        $query = Employee::query();
 
         // Aplicar filtro de búsqueda si existe
         if ($request->has('search')) {
@@ -49,8 +49,8 @@ class EmployeesController extends Controller
     public function create()
     {
         //
-        $roles = Role::pluck('name', 'id');
-        $employee = new Employees;
+        $roles = Role::pluck('description', 'id');
+        $employee = new Employee;
         $user = new User;
 
         return view('employees.create', compact('employee', 'roles', 'user'));
@@ -63,7 +63,7 @@ class EmployeesController extends Controller
     {
         //
         //return $request;
-        request()->validate(Employees::$rules);
+        request()->validate(Employee::$rules);
 
         $imageEmployee = $request->file('image')->store('employees', 'public');
 
@@ -75,7 +75,7 @@ class EmployeesController extends Controller
         ]);
         $user->syncRoles($request->rols);
 
-        Employees::create([
+        Employee::create([
             'lastname' => $request->lastname,
             'dni' => $request->dni,
             'age' => $request->age,
@@ -91,7 +91,7 @@ class EmployeesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Employees $employee)
+    public function show(Employee $employee)
     {
         //
 
@@ -101,7 +101,7 @@ class EmployeesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employees $employee)
+    public function edit(Employee $employee)
     {
         //
         $user = User::find($employee->user_id);
@@ -113,7 +113,7 @@ class EmployeesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Employees $employee)
+    public function update(Request $request, Employee $employee)
     {
         //
         $user = User::find($employee->user_id);
@@ -151,7 +151,7 @@ class EmployeesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employees $employee)
+    public function destroy(Employee $employee)
     {
         //
         $employee->delete();

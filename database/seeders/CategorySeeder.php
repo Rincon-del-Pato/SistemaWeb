@@ -15,38 +15,18 @@ class CategorySeeder extends Seeder
     {
         //
         DB::table('categories')->insert([
-            [
-                'name' => 'Entradas',
-                'description' => 'Platos ligeros para comenzar la comida, a base de mariscos, pescados y otros ingredientes.',
-            ],
-            [
-                'name' => 'Pescados y Mariscos',
-                'description' => 'Platos principales de pescados y mariscos frescos según la temporada.',
-            ],
-            [
-                'name' => 'Jaleas',
-                'description' => 'Platos fritos de pescados y mariscos acompañados de zarza criolla.',
-            ],
-            [
-                'name' => 'Chicharrones',
-                'description' => 'Platos crujientes de pescados, langostinos y pulpo fritos.',
-            ],
-            [
-                'name' => 'Platos de la casa',
-                'description' => 'Especialidades tradicionales de la casa, con pato y cabrito.',
-            ],
-            [
-                'name' => 'Tacu tacu',
-                'description' => 'Platos a base de tacu tacu (mezcla de frijoles y arroz) acompañados de carnes o mariscos.',
-            ],
-            [
-                'name' => 'Sopas',
-                'description' => 'Sopas nutritivas y tradicionales para cualquier ocasión.',
-            ],
-            [
-                'name' => 'Refrescos',
-                'description' => 'Bebidas naturales y refrescantes para acompañar los platos.',
-            ],
+            ['name' => 'Jaleas del Norte', 'description' => 'Jaleas típicas del norte de Perú, con pescado y mariscos'],
+            ['name' => 'Conchas Negras', 'description' => 'Platos elaborados con conchas negras frescas'],
+            ['name' => 'Tortillas Varias', 'description' => 'Tortillas hechas con yuyo, raya, mariscos y más ingredientes locales'],
+            ['name' => 'Otros Típicos', 'description' => 'Platos tradicionales de la región, como seco de chabelo y batea en zarza'],
+            ['name' => 'Pescado', 'description' => 'Platos a base de pescado fresco como cebiches y causas'],
+            ['name' => 'Pato', 'description' => 'Platos elaborados con pato, una especialidad del restaurante'],
+            ['name' => 'Entradas', 'description' => 'Entradas típicas como cebiches y tortillas'],
+            ['name' => 'Segundos', 'description' => 'Platos principales variados con carne, pato y otros ingredientes'],
+            ['name' => 'Sopas', 'description' => 'Sopas criollas y tradicionales de la región'],
+            ['name' => 'Chupes', 'description' => 'Platos de chupe de pescado y otros mariscos'],
+            ['name' => 'Postres', 'description' => 'Postres tradicionales como quesillo y dulces de higos'],
+            ['name' => 'Refrescos', 'description' => 'Bebidas refrescantes como chicha morada y limonada']
         ]);
     }
 }

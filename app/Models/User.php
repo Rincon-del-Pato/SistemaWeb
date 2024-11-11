@@ -98,5 +98,8 @@ class User extends Authenticatable
         //return 'profile/username';
     }
 
-    
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
 }

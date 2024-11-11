@@ -366,25 +366,76 @@ return [
         ],
 
         [
-            'text' => 'Productos',
-            'url' => 'products',
+            'text' => 'Platos del Menú',
             'icon' => 'fas fa-box',
+            'submenu' => [
+                [
+                    'text' => 'Menú',
+                    'url' => 'menu-item-sizes',
+                ],
+                [
+                    'text' => 'Platos',
+                    'url' => 'menu-items',
+                ],
+                [
+                    'text' => 'Tamaño',
+                    'url' => 'size',
+                ]
+            ]
+        ],
+        [
+            'text' => 'Clientes',
+            'url' => 'customers',
+            'icon' => 'fas fa-users', // Icono de Font Awesome para "clientes"
+            // 'label' => null, // O un número si quieres mostrar un contador
+            // 'label_color' => 'success', // Color de la etiqueta si usas un contador
+            // 'can' => 'view-customers', // Permiso requerido (puedes configurarlo con Spatie Permissions o policies)
+        ],
+        [
+            'text' => 'Inventario',
+            'icon' => 'fas fa-box',
+            'submenu' => [
+                [
+                    'text' => 'Lista de Inventario',
+                    'url' => 'inventory',
+                    'icon' => 'fas fa-warehouse',
+                ],
+                [
+                    'text' => 'Proveedor',
+                    'url' => 'suppliers',
+                    'icon' => 'fas fa-carrot',
+                ]
+            ]
+        ],
+
+        [
+            // 'text' => 'Productos',
+            // 'url' => 'products',
+            // 'icon' => 'fas fa-box',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
 
         [
-            'text' => 'Carta',
-            'url' => 'menus',
-            'icon' => 'far fa-file-alt',
+            // 'text' => 'Ordenes',
+            // 'url' => 'orders',
+            // 'icon' => 'fas fa-concierge-bell',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
 
         [
-            'text' => 'Configuración',
-            'url' => 'settings',
-            'icon' => 'fas fa-cog	',
+            // 'text' => 'Carta',
+            // 'url' => 'menus',
+            // 'icon' => 'far fa-file-alt',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+
+        [
+            // 'text' => 'Configuración',
+            // 'url' => 'settings',
+            // 'icon' => 'fas fa-cog	',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],

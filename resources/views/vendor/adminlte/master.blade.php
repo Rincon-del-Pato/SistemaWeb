@@ -24,6 +24,80 @@
 
     {{-- Base Stylesheets --}}
     @if(!config('adminlte.enabled_laravel_mix'))
+        {{-- Tailwind CSS --}}
+        <script src="https://cdn.tailwindcss.com"></script>
+        {{-- Prevent Tailwind conflicts with AdminLTE --}}
+        <style>
+            /* Preservar estilos críticos de AdminLTE */
+            .main-sidebar {
+                height: 100vh !important;
+                min-height: 100% !important;
+            }
+
+            /* Corregir estilos de navegación */
+            .nav-sidebar .nav-item > .nav-link {
+                position: relative;
+                width: 100%;
+                display: flex !important;
+                align-items: center;
+                padding: 0.75rem 1rem;
+            }
+
+            /* Preservar iconos en la navegación */
+            .nav-sidebar .nav-link p {
+                display: inline;
+                margin: 0;
+                margin-left: 0.5rem;
+            }
+
+            /* Mantener el layout de AdminLTE */
+            .wrapper {
+                position: relative;
+                min-height: 100vh;
+            }
+
+            /* Corregir colores de fondo */
+            .content-wrapper {
+                background-color: #f4f6f9;
+            }
+
+            /* Preservar dropdown menus */
+            .dropdown-menu {
+                position: absolute !important;
+                float: none !important;
+            }
+
+            /* Mantener estilos de cards de AdminLTE */
+            .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-clip: border-box;
+            }
+
+            /* Preservar estilos de botones AdminLTE */
+            .btn {
+                display: inline-block;
+                font-weight: 400;
+                text-align: center;
+                vertical-align: middle;
+                user-select: none;
+                padding: 0.375rem 0.75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: 0.25rem;
+                transition: all 0.15s ease-in-out;
+            }
+
+            /* Mantener estilos de navegación activa */
+            .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
+                background-color: #007bff !important;
+                color: #ffffff !important;
+            }
+        </style>
+
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
@@ -86,6 +160,7 @@
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @else
         <script src="{{ mix(config('adminlte.laravel_mix_js_path', 'js/app.js')) }}"></script>
     @endif

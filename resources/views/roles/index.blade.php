@@ -37,7 +37,7 @@
                     </div> --}}
                 </div>
                 <div class="col-md-4 text-md-right">
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">
+                    <a href="{{ route('roles.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Agregar Roles
                     </a>
                 </div>

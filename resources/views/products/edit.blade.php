@@ -21,7 +21,7 @@
                         <h2 class="mb-0 mt-0">Editar producto</h2>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('products.update', $product) }}" role="form"
+                        <form id="formEnviar" method="POST" action="{{ route('products.update', $product) }}" role="form"
                             enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
                             @csrf
@@ -34,12 +34,6 @@
             </div>
         </div>
     </section>
-
-
-
-
-
-
 @stop
 
 @section('css')
@@ -48,6 +42,21 @@
 
 @section('js')
     <script>
-        console.log('Hi!');
+        function confirmarEnvio() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, enviar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("formEnviar").submit();
+                }
+            });
+        }
     </script>
 @stop

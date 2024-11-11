@@ -57,13 +57,15 @@
         </form>
 
         <div class="card">
-            <div class="p-0 card-body table-responsive">
+            <div class="p-0 table-responsive">
+                <!-- class="p-0 card-body table-responsive" -->
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
                             <th scope="col" class="text-center">Nº</th>
                             <th>Producto</th>
                             <th>Descripción</th>
+                            <th>Tamaño</th>
                             <th>Precio</th>
                             <th>Estado</th>
                             <th>Categoría</th>
@@ -71,7 +73,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $product)
+                        {{-- @foreach ($products as $product)
                             <tr>
                                 <td class="text-center">{{ $product->id }}</td>
                                 <td>
@@ -84,6 +86,19 @@
                                     </div>
                                 </td>
                                 <td>{{ $product->description }}</td>
+                                @if ($product->sizes->isNotEmpty())
+                                    @foreach ($product->sizes as $size)
+                                        <td>{{ $size->price, 2 }}</td>
+                                        <td>
+                                            <span
+                                                class="badge badge-{{ $size->status == 'Disponible' ? 'success' : 'danger' }}">
+                                                {{ $size->status }}
+                                            </span>
+                                        </td>
+                                    @endforeach
+                                @else
+                                @endif
+
                                 <td>S/.{{ number_format($product->price, 2) }}</td>
                                 <td>
                                     <span
@@ -91,6 +106,7 @@
                                         {{ $product->status }}
                                     </span>
                                 </td>
+
                                 <td>{{ $product->category()->first()->name }}</td>
                                 <td>
                                     <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-warning">
@@ -107,6 +123,114 @@
                                     </form>
                                 </td>
                             </tr>
+                        @endforeach --}}
+
+                        @foreach ($products as $product)
+                            @if ($product->sizes->count() > 1)
+                                @foreach ($product->sizes as $index => $size)
+                                    <tr>
+                                        @if ($index === 0)
+                                            <td rowspan="{{ $product->sizes->count() }}" class="text-center align-middle">
+                                                {{ $product->id }}</td>
+                                            <td rowspan="{{ $product->sizes->count() }}" class="align-middle">
+                                                <div class="d-flex align-items-center">
+                                                    @if ($product->image_producto)
+                                                        <img src="{{ asset('storage/' . $product->image_producto) }}"
+                                                            alt="{{ $product->name }}" class="mr-2 img-thumbnail"
+                                                            style="width: 50px;">
+                                                    @endif
+                                                    {{ $product->name }}
+                                                </div>
+                                            </td>
+                                            <td rowspan="{{ $product->sizes->count() }}" class="align-middle">
+                                                {{ $product->description }}</td>
+                                        @endif
+
+                                        <td class="align-middle ">{{ $size->type }}</td>
+                                        <td class="text-center align-middle">S/.{{ number_format($size->price, 2) }}</td>
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge badge-{{ $size->status == 'Disponible' ? 'success' : 'danger' }}">
+                                                {{ $size->status }}
+                                            </span>
+                                        </td>
+
+                                        @if ($index === 0)
+                                            <td rowspan="{{ $product->sizes->count() }}" class="align-middle">
+                                                {{ $product->category->name ?? 'Sin categoría' }}</td>
+                                            <td rowspan="{{ $product->sizes->count() }}" class="align-middle">
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="{{ route('products.edit', $product) }}"
+                                                        class="mr-1 btn btn-sm btn-warning">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form id="delete-form-{{ $product->id }}"
+                                                        action="{{ route('products.destroy', $product) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        {{-- <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button> --}}
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                            onclick="confirmDelete('delete-form-{{ $product->id }}')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center align-middle">{{ $product->id }}</td>
+                                    <td class="align-middle">
+                                        <div class="d-flex align-items-center">
+                                            @if ($product->image_producto)
+                                                <img src="{{ asset('storage/' . $product->image_producto) }}"
+                                                    alt="{{ $product->name }}" class="mr-2 img-thumbnail"
+                                                    style="width: 50px;">
+                                            @endif
+                                            {{ $product->name }}
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">{{ $product->description }}</td>
+                                    <td class="align-middle ">{{ $product->sizes->first()->type }}</td>
+                                    <td class="text-center align-middle">
+                                        S/.{{ number_format($product->sizes->first()->price, 2) }}</td>
+                                    <td class="text-center align-middle">
+                                        <span
+                                            class="badge badge-{{ $product->sizes->first()->status == 'Disponible' ? 'success' : 'danger' }}">
+                                            {{ $product->sizes->first()->status }}
+                                        </span>
+                                    </td>
+                                    <td class="align-middle">{{ $product->category->name ?? 'Sin categoría' }}</td>
+                                    <td class="align-middle">
+                                        <div class="d-flex justify-content-center">
+                                            <a href="{{ route('products.edit', $product) }}"
+                                                class="mr-1 btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form id="delete-form-{{ $product->id }}"
+                                                action="{{ route('products.destroy', $product) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                {{-- <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button> --}}
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    onclick="confirmDelete('delete-form-{{ $product->id }}')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -156,6 +280,36 @@
 
 @section('js')
     <script>
-        console.log('Hi!');
+        function confirmDelete(formId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                    // Luego, muestra la segunda alerta de confirmación
+                    Swal.fire({
+                        title: "¡Eliminado!",
+                        text: "El producto ha sido eliminado.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // Swal.fire(
+                    //     '¡Eliminado!',
+                    //     'El producto ha sido eliminado.',
+                    //     'success',
+                    //     showConfirmButton: false,
+                    //     timer: 1500
+                    // );
+                }
+            });
+        }
     </script>
 @stop
