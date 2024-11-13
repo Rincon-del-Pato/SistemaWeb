@@ -16,45 +16,69 @@ class DashboardController extends Controller
         $daysToShow = 14; // Cambia esto al número de días que quieres mostrar
         $salesTotal = Order::sum('total');
         $ordersToday = Order::whereDate('created_at', now()->toDateString())->count();
-        $inventoryStatus = InventoryItem::whereColumn('quantity', '<=', 'reorder_level')->get();
+        // Modificar cómo se obtiene el inventario a reabastecer
+        $inventoryStatus = InventoryItem::where('quantity', '>', 0)
+            ->whereColumn('quantity', '<=', 'reorder_level')
+            ->count();  // Cambiado de get() a count()
 
         // Generar las fechas de los últimos X días hasta hoy
         $dates = collect();
-        for ($i = $daysToShow - 1; $i >= 0; $i--) {
-            $date = Carbon::now()->subDays($i);
-            // Formateo en español (día y mes en formato abreviado)
-            $dates->push($date->translatedFormat('j M'));
-        }
+        $startDate = Carbon::now()->subDays($daysToShow - 1);
 
         // Obtener las ventas agrupadas por fecha para los últimos X días
         $salesData = Order::selectRaw('DATE(order_date) as date, SUM(total) as total')
-            ->where('order_date', '>=', Carbon::now()->subDays($daysToShow - 1))
+            ->where('order_date', '>=', $startDate)
             ->groupBy('date')
             ->orderBy('date', 'ASC')
+            ->get()
             ->pluck('total', 'date');
 
-        // Rellenar los días faltantes con 0 ventas
-        $salesDates = $dates->map(function ($date, $index) use ($salesData) {
-            $dateKey = Carbon::now()->subDays($index)->format('Y-m-d');
-            return [
-                'date' => $date,
-                'total' => $salesData->get($dateKey, 0)  // Si no hay ventas en esa fecha, se asigna 0
-            ];
-        });
+        // Generar array de fechas y totales en orden correcto
+        $salesDates = collect();
+        for ($i = 0; $i < $daysToShow; $i++) {
+            $currentDate = $startDate->copy()->addDays($i);
+            $dateKey = $currentDate->format('Y-m-d');
+            $formattedDate = $currentDate->translatedFormat('j M');
 
-        // Separar las fechas y los totales en dos colecciones
-        $salesDatesLabels = $salesDates->pluck('date'); // Fechas formateadas en español
+            $salesDates->push([
+                'date' => $formattedDate,
+                'total' => $salesData->get($dateKey, 0)
+            ]);
+        }
+
+        // Separar las fechas y los totales
+        $salesDatesLabels = $salesDates->pluck('date');
         $salesTotals = $salesDates->pluck('total');
 
-        $inventoryItems = InventoryItem::pluck('name');
-        $inventoryLevels = InventoryItem::pluck('quantity');
+        // Modificar la consulta del inventario para mostrar los 10 con menor stock
+        $inventory = InventoryItem::select('name', 'quantity', 'reorder_level')
+            ->whereNotNull('quantity')
+            ->where('quantity', '>=', 0)
+            ->orderBy('quantity', 'asc')
+            ->take(10)  // Tomar solo los 10 primeros
+            ->get();
+
+        $inventoryItems = $inventory->pluck('name');
+        $inventoryLevels = $inventory->pluck('quantity');
+        $reorderLevels = $inventory->pluck('reorder_level');
 
         $maxSales = $salesTotals->max();
         $yAxisMax = ceil($maxSales * 1.15);
 
         $maxInventoryLevel = $inventoryLevels->max();
         $yAxisInventoryMax = ceil($maxInventoryLevel * 1.15);  // Agrega un 10% de margen por encima del máximo
-        return view('dashboard', compact('salesTotal', 'ordersToday', 'inventoryStatus', 'salesDatesLabels', 'salesTotals', 'inventoryItems', 'inventoryLevels', 'yAxisMax', 'yAxisInventoryMax'));
+        return view('dashboard', compact(
+            'salesTotal',
+            'ordersToday',
+            'inventoryStatus',
+            'salesDatesLabels',
+            'salesTotals',
+            'inventoryItems',
+            'inventoryLevels',
+            'reorderLevels',
+            'yAxisMax',
+            'yAxisInventoryMax'
+        ));
     }
 
     public function getSalesData()

@@ -12,6 +12,33 @@
         <img src="vendor/adminlte/dist/img/Fondo1.jpeg" alt="logo" style="width: 1150px; height: 500px;">
     </div> --}}
 
+    {{-- Mostrar todos los datos en JSON --}}
+    {{-- <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Dashboard Data - JSON Format</h3>
+        </div>
+        <div class="card-body">
+            <pre>
+            {!! json_encode(
+                [
+                    'ventas_totales' => number_format($salesTotal, 2),
+                    'pedidos_hoy' => $ordersToday,
+                    'ventas_diarias' => [
+                        'fechas' => $salesDatesLabels,
+                        'totales' => $salesTotals,
+                        'maximo_eje_y' => $yAxisMax,
+                    ],
+                    'inventario' => [
+                        'productos' => $inventoryItems,
+                        'niveles_stock' => $inventoryLevels,
+                    ],
+                ],
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE,
+            ) !!}
+        </pre>
+        </div>
+    </div> --}}
+
     <div class="container-fluid">
         <div class="row">
             <!-- Ventas Totales -->
@@ -44,7 +71,7 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>{{ $inventoryStatus->count() }}</h3>
+                        <h3>{{ $inventoryStatus }}</h3>  <!-- Removido el ->count() -->
                         <p>Artículos a Reabastecer</p>
                     </div>
                     <div class="icon">
@@ -126,8 +153,28 @@
                         label: 'Nivel de Inventario',
                         data: @json($inventoryLevels),
                         borderWidth: 1,
-                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        backgroundColor: function(context) {
+                            const inventory = @json($inventoryLevels);
+                            const reorderLevel = @json($reorderLevels);
+                            const index = context.dataIndex;
+                            // Rojo si está por debajo del nivel de reorden
+                            // Amarillo si está cerca del nivel de reorden
+                            // Verde si está bien abastecido
+                            if (inventory[index] <= reorderLevel[index]) {
+                                return 'rgba(255, 99, 132, 0.5)'; // Rojo
+                            } else if (inventory[index] <= reorderLevel[index] * 1.2) {
+                                return 'rgba(255, 205, 86, 0.5)'; // Amarillo
+                            }
+                            return 'rgba(75, 192, 192, 0.5)'; // Verde
+                        },
                         borderColor: 'rgba(255, 159, 64, 1)',
+                    }, {
+                        label: 'Nivel de Reorden',
+                        data: @json($reorderLevels),
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderDash: [5, 5],
+                        fill: false
                     }]
                 },
                 options: {
@@ -137,7 +184,24 @@
                         },
                         y: {
                             beginAtZero: true,
-                            max: @json($yAxisInventoryMax) // Límite superior de Estado de Inventario
+                            max: @json($yAxisInventoryMax)
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const inventory = context.raw;
+                                    const reorderLevel = @json($reorderLevels)[context.dataIndex];
+                                    let status = '';
+                                    if (inventory <= reorderLevel) {
+                                        status = ' ⚠️ Requiere reabastecimiento';
+                                    } else if (inventory <= reorderLevel * 1.2) {
+                                        status = ' ⚠️ Nivel bajo';
+                                    }
+                                    return `Cantidad: ${inventory}${status}`;
+                                }
+                            }
                         }
                     }
                 }

@@ -20,56 +20,61 @@ class DashboardController extends Controller
             // Datos básicos
             $salesTotal = Order::sum('total');
             $ordersToday = Order::whereDate('created_at', now()->toDateString())->count();
-            $inventoryStatus = InventoryItem::whereColumn('quantity', '<=', 'reorder_level')->get();
 
-            // Ventas diarias
-            $salesData = Order::selectRaw('DATE(created_at) as date, SUM(total) as total')
-                ->where('created_at', '>=', now()->subDays($daysToShow))
+            // Ventas diarias - Usando la misma lógica que el controlador web
+            $salesData = Order::selectRaw('DATE(order_date) as date, SUM(total) as total')
+                ->where('order_date', '>=', now()->subDays($daysToShow - 1))
                 ->groupBy('date')
-                ->orderBy('date')
-                ->get();
+                ->orderBy('date', 'ASC')
+                ->pluck('total', 'date');
 
-            // Formatear fechas y totales
-            $salesDatesLabels = [];
-            $salesTotals = [];
+            $fechas = [];
+            $totales = [];
 
-            // Asegurar que tengamos datos para todos los días, incluso sin ventas
+            // Generar fechas y rellenar con datos
             for ($i = $daysToShow - 1; $i >= 0; $i--) {
                 $date = now()->subDays($i);
-                $formattedDate = $date->format('d/m'); // Formato más corto para móvil
-                $salesDatesLabels[] = $formattedDate;
+                $fechas[] = $date->translatedFormat('j M');
 
-                $dayTotal = $salesData->where('date', $date->format('Y-m-d'))->first();
-                $salesTotals[] = $dayTotal ? round($dayTotal->total, 2) : 0;
+                $dateKey = $date->format('Y-m-d');
+                $total = $salesData->get($dateKey, 0);
+                $totales[] = number_format($total, 2);
             }
 
-            // Datos de inventario simplificados para móvil
-            $inventory = InventoryItem::select('name', 'quantity')
-                ->orderBy('quantity', 'desc')
-                ->limit(10) // Limitar a 10 items para mejor visualización en móvil
-                ->get();
+            // Obtener los 10 productos con menor stock
+            $inventory = InventoryItem::select('name', 'quantity', 'reorder_level')
+                ->whereNotNull('quantity')
+                ->where('quantity', '>=', 0)
+                ->orderBy('quantity', 'asc')
+                ->take(10)  // Limitar a 10 productos
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'name' => $item->name,
+                        'quantity' => (int)$item->quantity,
+                        'reorder_level' => (int)$item->reorder_level,
+                        'status' => $item->quantity <= $item->reorder_level ? 'Requiere reabastecimiento' :
+                                  ($item->quantity <= $item->reorder_level * 1.2 ? 'Nivel bajo' : 'Normal')
+                    ];
+                });
 
-            $inventoryItems = $inventory->pluck('name')->toArray();
-            $inventoryLevels = $inventory->pluck('quantity')->toArray();
-
-            // Calcular límites de ejes
-            $maxSales = max($salesTotals);
+            $maxSales = max(array_map('floatval', $totales));
             $yAxisMax = ceil($maxSales * 1.15);
 
-            $maxInventory = max($inventoryLevels ?: [0]);
-            $yAxisInventoryMax = ceil($maxInventory * 1.15);
-
-            // Estructura de respuesta unificada
             return response()->json([
-                'salesTotal' => round($salesTotal, 2),
-                'ordersToday' => $ordersToday,
-                'inventoryStatus' => $inventoryStatus,
-                'salesDatesLabels' => $salesDatesLabels,
-                'salesTotals' => $salesTotals,
-                'inventoryItems' => $inventoryItems,
-                'inventoryLevels' => $inventoryLevels,
-                'yAxisMax' => $yAxisMax,
-                'yAxisInventoryMax' => $yAxisInventoryMax
+                'ventas_totales' => number_format($salesTotal, 2),
+                'pedidos_hoy' => $ordersToday,
+                'ventas_diarias' => [
+                    'fechas' => $fechas,
+                    'totales' => $totales,
+                    'maximo_eje_y' => $yAxisMax
+                ],
+                'inventario' => [
+                    'productos' => $inventory->pluck('name')->values()->toArray(),
+                    'niveles_stock' => $inventory->pluck('quantity')->values()->toArray(),
+                    'niveles_reorden' => $inventory->pluck('reorder_level')->values()->toArray(),
+                    'estados' => $inventory->pluck('status')->values()->toArray()
+                ]
             ]);
 
         } catch (\Exception $e) {
