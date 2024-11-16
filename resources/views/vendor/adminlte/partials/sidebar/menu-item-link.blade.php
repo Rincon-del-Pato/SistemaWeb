@@ -1,6 +1,6 @@
 <li @isset($item['id']) id="{{ $item['id'] }}" @endisset class="nav-item">
 
-    <a class="nav-link flex items-center text-base {{ $item['class'] }} @isset($item['shift']) {{ $item['shift'] }} @endisset"
+    <a class="nav-link flex items-center gap-3 text-base {{ $item['class'] }} @isset($item['shift']) {{ $item['shift'] }} @endisset"
        href="{{ $item['href'] }}" @isset($item['target']) target="{{ $item['target'] }}" @endisset
        {!! $item['data-compiled'] ?? '' !!}>
 
@@ -8,15 +8,15 @@
             isset($item['icon_color']) ? 'text-'.$item['icon_color'] : ''
         }}"></i>
 
-        <p>
+        <span class="overflow-hidden nav-text">
             {{ $item['text'] }}
 
             @isset($item['label'])
-                <span class="badge badge-{{ $item['label_color'] ?? 'primary' }} ">
+                <span class="badge badge-{{ $item['label_color'] ?? 'primary' }} float-right">
                     {{ $item['label'] }}
                 </span>
             @endisset
-        </p>
+        </span>
 
     </a>
 

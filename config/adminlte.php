@@ -300,7 +300,7 @@ return [
         [
             'type' => 'navbar-search',
             'text' => 'search',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
         [
             'type' => 'darkmode-widget', // Agregar este elemento
@@ -332,7 +332,7 @@ return [
         [
             'text' => 'Roles',
             'url' => 'roles',
-            'icon' => 'fas fa-user-lock',
+            'icon' => 'fas fa-user-shield',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -340,7 +340,7 @@ return [
         [
             'text' => 'Usuarios',
             'url' => 'usuarios',
-            'icon' => 'fas fa-user-plus',
+            'icon' => 'fas fa-users-cog',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -348,7 +348,7 @@ return [
         [
             'text' => 'Empleados',
             'url' => 'employees',
-            'icon' => 'fas fa-users',
+            'icon' => 'fas fa-user-tie',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -356,7 +356,7 @@ return [
         [
             'text' => 'Mesas',
             'url' => 'tables',
-            'icon' => 'fas fa-chair',
+            'icon' => 'fas fa-utensils',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -364,18 +364,40 @@ return [
         [
             'text' => 'Categorias',
             'url' => 'categories',
-            'icon' => 'fas fa-archive',
+            'icon' => 'fas fa-tags',
             // 'label' => 4,
             // 'label_color' => 'success',
+        ],
+        [
+            'text' => 'Gestionar Inventario',
+            'icon' => 'fas fa-boxes',
+            'submenu' => [
+                [
+                    'text' => 'Inventario',
+                    'url' => 'inventory',
+                    'icon' => 'fas fa-box-open',
+                ],
+                [
+                    'text' => 'Proveedor',
+                    'url' => 'suppliers',
+                    'icon' => 'fas fa-truck',
+                ],
+                [
+                    'text' => 'Unidad de Medida',
+                    'url' => 'units',
+                    'icon' => 'fas fa-weight'
+                ]
+            ]
         ],
 
         [
             'text' => 'Platos del Menú',
-            'icon' => 'fas fa-box',
+            'icon' => 'fas fa-concierge-bell',
             'submenu' => [
                 [
                     'text' => 'Menú',
                     'url' => 'menu-item-sizes',
+                    'icon' => 'fas fa-clipboard-list',
                 ],
                 // [
                 //     'text' => 'Platos',
@@ -384,39 +406,18 @@ return [
                 [
                     'text' => 'Tamaño',
                     'url' => 'size',
+                    'icon' => 'fas fa-ruler'
                 ]
             ]
         ],
         [
             'text' => 'Clientes',
             'url' => 'customers',
-            'icon' => 'fas fa-users', // Icono de Font Awesome para "clientes"
+            'icon' => 'fas fa-user-friends', // Icono de Font Awesome para "clientes"
             // 'label' => null, // O un número si quieres mostrar un contador
             // 'label_color' => 'success', // Color de la etiqueta si usas un contador
             // 'can' => 'view-customers', // Permiso requerido (puedes configurarlo con Spatie Permissions o policies)
         ],
-        [
-            'text' => 'Gestionar Inventario',
-            'icon' => 'fas fa-box',
-            'submenu' => [
-                [
-                    'text' => 'Inventario',
-                    'url' => 'inventory',
-                    'icon' => 'fas fa-warehouse',
-                ],
-                [
-                    'text' => 'Proveedor',
-                    'url' => 'suppliers',
-                    'icon' => 'fas fa-carrot',
-                ],
-                [
-                    'text' => 'Unidad de Medida',
-                    'url' => 'units',
-                    'icon' => 'fas fa-balance-scale'
-                ]
-            ]
-        ],
-
         [
             // 'text' => 'Productos',
             // 'url' => 'products',

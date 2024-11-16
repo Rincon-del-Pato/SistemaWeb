@@ -8,3 +8,4 @@ enum TableStatus: string
     case Ocupado = 'Ocupado';
     case Reservado = 'Reservado';
 }
+
