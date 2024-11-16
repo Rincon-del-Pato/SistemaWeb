@@ -377,10 +377,10 @@ return [
                     'text' => 'Menú',
                     'url' => 'menu-item-sizes',
                 ],
-                [
-                    'text' => 'Platos',
-                    'url' => 'menu-items',
-                ],
+                // [
+                //     'text' => 'Platos',
+                //     'url' => 'menu-items',
+                // ],
                 [
                     'text' => 'Tamaño',
                     'url' => 'size',
@@ -396,11 +396,11 @@ return [
             // 'can' => 'view-customers', // Permiso requerido (puedes configurarlo con Spatie Permissions o policies)
         ],
         [
-            'text' => 'Inventario',
+            'text' => 'Gestionar Inventario',
             'icon' => 'fas fa-box',
             'submenu' => [
                 [
-                    'text' => 'Lista de Inventario',
+                    'text' => 'Inventario',
                     'url' => 'inventory',
                     'icon' => 'fas fa-warehouse',
                 ],
@@ -408,6 +408,11 @@ return [
                     'text' => 'Proveedor',
                     'url' => 'suppliers',
                     'icon' => 'fas fa-carrot',
+                ],
+                [
+                    'text' => 'Unidad de Medida',
+                    'url' => 'units',
+                    'icon' => 'fas fa-balance-scale'
                 ]
             ]
         ],

@@ -24,7 +24,9 @@ class MenuItem extends Model
     //Relacionar con la tabla size
     public function sizes()
     {
-        return $this->belongsToMany(Size::class, 'menu_item_sizes')->withTimestamps();
+        return $this->belongsToMany(Size::class, 'menu_item_sizes')
+                    ->withPivot('price')
+                    ->withTimestamps();
     }
 
     public function inventoryItems()

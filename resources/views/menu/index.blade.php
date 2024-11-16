@@ -2,186 +2,71 @@
 
 @section('title', 'Productos')
 
-@section('content_header')
-    {{-- <h1 class="mb-4">Lista de Productos</h1> --}}
-@stop
-
 @section('content')
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="mt-4 col-md-12">
-                <div class="card card-default">
-                    <!-- Cabecera de la tarjeta -->
-                    <div class="card-header">
-                        <div class="row w-100 align-items-center">
-                            <div class="col">
-                                <h2 class="mb-0">Lista de Productos</h2>
-                            </div>
-                            <div class="text-right col">
-                                <a href="{{ route('menus.create') }}" class="btn btn-primary">
-                                    <i class="fas fa-plus"></i> Agregar productos al carta
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cuerpo de la tarjeta -->
-                    <div class="card-body">
-                        <div class="mb-4 border-bottom">
-                            <ul class="border-0 nav nav-tabs custom-tabs" id="productTabs" role="tablist">
-                                @foreach ($categories as $index => $category)
-                                    <li class="nav-item">
-                                        <button class="nav-link {{ $index === 0 ? 'active' : '' }} px-4"
-                                            id="category-{{ $category->id }}-tab" data-toggle="tab"
-                                            data-target="#category-{{ $category->id }}" type="button" role="tab">
-                                            {{ $category->name }}
-                                        </button>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                        <div class="pt-4 tab-content" id="productTabsContent">
-                            @foreach ($categories as $index => $category)
-                                <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}"
-                                    id="category-{{ $category->id }}" role="tabpanel">
-
-                                    <h3 class="mb-4">{{ $category->name }}</h3>
-
-                                    <div class="row g-4">
-                                        @foreach ($products->where('category_id', $category->id) as $product)
-                                            <div class="mb-4 col-md-6">
-                                                <div
-                                                    class="p-3 bg-white rounded shadow-sm d-flex align-items-center {{ $product->status == 'Oculto' ? 'product-hidden' : '' }}">
-                                                    <img src="{{ asset('storage/' . $product->image_producto) }}"
-                                                        alt="{{ $product->name }}" class="rounded img-fluid product-image"
-                                                        style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
-
-                                                    <div class="flex-grow-1">
-                                                        <div class="mb-2 d-flex justify-content-between align-items-start">
-                                                            <h5 class="mb-0">{{ $product->name }}</h5>
-                                                            @if ($product->sizes->isNotEmpty())
-                                                                <span
-                                                                    class="badge bg-{{ $product->sizes->first()->status == 'Disponible'  ? 'success' : ($product->sizes->first()->status == 'Oculto' ? 'gray' : 'danger') }}">
-                                                                    {{ $product->sizes->first()->status }}
-                                                                </span>
-                                                            @else
-                                                                <span class="text-muted">Sin tamaño disponible</span>
-                                                            @endif
-                                                        </div>
-                                                        <p class="mb-2 text-muted small">{{ $product->description }}</p>
-                                                        <!-- Mostrar tamaños del producto -->
-                                                        <div class="mt-2">
-                                                            {{-- <strong>Tamaños:</strong> --}}
-                                                            <ul class="mb-0 list-unstyled">
-                                                                @foreach ($product->sizes as $size)
-                                                                    @if ($size->type === 'Unico')
-                                                                        <li>
-                                                                            <span
-                                                                                class="text-muted">S/.{{ number_format($size->price, 2) }}</span>
-                                                                        </li>
-                                                                    @else
-                                                                        <li>
-                                                                            <span>{{ $size->type }}</span> -
-                                                                            <span
-                                                                                class="text-muted">S/.{{ number_format($size->price, 2) }}</span>
-                                                                        </li>
-                                                                    @endif
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                        <!-- Fin de tamaños del producto -->
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    @if ($products->where('category_id', $category->id)->isEmpty())
-                                        <div class="py-5 text-center text-muted">
-                                            <p class="mb-0">No hay productos disponibles en esta categoría</p>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+<div class="p-4 container-fluid">
+    <div class="mb-4 bg-white rounded-lg shadow-sm">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Menú de Productos</h1>
+                    <p class="mt-1 text-sm text-gray-600">Gestiona los productos del menú</p>
                 </div>
+                <a href="{{ route('menu-item-sizes.create') }}" class="px-4 py-2 text-sm font-medium text-white transition-colors bg-blue-700 rounded-lg hover:bg-blue-800">
+                    <i class="fas fa-plus"></i> Agregar Producto
+                </a>
             </div>
         </div>
-    </section>
+    </div>
 
-    <style>
-        /* Estilos existentes */
-        .custom-tabs .nav-link {
-            color: #6c757d;
-            border: none;
-            position: relative;
-            padding: 1rem 1.5rem;
-            margin-right: 0.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
+    <div class="bg-white rounded-lg shadow-sm">
+        <div class="p-6">
+            <!-- Tabs de categorías -->
+            <div class="border-b border-gray-200">
+                <nav class="flex -mb-px space-x-8">
+                    @foreach ($categories as $index => $category)
+                        <button class="px-1 py-4 text-sm font-medium {{ $index === 0 ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                            onclick="changeTab('category-{{ $category->id }}')">
+                            {{ $category->name }}
+                        </button>
+                    @endforeach
+                </nav>
+            </div>
 
-        .custom-tabs .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: transparent;
-            transition: all 0.3s ease;
-        }
-
-        .custom-tabs .nav-link:hover:not(.active) {
-            color: #495057;
-        }
-
-        .custom-tabs .nav-link:hover:not(.active)::after {
-            background-color: #dee2e6;
-        }
-
-        .custom-tabs .nav-link.active {
-            color: #0d6efd;
-            background-color: transparent;
-            font-weight: 600;
-        }
-
-        .custom-tabs .nav-link.active::after {
-            background-color: #0d6efd;
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        .shadow-sm {
-            transition: all 0.3s ease;
-        }
-
-        .shadow-sm:hover {
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15) !important;
-        }
-
-        /* Nuevos estilos para productos ocultos */
-        .product-hidden {
-            background-color: #f8f9fa !important;
-            opacity: 0.7;
-        }
-
-        .product-hidden .product-image {
-            filter: grayscale(100%);
-        }
-
-        .product-hidden h5,
-        .product-hidden p,
-        .product-hidden span {
-            color: #6c757d !important;
-        }
-    </style>
-@stop
+            <!-- Contenido de las tabs -->
+            <div class="mt-6">
+                @forelse ($categories as $index => $category)
+                    <div id="category-{{ $category->id }}" class="tab-content {{ $index === 0 ? '' : 'hidden' }}">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            @forelse ($products->where('category_id', $category->id) as $product)
+                                <div class="overflow-hidden bg-white rounded-lg shadow">
+                                    <div class="p-4">
+                                        <h3 class="mb-2 text-lg font-semibold">{{ $product->name }}</h3>
+                                        <p class="mb-3 text-sm text-gray-600">{{ $product->description }}</p>
+                                        <div class="space-y-1">
+                                            @forelse ($product->sizes as $size)
+                                                <div class="flex justify-between">
+                                                    <span>{{ $size->size_name }}</span>
+                                                    <span>S/. {{ number_format($size->pivot->price, 2) }}</span>
+                                                </div>
+                                            @empty
+                                                <p class="text-sm text-gray-500">Sin tamaños disponibles</p>
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="col-span-3 py-4 text-center text-gray-500">No hay productos en esta categoría</p>
+                            @endforelse
+                        </div>
+                    </div>
+                @empty
+                    <p class="py-4 text-center text-gray-500">No hay categorías disponibles</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -192,3 +77,26 @@
         console.log('Hi!');
     </script>
 @stop
+
+@push('scripts')
+<script>
+function changeTab(tabId) {
+    // Ocultar todos los contenidos
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+    
+    // Mostrar el contenido seleccionado
+    document.getElementById(tabId).classList.remove('hidden');
+    
+    // Actualizar estilos de las pestañas
+    document.querySelectorAll('button').forEach(button => {
+        button.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+        button.classList.add('text-gray-500');
+    });
+    
+    // Activar la pestaña seleccionada
+    document.querySelector(`button[data-target="#${tabId}"]`).classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+}
+</script>
+@endpush

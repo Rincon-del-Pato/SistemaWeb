@@ -2,71 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\MenuItem;
 use App\Models\MenuItemSize;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class MenuItemSizeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-
-        //paginacion
-
-        $menuItemSizes = MenuItemSize::with(['menuItem', 'size'])->paginate(10);
-
-        //$menuItemSizes = MenuItemSize::with(['menuItem', 'size'])->get();
-        return view('menu-item-sizes.index', compact('menuItemSizes'));
+        $categories = Category::all();
+        $products = MenuItem::with(['category', 'sizes'])->get();
+        
+        return view('menu.index', compact('categories', 'products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $menuItem = new MenuItem();
+        $categories = Category::all();
+        $sizes = Size::all();
+        
+        return view('menu.create', compact('menuItem', 'categories', 'sizes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'menu_item_id' => 'required|exists:menu_items,id',
+            'size_id' => 'required|exists:sizes,id',
+            'price' => 'required|numeric|min:0'
+        ]);
+
+        MenuItemSize::create($request->all());
+
+        return redirect()->route('menu-item-sizes.index')
+            ->with('success', 'Precio y tamaño agregado correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(MenuItemSize $menuItemSize)
     {
-        //
+        $categories = Category::all();
+        $sizes = Size::all();
+        
+        return view('menu.edit', compact('menuItemSize', 'categories', 'sizes'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, MenuItemSize $menuItemSize)
     {
-        //
+        $request->validate([
+            'menu_item_id' => 'required|exists:menu_items,id',
+            'size_id' => 'required|exists:sizes,id',
+            'price' => 'required|numeric|min:0'
+        ]);
+
+        $menuItemSize->update($request->all());
+
+        return redirect()->route('menu.index')
+            ->with('success', 'Precio y tamaño actualizado correctamente');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(MenuItemSize $menuItemSize)
     {
-        //
+        $menuItemSize->delete();
+
+        return redirect()->route('menu-item-sizes.index')
+            ->with('success', 'Precio y tamaño eliminado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Método adicional para actualización masiva
+    public function bulkUpdate(Request $request, MenuItem $menuItem)
     {
-        //
+        $request->validate([
+            'sizes' => 'required|array',
+            'sizes.*.size_id' => 'required|exists:sizes,id',
+            'sizes.*.price' => 'required|numeric|min:0'
+        ]);
+
+        // Eliminar tamaños existentes
+        MenuItemSize::where('menu_item_id', $menuItem->id)->delete();
+
+        // Crear nuevos registros
+        foreach ($request->sizes as $size) {
+            MenuItemSize::create([
+                'menu_item_id' => $menuItem->id,
+                'size_id' => $size['size_id'],
+                'price' => $size['price']
+            ]);
+        }
+
+        return back()->with('success', 'Precios actualizados correctamente');
     }
 }

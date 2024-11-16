@@ -1,130 +1,115 @@
+@php
+    use App\Enums\TableStatus;
+@endphp
+
 @extends('adminlte::page')
 
 @section('title', 'Mesas')
 
-
-
-@section('content_header')
-    <h1>Editar mesas</h1>
-@stop
-
 @section('content')
-
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-
-                @includeif('partials.errors')
-
-                {{-- <div class="card card-default">
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('tables.update', $table) }}" role="form"
-                            enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
-                            <!-- Campo para el nombre de la mesa -->
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Nombre de la Mesa:</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ $table->name }}" required>
-                            </div>
-
-                            <!-- Campo para la capacidad -->
-                            <div class="mb-3">
-                                <label for="capacity" class="form-label">Capacidad:</label>
-                                <input type="number" class="form-control" id="capacity" name="capacity"
-                                    value="{{ $table->capacity }}" min="1" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Estado:</label>
-                                <select class="form-select" id="status" name="status" required>
-                                    @foreach ($statuses as $status)
-                                        <option value="{{ $status->value }}" {{ $table->status->value == $status->value ? 'selected' : '' }}>
-                                            {{ $status->value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-
-                            <!-- Botón de envío -->
-                            <div class="mt-4 d-flex justify-content-between">
-                                <button type="submit" class="btn btn-success">Actualizar Mesa</button>
-                            </div>
-
-                        </form>
-                    </div>
-                </div> --}}
-
-                <div class="card-body">
-                    {!! Form::model($table, [
-                        'route' => ['tables.update', $table],
-                        'method' => 'PATCH',
-                        'enctype' => 'multipart/form-data',
-                    ]) !!}
-                    @csrf
-
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            {!! Form::label('name', 'Nombre de la Mesa') !!}
-                            {!! Form::text('name', $table->name, [
-                                'class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''),
-                                'required',
-                            ]) !!}
-                            @error('name')
-                                <br>
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-4">
-                            {!! Form::label('capacity', 'Capacidad') !!}
-                            {!! Form::number('capacity', $table->capacity, [
-                                'class' => 'form-control' . ($errors->has('capacity') ? ' is-invalid' : ''),
-                                'min' => 1,
-                                'required',
-                            ]) !!}
-                            @error('capacity')
-                                <br>
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-4">
-                            {!! Form::label('status', 'Estado') !!}
-                            {!! Form::select('status', collect($statuses)->pluck('value', 'value')->toArray(), $table->status->value, [
-                                'class' => 'form-control' . ($errors->has('status') ? ' is-invalid' : ''),
-                                'required',
-                            ]) !!}
-                            @error('status')
-                                <br>
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <!-- Botón de envío -->
-                    <div class="mt-4 d-flex justify-content-between">
-                        {!! Form::submit('Actualizar Mesa', ['class' => 'btn btn-success']) !!}
-                    </div>
-
-                    {!! Form::close() !!}
+<div class="p-4 container-fluid">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Panel de edición - más estrecho -->
+        <div class="lg:col-span-1">
+            <div class="mb-4 bg-white rounded-lg shadow-sm">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h1 class="text-2xl font-bold text-gray-800">Editar Mesa</h1>
+                    <p class="mt-1 text-sm text-gray-600">Modifica la información de la mesa</p>
                 </div>
+            </div>
 
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-6">
+                    <form method="POST" action="{{ route('tables.update', $table) }}" role="form">
+                        @method('PATCH')
+                        @csrf
+                        @include('tables.form')
+                    </form>
+                </div>
             </div>
         </div>
-    </section>
 
+        <!-- Panel de mesas existentes - más ancho -->
+        <div class="lg:col-span-2">
+            <div class="mb-4 bg-white rounded-lg shadow-sm">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-800">Mesas Existentes</h2>
+                    <p class="mt-1 text-sm text-gray-600">Distribución actual de mesas</p>
+                </div>
+            </div>
 
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-6">
+                    <!-- Contenedor con scroll -->
+                    <div class="h-[calc(100vh-400px)] overflow-y-auto pr-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach(App\Models\Table::all() as $existingTable)
+                            <div class="p-4 border rounded-lg {{ $existingTable->status->value === 'Disponible' ? 'border-green-200 bg-green-50' : ($existingTable->status->value === 'Ocupado' ? 'border-red-200 bg-red-50' : 'border-yellow-200 bg-yellow-50') }}">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-lg font-semibold">Mesa {{ $existingTable->table_number }}</span>
+                                    <span class="inline-flex items-center">
+                                        <i class="fas fa-circle text-{{ $existingTable->status->value === 'Disponible' ? 'green' : ($existingTable->status->value === 'Ocupado' ? 'red' : 'yellow') }}-500 mr-1"></i>
+                                        <span class="text-sm">{{ $existingTable->status->value }}</span>
+                                    </span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-users mr-2"></i>
+                                    <span>{{ $existingTable->seating_capacity }} personas</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
 
-
-
-
+                    <!-- Resumen de mesas -->
+                    <div class="mt-4 grid grid-cols-3 gap-4 border-t pt-4">
+                        <div class="p-4 bg-white rounded-lg shadow-sm">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-600">{{ App\Models\Table::where('status', TableStatus::Disponible)->count() }}</div>
+                                <div class="text-sm text-gray-600">Disponibles</div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-lg shadow-sm">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-red-600">{{ App\Models\Table::where('status', TableStatus::Ocupado)->count() }}</div>
+                                <div class="text-sm text-gray-600">Ocupadas</div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-lg shadow-sm">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gray-600">{{ App\Models\Table::count() }}</div>
+                                <div class="text-sm text-gray-600">Total</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    <style>
+        .content-wrapper {
+            background-color: #f8fafc;
+        }
+        /* Estilo para la barra de desplazamiento */
+        .overflow-y-auto::-webkit-scrollbar {
+            width: 8px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+    </style>
 @stop
 
 @section('js')

@@ -3,99 +3,71 @@
 namespace App\Http\Controllers;
 
 use App\Models\Table;
-use App\Enums\TableStatus;
+use App\Enums\TableStatus;  // Asegúrate de que esta línea esté presente
 use Illuminate\Http\Request;
 
 class TableController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-
         $tables = Table::paginate(10);
         return view('tables.index', compact('tables'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
         $statuses = TableStatus::cases();
-        $table = Table::all();
-        // $table = new Tables;
-        return view('tables.create', compact('table', 'statuses'));
+        $existingTables = Table::all(); // Obtener todas las mesas existentes
+        return view('tables.create', compact('statuses', 'existingTables'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        // return $request;
-
-        request()->validate([
-            Table::$rules
+        $request->validate([
+            'table_number' => 'required|string|max:10|unique:tables',
+            'seating_capacity' => 'required|integer|min:1',
+            'status' => 'required|string|in:' . implode(',', array_column(TableStatus::cases(), 'value'))
         ]);
 
-        $capacities = $request -> capacity;
-        $quantities = $request -> quantity;
-
-        foreach ($capacities as $index => $capacity) {
-            $quantity = $quantities[$index];
-            for ($i = 0; $i < $quantity; $i++) {
-                Table::create([
-                    'name' => 'Mesa ' . (Table::count() + 1),
-                    'capacity' => $capacity,
-                    'status' => 'Disponible',
-                ]);
-            }
+        // Verificar si ya existe una mesa con el mismo número
+        if (Table::where('table_number', $request->table_number)->exists()) {
+            return back()->with('error', 'Ya existe una mesa con este número')->withInput();
         }
 
-        return redirect()->route('tables.index');
+        Table::create($request->all());
+        return redirect()->route('tables.index')->with('success', 'Mesa creada exitosamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Table $tables)
+    public function show(Table $table)
     {
-        //
+        return view('tables.show', compact('table'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Table $table)
     {
-        //
         $statuses = TableStatus::cases();
-        return view('tables.edit', compact('table', 'statuses'));
+        $existingTables = Table::all();
+        return view('tables.edit', compact('table', 'statuses', 'existingTables'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Table $table)
     {
-        //
+        $request->validate([
+            'table_number' => 'required|string|max:10|unique:tables,table_number,' . $table->id,
+            'seating_capacity' => 'required|integer|min:1',
+            'status' => 'required|string|in:' . implode(',', array_column(TableStatus::cases(), 'value'))
+        ]);
+
         $table->update($request->all());
-        return redirect()->route('tables.index');
+
+        return redirect()->route('tables.index')
+            ->with('success', 'Mesa actualizada exitosamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Table $table)
     {
-        //
         $table->delete();
-        return redirect()->route('tables.index');
-
+        return redirect()->route('tables.index')
+            ->with('success', 'Mesa eliminada exitosamente');
     }
 }

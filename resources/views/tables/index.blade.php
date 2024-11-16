@@ -1,3 +1,7 @@
+@php
+    use App\Enums\TableStatus;
+@endphp
+
 @extends('adminlte::page')
 
 @section('title', 'Mesas')

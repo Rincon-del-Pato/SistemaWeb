@@ -1,10 +1,11 @@
+
 <div class="w-full">
     <div class="mb-8">
-        <label for="name" class="block mb-2 text-lg font-medium text-gray-900">
-            Nombre de la Categoría
+        <label for="size_name" class="block mb-2 text-lg font-medium text-gray-900">
+            Nombre del Tamaño
         </label>
-        <input type="text" name="name" id="name"
-            value="{{ $category->name ?? old('name') }}"
+        <input type="text" name="size_name" id="size_name"
+            value="{{ $size->size_name ?? old('size_name') }}"
             class="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-md focus:ring-blue-500 focus:border-blue-500"
             required>
     </div>
@@ -13,14 +14,13 @@
         <label for="description" class="block mb-2 text-lg font-medium text-gray-900">
             Descripción
         </label>
-        <input type="text" name="description" id="description"
-            value="{{ $category->description ?? old('description') }}"
+        <textarea name="description" id="description" rows="4"
             class="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-md focus:ring-blue-500 focus:border-blue-500"
-            required>
+            required>{{ $size->description ?? old('description') }}</textarea>
     </div>
 
     <div class="flex justify-end gap-3">
-        <a href="{{ route('categories.index') }}"
+        <a href="{{ route('size.index') }}"
             class="px-6 py-3 text-sm font-medium text-gray-900 transition-colors bg-white border border-gray-300 rounded-lg hover:bg-gray-100">
             Cancelar
         </a>

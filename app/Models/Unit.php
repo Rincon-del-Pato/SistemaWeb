@@ -15,11 +15,6 @@ class Unit extends Model
         'description',
     ];
 
-    public function ingredients()
-    {
-        return $this->hasMany(Ingredient::class);
-    }
-
     public function inventoryItems()
     {
         return $this->hasMany(InventoryItem::class);

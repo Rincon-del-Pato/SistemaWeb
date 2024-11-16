@@ -13,6 +13,8 @@ class Size extends Model
 
     public function menuItems()
     {
-        return $this->belongsToMany(MenuItem::class, 'menu_item_sizes')->withPivot('price');
+        return $this->belongsToMany(MenuItem::class, 'menu_item_sizes')
+                    ->withPivot('price')
+                    ->withTimestamps();
     }
 }

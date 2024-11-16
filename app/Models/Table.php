@@ -10,12 +10,14 @@ class Table extends Model
 {
     use HasFactory;
 
-    public static $rules = ['table_number', 'seating_capacity', 'status'];
-
-    protected $fillable = ['table_number', 'seating_capacity', 'status'];
+    protected $fillable = [
+        'table_number',
+        'seating_capacity',
+        'status'
+    ];
 
     protected $casts = [
-        'status' => TableStatus::class,
+        'status' => TableStatus::class
     ];
 
     public function orders()

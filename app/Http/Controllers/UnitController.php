@@ -7,61 +7,58 @@ use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
         $units = Unit::all();
         return view('units.index', compact('units'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('units.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'unit_name' => 'required|max:50',
+            'abbreviation' => 'required|max:10',
+            'description' => 'nullable|max:255'
+        ]);
+
+        Unit::create($request->all());
+
+        return redirect()->route('units.index')
+            ->with('success', 'Unidad creada exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $unit = Unit::find($id);
+        return view('units.edit', compact('unit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'unit_name' => 'required|max:50',
+            'abbreviation' => 'required|max:10',
+            'description' => 'nullable|max:255'
+        ]);
+
+        $unit = Unit::find($id);
+        $unit->update($request->all());
+
+        return redirect()->route('units.index')
+            ->with('success', 'Unidad actualizada exitosamente.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $unit = Unit::find($id);
+        $unit->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('units.index')
+            ->with('success', 'Unidad eliminada exitosamente.');
     }
 }
