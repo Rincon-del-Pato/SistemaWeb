@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onDelete('set null');
             $table->string('name', 255);
-            $table->enum('item_type', ['ingredient', 'prepackaged'])->default('ingredient');
+            $table->enum('item_type', array_column(ItemType::cases(), 'value'));
             $table->integer('quantity');
             $table->integer('reorder_level');
             $table->foreignId('unit_id')->constrained('units')->onDelete('restrict');

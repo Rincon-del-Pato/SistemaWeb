@@ -1,36 +1,43 @@
-<div class="box box-info padding-1">
-    <div class="box-body">
-        <div class="form-group">
-            {{ Form::label('name','Nombre') }}
-            {{ Form::text('name', $role->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'name']) }}
-            {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('description','Descripcion') }}
-            {{ Form::text('description', $role->description, ['class' => 'form-control' . ($errors->has('description') ? ' is-invalid' : ''), 'placeholder' => 'description']) }}
-            {!! $errors->first('description', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-
-        <div class="form-group">
-            <div class="col-12">
-                {{ Form::label('name','Lista de perimisos:') }}
-                <div class="row">
-                    <ul class="list-group list-group-flush">
-                        @foreach ($permissions as $permission)
-                            <li class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" name="permissions[]" value="{{ $permission->id }}" id="permission_{{ $permission->id }}" {{$role->permissions->contains($permission->id) ? 'checked' : ''}} >
-                                        <label class="form-check-label stretched-link" for="permission_{{ $permission->id }}">{{ $permission->description }}</label>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-
-            {!! $errors->first('permission', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-
+<div class="w-full">
+    <div class="mb-8">
+        <label for="name" class="block mb-2 text-lg font-medium text-gray-900">
+            Nombre del Rol
+        </label>
+        <input type="text" name="name" id="name"
+            value="{{ $role->name ?? old('name') }}"
+            class="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-md focus:ring-blue-500 focus:border-blue-500"
+            required>
     </div>
-    <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Enviar</button>
+
+    <div class="mb-8">
+        <label class="block mb-4 text-lg font-medium text-gray-900">
+            Permisos
+        </label>
+        <div class="p-6 bg-white border border-gray-200 rounded-lg">
+            <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+                @foreach($permissions as $permission)
+                    <label class="flex items-center p-2 space-x-3 rounded-md cursor-pointer hover:bg-gray-50">
+                        <input type="checkbox" name="permissions[]"
+                            value="{{ $permission->id }}"
+                            {{ (isset($role) && $role->permissions->contains($permission->id)) ? 'checked' : '' }}
+                            class="w-5 h-5 text-blue-600 border-gray-300 rounded form-checkbox focus:ring-blue-500 checked:bg-blue-600">
+                        <span class="text-sm font-medium text-gray-700 select-none">
+                            {{ $permission->name }}
+                        </span>
+                    </label>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-end gap-3">
+        <a href="{{ route('roles.index') }}"
+            class="px-6 py-3 text-sm font-medium text-gray-900 transition-colors bg-white border border-gray-300 rounded-lg hover:bg-gray-100">
+            Cancelar
+        </a>
+        <button type="submit"
+            class="px-6 py-3 text-sm font-medium text-white transition-colors bg-blue-700 rounded-lg hover:bg-blue-800">
+            Guardar
+        </button>
     </div>
 </div>

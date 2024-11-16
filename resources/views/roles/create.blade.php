@@ -2,46 +2,32 @@
 
 @section('title', 'Rol')
 
-
-
-@section('content_header')
-    <h1>Crear rol</h1>
-@stop
-
 @section('content')
-
-<section class="content container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-
-            @includeif('partials.errors')
-
-            <div class="card card-default">
-                <div class="card-header">
-                    <span class="card-title">{{ __('Create') }} Role</span>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('roles.store') }}"  role="form" enctype="multipart/form-data">
-                        @csrf
-
-                        @include('roles.form')
-
-                    </form>
-                </div>
-            </div>
+<div class="p-4 container-fluid">
+    <div class="mb-4 bg-white rounded-lg shadow-sm">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold text-gray-800">Crear Rol</h1>
+            <p class="mt-1 text-sm text-gray-600">Define un nuevo rol y asigna sus permisos correspondientes</p>
         </div>
     </div>
-</section>
 
-
-
-
-
-
+    <div class="bg-white rounded-lg shadow-sm">
+        <div class="p-6">
+            <form method="POST" action="{{ route('roles.store') }}" role="form">
+                @csrf
+                @include('roles.form')
+            </form>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    <style>
+        .content-wrapper {
+            background-color: #f8fafc;
+        }
+    </style>
 @stop
 
 @section('js')

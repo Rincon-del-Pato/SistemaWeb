@@ -2,52 +2,35 @@
 
 @section('title', 'Usuarios')
 
-
-
-@section('content_header')
-    <h1>Editar usuarios</h1>
-@stop
-
 @section('content')
-
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-
-                @includeif('partials.errors')
-
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">{{ __('Create') }} Usuarios</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('usuarios.update', $usuario) }}" role="form"
-                            enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
-
-                            @include('usuarios.form')
-
-                        </form>
-                    </div>
-                </div>
-            </div>
+<div class="container-fluid p-4">
+    <div class="mb-4 bg-white rounded-lg shadow-sm">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold text-gray-800">Editar Usuario</h1>
+            <p class="mt-1 text-sm text-gray-600">Modifica la información del usuario y actualiza sus rol según sea necesario</p>
         </div>
-    </section>
+    </div>
 
-
-
-
-
-
+    <div class="bg-white rounded-lg shadow-sm">
+        <div class="p-6">
+            <form method="POST" action="{{ route('usuarios.update', $usuario) }}" role="form" enctype="multipart/form-data">
+                @method('PATCH')
+                @csrf
+                @include('usuarios.form')
+            </form>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    <style>
+        .content-wrapper {
+            background-color: #f8fafc;
+        }
+    </style>
 @stop
 
 @section('js')
-    <script>
-        console.log('Hi!');
-    </script>
+    <script> console.log('Hi!'); </script>
 @stop

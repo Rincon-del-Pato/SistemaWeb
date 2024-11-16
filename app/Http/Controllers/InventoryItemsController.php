@@ -13,7 +13,10 @@ class InventoryItemsController extends Controller
     public function index()
     {
         //
-        $inventoryItems = InventoryItem::with('unit', 'supplier')->get();
+
+        //paginacion
+        $inventoryItems = InventoryItem::with('unit', 'supplier')->paginate(10);
+
         return view('inventory-items.index', compact('inventoryItems'));
     }
 

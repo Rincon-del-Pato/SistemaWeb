@@ -2,34 +2,32 @@
 
 @section('title', 'Usuarios')
 
-@section('content_header')
-    <h1 class="text-3xl font-bold text-gray-800">Crear usuarios</h1>
-@stop
-
 @section('content')
-<section class="w-full">
-    <div class="flex flex-col">
-        <div class="w-full">
-            @includeif('partials.errors')
-
-            <div class="overflow-hidden bg-white rounded-lg shadow-md">
-                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                    <span class="text-xl font-semibold text-gray-800"> Usuario</span>
-                </div>
-                <div class="p-6">
-                    <form method="POST" action="{{ route('usuarios.store') }}" role="form" enctype="multipart/form-data">
-                        @csrf
-                        @include('usuarios.form')
-                    </form>
-                </div>
-            </div>
+<div class="p-4 container-fluid">
+    <div class="mb-4 bg-white rounded-lg shadow-sm">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold text-gray-800">Crear Usuario</h1>
+            <p class="mt-1 text-sm text-gray-600">Crea un nuevo usuario y asigna sus rol correspondiente</p>
         </div>
     </div>
-</section>
+
+    <div class="bg-white rounded-lg shadow-sm">
+        <div class="p-6">
+            <form method="POST" action="{{ route('usuarios.store') }}" role="form" enctype="multipart/form-data">
+                @csrf
+                @include('usuarios.form')
+            </form>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('css')
-    @vite('resources/css/app.css')
+    <style>
+        .content-wrapper {
+            background-color: #f8fafc;
+        }
+    </style>
 @stop
 
 @section('js')

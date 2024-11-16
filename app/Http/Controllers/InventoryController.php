@@ -13,7 +13,9 @@ class InventoryController extends Controller
     public function index()
     {
         //
-        $inventoryItems = Inventory::with('ingredient')->get();
+        //Paginacion
+
+        $inventoryItems = Inventory::with('ingredient')->paginate(10);
         return view('inventory.index', compact('inventoryItems'));
     }
 

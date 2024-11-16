@@ -13,7 +13,11 @@ class MenuItemController extends Controller
     public function index()
     {
         //
-        $menuItems = MenuItem::with('category', 'sizes')->get();
+
+        // Paginacion
+
+        $menuItems = MenuItem::with('category', 'sizes')->paginate(10);
+        // $menuItems = MenuItem::with('category', 'sizes')->get();
         return view('menu-items.index', compact('menuItems'));
     }
 

@@ -13,7 +13,12 @@ class MenuItemSizeController extends Controller
     public function index()
     {
         //
-        $menuItemSizes = MenuItemSize::with(['menuItem', 'size'])->get();
+
+        //paginacion
+
+        $menuItemSizes = MenuItemSize::with(['menuItem', 'size'])->paginate(10);
+
+        //$menuItemSizes = MenuItemSize::with(['menuItem', 'size'])->get();
         return view('menu-item-sizes.index', compact('menuItemSizes'));
     }
 

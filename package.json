@@ -8,14 +8,18 @@
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/typography": "^0.5.0",
-        "autoprefixer": "^10.4.17",
+        "autoprefixer": "^10.4.20",
         "axios": "^1.6.4",
+        "flowbite": "^2.5.2",
         "laravel-vite-plugin": "^1.0.0",
-        "postcss": "^8.4.35",
-        "tailwindcss": "^3.4.1",
+        "postcss": "^8.4.49",
+        "tailwindcss": "^3.4.15",
         "vite": "^5.0.0"
     },
     "engines": {
         "node": ">=16.x"
+    },
+    "dependencies": {
+        "apexcharts": "^4.0.0"
     }
 }

@@ -159,7 +159,7 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => null,
+    'layout_dark_mode' => false, // Cambiar a false
 
     /*
     |--------------------------------------------------------------------------
@@ -192,7 +192,7 @@ return [
     |
     */
 
-    'classes_body' => '',
+    'classes_body' => '', // Eliminar 'dark-mode'
     'classes_brand' => '',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
@@ -200,7 +200,7 @@ return [
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-white navbar-light', // Cambiar a modo claro
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -301,6 +301,10 @@ return [
             'type' => 'navbar-search',
             'text' => 'search',
             'topnav_right' => true,
+        ],
+        [
+            'type' => 'darkmode-widget', // Agregar este elemento
+            'topnav_right' => true,      // Para que aparezca a la derecha
         ],
         [
             'type' => 'fullscreen-widget',

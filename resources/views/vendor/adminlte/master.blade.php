@@ -147,6 +147,8 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
 
+    @vite(['resources/css/app.css','resources/js/app.js'])
+
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
@@ -179,6 +181,28 @@
 
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
+
+    @push('js')
+    <script>
+        $(document).ready(function() {
+            // Obtener el estado del modo oscuro del localStorage
+            var darkMode = localStorage.getItem('darkMode') === 'true';
+
+            // Aplicar el modo oscuro si está activo
+            if (darkMode) {
+                $('body').addClass('dark-mode');
+            }
+
+            // Manejar el clic en el botón de modo oscuro
+            $('.nav-link[data-widget="darkmode"]').on('click', function(e) {
+                e.preventDefault();
+                $('body').toggleClass('dark-mode');
+                // Guardar el estado en localStorage
+                localStorage.setItem('darkMode', $('body').hasClass('dark-mode'));
+            });
+        });
+    </script>
+    @endpush
 
 </body>
 

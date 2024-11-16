@@ -13,7 +13,9 @@ class SizeController extends Controller
     public function index()
     {
         //
-        $sizes = Size::all();
+        $query = Size::query();
+
+        $sizes = $query->paginate(10);
         return view('sizes.index', compact('sizes'));
     }
 

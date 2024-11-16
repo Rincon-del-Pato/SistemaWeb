@@ -40,173 +40,187 @@
     </div> --}}
 
     <div class="container-fluid">
-        <div class="row">
+        <div class="grid gap-6 mb-8 md:grid-cols-3">
             <!-- Ventas Totales -->
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{ number_format($salesTotal, 2) }}</h3>
-                        <p>Ventas Totales</p>
+            <div class="relative overflow-hidden rounded-lg shadow-lg bg-info group">
+                <div class="p-6">
+                    <div class="relative z-10">
+                        <div class="text-2xl font-bold text-white">
+                            S/. {{ number_format($salesTotal, 2) }}
+                        </div>
+                        <div class="text-white/90">
+                            Ventas Totales
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-dollar-sign"></i>
+                    <div class="absolute right-0 transition-transform opacity-50 top-2 text-white/50 group-hover:scale-110">
+                        <i class="mr-4 text-6xl transform fas fa-dollar-sign -rotate-12"></i>
                     </div>
                 </div>
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20"></div>
             </div>
 
             <!-- Pedidos Hoy -->
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ $ordersToday }}</h3>
-                        <p>Pedidos Hoy</p>
+            <div class="relative overflow-hidden rounded-lg shadow-lg bg-success group">
+                <div class="p-6">
+                    <div class="relative z-10">
+                        <div class="text-2xl font-bold text-white">
+                            {{ $ordersToday }}
+                        </div>
+                        <div class="text-white/90">
+                            Pedidos Hoy
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-shopping-cart"></i>
+                    <div class="absolute right-0 transition-transform opacity-50 top-2 text-white/50 group-hover:scale-110">
+                        <i class="mr-4 text-6xl transform fas fa-shopping-cart -rotate-12"></i>
                     </div>
                 </div>
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20"></div>
             </div>
 
             <!-- Inventario Bajo Nivel -->
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ $inventoryStatus }}</h3>  <!-- Removido el ->count() -->
-                        <p>Artículos a Reabastecer</p>
+            <div class="relative overflow-hidden rounded-lg shadow-lg bg-warning group">
+                <div class="p-6">
+                    <div class="relative z-10">
+                        <div class="text-2xl font-bold text-white">
+                            {{ $inventoryStatus }}
+                        </div>
+                        <div class="text-white/90">
+                            Artículos a Reabastecer
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-box"></i>
+                    <div class="absolute right-0 transition-transform opacity-50 top-2 text-white/50 group-hover:scale-110">
+                        <i class="mr-4 text-6xl transform fas fa-box -rotate-12"></i>
                     </div>
                 </div>
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20"></div>
             </div>
         </div>
 
         <!-- Gráficas -->
-        <div class="mt-4 row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Ventas Diarias</h3>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="salesChart"></canvas>
-                    </div>
-                </div>
+        <div class="grid gap-6 mb-8 md:grid-cols-2">
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-md">
+                <h3 class="mb-4 text-xl font-semibold text-gray-900">Ventas Diarias</h3>
+                <div id="salesChart"></div>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Estado de Inventario</h3>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="inventoryChart"></canvas>
-                    </div>
-                </div>
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-md">
+                <h3 class="mb-4 text-xl font-semibold text-gray-900">Estado de Inventario</h3>
+                <div id="inventoryChart"></div>
             </div>
         </div>
     </div>
 @stop
 
 @section('css')
-    {{-- Agrega estilos personalizados aquí si es necesario --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
 @stop
 
 @section('js')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Gráfica de Ventas Diarias para los últimos 7 días
-            var ctxSales = document.getElementById('salesChart').getContext('2d');
-            var salesChart = new Chart(ctxSales, {
-                type: 'line',
-                data: {
-                    labels: @json($salesDatesLabels),
-                    datasets: [{
-                        label: 'Ventas Diarias',
-                        data: @json($salesTotals),
-                        borderWidth: 2,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        tension: 0.1
-                    }]
+            // Gráfica de Ventas Diarias
+            const salesOptions = {
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    toolbar: {
+                        show: false,
+                    }
                 },
-                options: {
-                    scales: {
-                        x: {
-                            type: 'category'
-                        },
-                        y: {
-                            beginAtZero: true,
-                            max: @json($yAxisMax) // Límite superior de Ventas Diarias
+                series: [{
+                    name: 'Ventas Diarias',
+                    data: @json($salesTotals)
+                }],
+                xaxis: {
+                    categories: @json($salesDatesLabels),
+                    labels: {
+                        style: {
+                            colors: '#9ca3af'
                         }
                     }
+                },
+                yaxis: {
+                    max: @json($yAxisMax),
+                    labels: {
+                        style: {
+                            colors: '#9ca3af'
+                        }
+                    }
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                colors: ['#1a56db'],
+                theme: {
+                    mode: 'light'
                 }
-            });
-            // Gráfica de Estado de Inventario
-            var ctxInventory = document.getElementById('inventoryChart').getContext('2d');
-            var inventoryChart = new Chart(ctxInventory, {
-                type: 'bar',
-                data: {
-                    labels: @json($inventoryItems),
-                    datasets: [{
-                        label: 'Nivel de Inventario',
-                        data: @json($inventoryLevels),
-                        borderWidth: 1,
-                        backgroundColor: function(context) {
-                            const inventory = @json($inventoryLevels);
-                            const reorderLevel = @json($reorderLevels);
-                            const index = context.dataIndex;
-                            // Rojo si está por debajo del nivel de reorden
-                            // Amarillo si está cerca del nivel de reorden
-                            // Verde si está bien abastecido
-                            if (inventory[index] <= reorderLevel[index]) {
-                                return 'rgba(255, 99, 132, 0.5)'; // Rojo
-                            } else if (inventory[index] <= reorderLevel[index] * 1.2) {
-                                return 'rgba(255, 205, 86, 0.5)'; // Amarillo
-                            }
-                            return 'rgba(75, 192, 192, 0.5)'; // Verde
-                        },
-                        borderColor: 'rgba(255, 159, 64, 1)',
+            };
+
+            new ApexCharts(document.querySelector("#salesChart"), salesOptions).render();
+
+            // Gráfica de Inventario
+            const inventoryOptions = {
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                series: [{
+                    name: 'Nivel de Inventario',
+                    data: @json($inventoryLevels)
+                }, {
+                    name: 'Nivel de Reorden',
+                    type: 'line',
+                    data: @json($reorderLevels)
+                }],
+                xaxis: {
+                    categories: @json($inventoryItems),
+                    labels: {
+                        style: {
+                            colors: '#9ca3af'
+                        }
+                    }
+                },
+                yaxis: {
+                    max: @json($yAxisInventoryMax),
+                    labels: {
+                        style: {
+                            colors: '#9ca3af'
+                        }
+                    }
+                },
+                colors: ['#1a56db', '#dc2626'],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 3
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    width: [0, 2]
+                },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    y: [{
+                        formatter: function(value) {
+                            return value + " unidades";
+                        }
                     }, {
-                        label: 'Nivel de Reorden',
-                        data: @json($reorderLevels),
-                        type: 'line',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderDash: [5, 5],
-                        fill: false
+                        formatter: function(value) {
+                            return "Nivel mínimo: " + value;
+                        }
                     }]
-                },
-                options: {
-                    scales: {
-                        x: {
-                            beginAtZero: true
-                        },
-                        y: {
-                            beginAtZero: true,
-                            max: @json($yAxisInventoryMax)
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const inventory = context.raw;
-                                    const reorderLevel = @json($reorderLevels)[context.dataIndex];
-                                    let status = '';
-                                    if (inventory <= reorderLevel) {
-                                        status = ' ⚠️ Requiere reabastecimiento';
-                                    } else if (inventory <= reorderLevel * 1.2) {
-                                        status = ' ⚠️ Nivel bajo';
-                                    }
-                                    return `Cantidad: ${inventory}${status}`;
-                                }
-                            }
-                        }
-                    }
                 }
-            });
+            };
+
+            new ApexCharts(document.querySelector("#inventoryChart"), inventoryOptions).render();
         });
     </script>
-
 @stop
