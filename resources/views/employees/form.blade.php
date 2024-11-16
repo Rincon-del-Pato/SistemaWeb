@@ -136,14 +136,14 @@
             @endif
 
             <!-- Modal para zoom de imagen -->
-            <div id="imageModal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black bg-opacity-50">
-                <div class="relative">
-                    <button type="button" onclick="closeImageModal(event)" class="absolute top-0 right-0 p-2 -mt-4 -mr-4 bg-white rounded-full hover:bg-gray-100">
+            <div id="imageModal" class="fixed inset-0 z-50 items-center justify-center hidden p-4 bg-black bg-opacity-50">
+                <div class="relative flex items-center justify-center w-full h-full">
+                    <button type="button" onclick="closeImageModal(event)" class="absolute p-2 bg-white rounded-full top-4 right-4 hover:bg-gray-100 z-60">
                         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
-                    <img src="" alt="Imagen ampliada" class="max-h-[80vh] max-w-[90vw] rounded-lg" id="modal-image">
+                    <img src="" alt="Imagen ampliada" class="max-h-[80vh] max-w-[90vw] rounded-lg object-contain" id="modal-image">
                 </div>
             </div>
 
@@ -174,3 +174,20 @@
         </button>
     </div>
 </div>
+
+<script>
+    function openImageModal(src) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modal-image');
+        modalImage.src = src;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeImageModal(event) {
+        event.preventDefault();
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+    }
+</script>
