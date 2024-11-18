@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
@@ -80,13 +81,13 @@ Route::middleware([
     //Menu
     Route::resource('categories', CategoryController::class)->names('categories');
     Route::resource('size', SizeController::class)->names('size');
-    Route::resource('menu-item-sizes', MenuItemSizeController::class)->names('menu-item-sizes');
-    
+    Route::resource('menu', MenuItemController::class)->names('menu');
+
     Route::resource('customers', CustomerController::class)->names('customers');
-    
-    
-    
-    
+
+
+
+
 
 });
 

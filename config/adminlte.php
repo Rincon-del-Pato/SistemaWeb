@@ -396,7 +396,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Menú',
-                    'url' => 'menu-item-sizes',
+                    'url' => 'menu',
                     'icon' => 'fas fa-clipboard-list',
                 ],
                 // [

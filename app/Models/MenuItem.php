@@ -14,6 +14,11 @@ class MenuItem extends Model
         'name',
         'description',
         'image_url',
+        'available'
+    ];
+
+    protected $casts = [
+        'available' => 'boolean'
     ];
 
     public function category()
@@ -21,7 +26,6 @@ class MenuItem extends Model
         return $this->belongsTo(Category::class);
     }
 
-    //Relacionar con la tabla size
     public function sizes()
     {
         return $this->belongsToMany(Size::class, 'menu_item_sizes')
@@ -31,7 +35,8 @@ class MenuItem extends Model
 
     public function inventoryItems()
     {
-        return $this->belongsToMany(InventoryItem::class, 'menu_inventory_link')
+        return $this->belongsToMany(InventoryItem::class, 'menu_item_inventory')
+                    ->withPivot('quantity_needed_per_unit')
                     ->withTimestamps();
     }
 }
