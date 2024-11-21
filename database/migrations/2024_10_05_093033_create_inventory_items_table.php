@@ -20,7 +20,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->integer('reorder_level');
             $table->decimal('cost_price', 10, 2);
-            $table->string('flavor', 255)->nullable();
+            $table->integer('num_units')->nullable();
+            // $table->string('flavor', 255)->nullable();
             $table->foreignId('unit_id')->constrained('units')->onDelete('restrict');
             $table->timestamp('last_updated')->useCurrent();
             $table->timestamps();

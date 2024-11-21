@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('size_name', 50);
             $table->string('description', 255)->nullable();
-            $table->decimal('volume', 10, 2)->nullable();
-            $table->foreignId('unit_id')->nullable()->constrained('units')->onDelete('restrict');
             $table->timestamps();
         });
     }
