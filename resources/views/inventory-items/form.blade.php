@@ -1,4 +1,3 @@
-
 <div class="w-full">
     <div class="mb-8">
         <label for="name" class="block mb-2 text-lg font-medium text-gray-900">
@@ -17,12 +16,12 @@
             </label>
             <select name="item_type" id="item_type"
                 class="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-md focus:ring-blue-500 focus:border-blue-500">
-                @foreach(\App\Enums\ItemType::cases() as $type)
-                    <option value="{{ $type->value }}" 
-                        {{ (isset($inventoryItem) && $inventoryItem->item_type == $type) ? 'selected' : '' }}>
-                        {{ ucfirst($type->value) }}
-                    </option>
-                @endforeach
+                <option value="Ingrediente" {{ (isset($inventoryItem) && $inventoryItem->item_type == 'Ingrediente') ? 'selected' : '' }}>
+                    Ingrediente
+                </option>
+                <option value="Preenvasado" {{ (isset($inventoryItem) && $inventoryItem->item_type == 'Preenvasado') ? 'selected' : '' }}>
+                    Preenvasado
+                </option>
             </select>
         </div>
 
@@ -42,14 +41,14 @@
             </select>
         </div>
 
-        <div class="mb-8">
+        <div class="mb-8" id="quantity-container">
             <label for="quantity" class="block mb-2 text-lg font-medium text-gray-900">
-                Cantidad
+                <span id="quantity-label">Cantidad</span>
             </label>
             <input type="number" name="quantity" id="quantity"
                 value="{{ $inventoryItem->quantity ?? old('quantity') }}"
                 class="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-md focus:ring-blue-500 focus:border-blue-500"
-                required min="0">
+                required min="0" step="any">
         </div>
 
         <div class="mb-8">
@@ -77,6 +76,26 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="mb-8">
+            <label for="num_units" class="block mb-2 text-lg font-medium text-gray-900">
+                Stock (unidades)
+            </label>
+            <input type="number" name="num_units" id="num_units"
+                value="{{ $inventoryItem->num_units ?? old('num_units') }}"
+                class="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-md focus:ring-blue-500 focus:border-blue-500"
+                min="1">
+        </div>
+
+        <div class="mb-8">
+            <label for="cost_price" class="block mb-2 text-lg font-medium text-gray-900">
+                Precio de Costo
+            </label>
+            <input type="number" name="cost_price" id="cost_price" step="0.01"
+                value="{{ $inventoryItem->cost_price ?? old('cost_price') }}"
+                class="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-md focus:ring-blue-500 focus:border-blue-500"
+                required min="0">
+        </div>
     </div>
 
     <div class="flex justify-end gap-3">
@@ -90,3 +109,30 @@
         </button>
     </div>
 </div>
+
+@push('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const itemTypeSelect = document.getElementById('item_type');
+        const numUnitsInput = document.getElementById('num_units');
+        const numUnitsContainer = numUnitsInput.closest('.mb-8');
+        const quantityLabel = document.getElementById('quantity-label');
+
+        function toggleFields() {
+            if (itemTypeSelect.value === 'Preenvasado') {
+                numUnitsContainer.classList.remove('hidden');
+                numUnitsInput.required = true;
+                quantityLabel.textContent = 'Contenido por Unidad';
+            } else {
+                numUnitsContainer.classList.add('hidden');
+                numUnitsInput.required = false;
+                numUnitsInput.value = '';
+                quantityLabel.textContent = 'Cantidad';
+            }
+        }
+
+        itemTypeSelect.addEventListener('change', toggleFields);
+        toggleFields();
+    });
+</script>
+@endpush

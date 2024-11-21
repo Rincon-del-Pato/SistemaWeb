@@ -16,11 +16,17 @@ class InventoryItemsController extends Controller
      */
     public function index()
     {
-        $inventoryItems = InventoryItem::with('unit', 'supplier')
+        $preenvasados = InventoryItem::with(['unit', 'supplier'])
+            ->where('item_type', 'Preenvasado')
             ->orderBy('name')
-            ->paginate(10);
+            ->paginate(10, ['*'], 'preenvasados');
 
-        return view('inventory-items.index', compact('inventoryItems'));
+        $ingredientes = InventoryItem::with(['unit', 'supplier'])
+            ->where('item_type', 'Ingrediente')
+            ->orderBy('name')
+            ->paginate(10, ['*'], 'ingredientes');
+
+        return view('inventory-items.index', compact('preenvasados', 'ingredientes'));
     }
 
     /**
@@ -139,14 +145,14 @@ class InventoryItemsController extends Controller
     public function storeMovement(Request $request, $id)
     {
         $item = InventoryItem::findOrFail($id);
-        
+
         $validated = $request->validate([
             'quantity_change' => 'required|integer|not_in:0',
             'notes' => 'required|string'
         ]);
 
         $newQuantity = $item->quantity + $validated['quantity_change'];
-        
+
         if ($newQuantity < 0) {
             return back()->withErrors(['quantity_change' => 'No hay suficiente stock']);
         }
@@ -175,14 +181,14 @@ class InventoryItemsController extends Controller
     public function storeSupply(Request $request, $id)
     {
         $item = InventoryItem::findOrFail($id);
-        
+
         $validated = $request->validate([
             'quantity_change' => 'required|integer|min:1',
             'notes' => 'required|string'
         ]);
 
         $newQuantity = $item->quantity + $validated['quantity_change'];
-        
+
         // Actualizar cantidad
         $item->update(['quantity' => $newQuantity]);
 
