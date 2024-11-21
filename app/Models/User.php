@@ -75,8 +75,12 @@ class User extends Authenticatable
     public function adminlte_image()
     {
         // return 'https://picsum.photos/300/300';
+        // if ($this->profile_photo_path) {
+        //     return asset('storage/' . $this->profile_photo_path);
+        // }
+
         if ($this->profile_photo_path) {
-            return asset('storage/' . $this->profile_photo_path);
+             return asset($this->profile_photo_path);
         }
 
         return 'https://picsum.photos/300/300';

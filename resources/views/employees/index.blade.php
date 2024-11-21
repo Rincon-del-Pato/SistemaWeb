@@ -7,10 +7,10 @@
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="text-2xl font-semibold pt-4 mb-4">Empleados</h1>
+        <h1 class="pt-4 mb-4 text-2xl font-semibold">Empleados</h1>
 
         <!-- Barra de búsqueda y botón -->
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center justify-between mb-4">
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -18,12 +18,12 @@
                     </svg>
                 </div>
                 <input type="text" id="table-search"
-                    class="block pt-2 ps-10 text-sm border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500"
+                    class="block pt-2 text-sm bg-white border border-gray-300 rounded-lg ps-10 w-80 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Buscar empleados...">
             </div>
             <a href="{{ route('employees.create') }}"
-                class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
-                <i class="fas fa-plus mr-2"></i>Agregar Empleado
+                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300">
+                <i class="mr-2 fas fa-plus"></i>Agregar Empleado
             </a>
         </div>
 
@@ -33,22 +33,23 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Nº</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Empleado</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Celular</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Nº</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Empleado</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">DNI</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Celular</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Rol</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($employees as $employee)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $employee->id }}</td>
+                                <td class="px-6 py-4 text-sm text-center text-gray-500">{{ $employee->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <img src="{{ asset('storage/' . $employee->user()->first()->profile_photo_path) }}"
-                                            class="h-10 w-10 rounded-full mr-3" alt="{{ $employee->user()->first()->name }}">
+                                        {{-- <img src="{{ asset('storage/' . $employee->user()->first()->profile_photo_path) }}" --}}
+                                        <img src="{{ asset($employee->user()->first()->profile_photo_path) }}"
+                                            class="w-10 h-10 mr-3 rounded-full" alt="{{ $employee->user()->first()->name }}">
                                         <div>
                                             <div class="text-sm font-medium text-gray-900">
                                                 {{ $employee->user()->first()->name }} {{ $employee->lastname }}
@@ -91,7 +92,7 @@
         </div>
 
         <!-- Paginación -->
-        <div class="flex justify-between items-center mt-4">
+        <div class="flex items-center justify-between mt-4">
             <span class="text-base text-gray-700">
                 Mostrando
                 <span class="font-semibold text-gray-900">{{ $employees->firstItem() }}</span>
