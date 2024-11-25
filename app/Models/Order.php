@@ -2,32 +2,45 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\OrderType;
+use App\Enums\PaymentsStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'table_id',
+        'num_guests',
+        'user_id',
+        'total',
+        'order_type',
+        'payment_status'
+    ];
 
-    protected $fillable = ['customer_id', 'table_id', 'total', 'payment_status'];
+    protected $casts = [
+        'order_type' => OrderType::class,
+        'payment_status' => PaymentsStatus::class
+    ];
 
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    public function table()
+    public function table(): BelongsTo
     {
         return $this->belongsTo(Table::class);
     }
 
-    public function items()
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function payments()
+    public function employeeSales()
     {
-        return $this->hasMany(PaymentDetail::class);
+        return $this->hasMany(EmployeeSale::class);
     }
 }

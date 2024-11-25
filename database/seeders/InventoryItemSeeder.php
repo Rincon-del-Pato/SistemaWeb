@@ -39,20 +39,20 @@ class InventoryItemSeeder extends Seeder
         // Productos Preenvasados para venta (con num_units y quantity como contenido)
         DB::table('inventory_items')->insert([
             // Bebidas
-            ['supplier_id' => 3, 'name' => 'Coca Cola', 'item_type' => 'Preenvasado', 'quantity' => 500, 'reorder_level' => 15, 'cost_price' => 3.80, 'num_units' => 24, 'unit_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 500ml, stock 24 unidades
-            ['supplier_id' => 3, 'name' => 'Inca Kola', 'item_type' => 'Preenvasado', 'quantity' => 500, 'reorder_level' => 15, 'cost_price' => 3.80, 'num_units' => 24, 'unit_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['supplier_id' => 3, 'name' => 'Sprite', 'item_type' => 'Preenvasado', 'quantity' => 500, 'reorder_level' => 12, 'cost_price' => 3.50, 'num_units' => 20, 'unit_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['supplier_id' => 3, 'name' => 'Agua San Luis', 'item_type' => 'Preenvasado', 'quantity' => 625, 'reorder_level' => 20, 'cost_price' => 2.50, 'num_units' => 30, 'unit_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 625ml
+            ['supplier_id' => 3, 'name' => 'Coca Cola', 'item_type' => 'Preenvasado', 'quantity' => 500, 'reorder_level' => 15, 'cost_price' => 3.80, 'num_units' => 24, 'unit_id' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 500ml, stock 24 unidades
+            ['supplier_id' => 3, 'name' => 'Inca Kola', 'item_type' => 'Preenvasado', 'quantity' => 500, 'reorder_level' => 15, 'cost_price' => 3.80, 'num_units' => 24, 'unit_id' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['supplier_id' => 3, 'name' => 'Sprite', 'item_type' => 'Preenvasado', 'quantity' => 500, 'reorder_level' => 12, 'cost_price' => 3.50, 'num_units' => 20, 'unit_id' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['supplier_id' => 3, 'name' => 'Agua San Luis', 'item_type' => 'Preenvasado', 'quantity' => 625, 'reorder_level' => 20, 'cost_price' => 2.50, 'num_units' => 30, 'unit_id' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 625ml
 
             // Snacks
-            ['supplier_id' => 4, 'name' => 'Papitas Lay\'s', 'item_type' => 'Preenvasado', 'quantity' => 150, 'reorder_level' => 10, 'cost_price' => 2.00, 'num_units' => 15, 'unit_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 150g
-            ['supplier_id' => 4, 'name' => 'Doritos', 'item_type' => 'Preenvasado', 'quantity' => 200, 'reorder_level' => 8, 'cost_price' => 2.50, 'num_units' => 12, 'unit_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 200g
-            ['supplier_id' => 4, 'name' => 'Piqueo Snax', 'item_type' => 'Preenvasado', 'quantity' => 225, 'reorder_level' => 8, 'cost_price' => 2.30, 'num_units' => 12, 'unit_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['supplier_id' => 4, 'name' => 'Papitas Lay\'s', 'item_type' => 'Preenvasado', 'quantity' => 150, 'reorder_level' => 10, 'cost_price' => 2.00, 'num_units' => 15, 'unit_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 150g
+            ['supplier_id' => 4, 'name' => 'Doritos', 'item_type' => 'Preenvasado', 'quantity' => 200, 'reorder_level' => 8, 'cost_price' => 2.50, 'num_units' => 12, 'unit_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 200g
+            ['supplier_id' => 4, 'name' => 'Piqueo Snax', 'item_type' => 'Preenvasado', 'quantity' => 225, 'reorder_level' => 8, 'cost_price' => 2.30, 'num_units' => 12, 'unit_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
 
             // Otros
-            ['supplier_id' => 5, 'name' => 'Triple de Pollo', 'item_type' => 'Preenvasado', 'quantity' => 1, 'reorder_level' => 5, 'cost_price' => 4.50, 'num_units' => 8, 'unit_id' => 6, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 1 unidad, stock 8
-            ['supplier_id' => 5, 'name' => 'Empanada de Carne', 'item_type' => 'Preenvasado', 'quantity' => 1, 'reorder_level' => 6, 'cost_price' => 3.50, 'num_units' => 10, 'unit_id' => 6, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['supplier_id' => 5, 'name' => 'Brownie', 'item_type' => 'Preenvasado', 'quantity' => 100, 'reorder_level' => 8, 'cost_price' => 2.00, 'num_units' => 15, 'unit_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 100g por porción
+            ['supplier_id' => 5, 'name' => 'Triple de Pollo', 'item_type' => 'Preenvasado', 'quantity' => 1, 'reorder_level' => 5, 'cost_price' => 4.50, 'num_units' => 8, 'unit_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 1 unidad, stock 8
+            ['supplier_id' => 5, 'name' => 'Empanada de Carne', 'item_type' => 'Preenvasado', 'quantity' => 1, 'reorder_level' => 6, 'cost_price' => 3.50, 'num_units' => 10, 'unit_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['supplier_id' => 5, 'name' => 'Brownie', 'item_type' => 'Preenvasado', 'quantity' => 100, 'reorder_level' => 8, 'cost_price' => 2.00, 'num_units' => 15, 'unit_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // 100g por porción
         ]);
     }
 }

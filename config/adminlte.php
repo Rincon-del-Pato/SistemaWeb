@@ -427,9 +427,9 @@ return [
         ],
 
         [
-            // 'text' => 'Ordenes',
-            // 'url' => 'orders',
-            // 'icon' => 'fas fa-concierge-bell',
+            'text' => 'Ordenes',
+            'url' => 'orders',
+            'icon' => 'fas fa-utensils',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],

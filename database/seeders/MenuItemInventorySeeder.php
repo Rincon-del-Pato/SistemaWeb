@@ -17,25 +17,203 @@ class MenuItemInventorySeeder extends Seeder
         // Asegúrate de que estos IDs coincidan con los ingredientes existentes
         // y no con los productos preenvasados
         DB::table('menu_item_inventory')->insert([
-            // Plato 1
-            ['menu_item_id' => 1, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 0.250, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Harina
-            ['menu_item_id' => 1, 'inventory_item_id' => 2, 'quantity_needed_per_unit' => 0.100, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Azúcar
+            //['menu_item_id' => 1, 'inventory_item_id' => 36, 'quantity_needed_per_unit' => 30, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 1, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 1, 'inventory_item_id' => 8, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 1, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 6, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 1, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 1, 'inventory_item_id' => 38, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 1, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
 
-            // Plato 2
-            ['menu_item_id' => 2, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 0.200, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Pechuga de Pollo
-            ['menu_item_id' => 2, 'inventory_item_id' => 7, 'quantity_needed_per_unit' => 0.100, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Tomate
+            ['menu_item_id' => 2, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'inventory_item_id' => 2, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 2, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 2, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
 
-            // Plato 3
-            ['menu_item_id' => 3, 'inventory_item_id' => 8, 'quantity_needed_per_unit' => 0.300, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Papas
-            ['menu_item_id' => 3, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 0.050, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Cebolla
+            ['menu_item_id' => 3, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'inventory_item_id' => 2, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 3, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 3, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
 
-            // Plato 4
-            ['menu_item_id' => 4, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 0.200, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Pechuga de Pavo
-            ['menu_item_id' => 4, 'inventory_item_id' => 12, 'quantity_needed_per_unit' => 0.100, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Zanahoria
+            ['menu_item_id' => 4, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 4, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 4, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 4, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 4, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 4, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 4, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
 
-            // Plato 5
-            ['menu_item_id' => 5, 'inventory_item_id' => 13, 'quantity_needed_per_unit' => 0.150, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Espinaca
-            ['menu_item_id' => 5, 'inventory_item_id' => 14, 'quantity_needed_per_unit' => 0.100, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()], // Queso
+            ['menu_item_id' => 5, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 5, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 5, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 5, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 5, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 5, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 5, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 6, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 6, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 6, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 6, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 6, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+           //['menu_item_id' => 6, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 6, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 7, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 7, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 7, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 7, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 7, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 7, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 7, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            //['menu_item_id' => 8, 'inventory_item_id' => 36, 'quantity_needed_per_unit' => 30, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 8, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 8, 'inventory_item_id' => 8, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 8, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 6, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 8, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 8, 'inventory_item_id' => 38, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 8, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 9, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 9, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 9, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 9, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 9, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 9, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 9, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 10, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 10, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 10, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 10, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 10, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 10, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 10, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 11, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 11, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 11, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 11, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 11, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 11, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 11, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 12, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 12, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 12, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 12, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 12, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 12, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 12, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 13, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 13, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 13, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 13, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 13, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 13, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 13, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 14, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 14, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 14, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 14, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 14, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 14, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 14, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 15, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 15, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 15, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 15, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 15, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 15, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 15, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 16, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'inventory_item_id' => 2, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 16, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 16, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 17, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'inventory_item_id' => 2, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 17, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 17, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 18, 'inventory_item_id' => 2, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 18, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 18, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 18, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 18, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 18, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 18, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 19, 'inventory_item_id' => 2, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 19, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 19, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 19, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 19, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 19, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 19, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 20, 'inventory_item_id' => 18, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'inventory_item_id' => 8, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 8, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 20, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 20, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 21, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 21, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 20, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 21, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 7, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 21, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 21, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 21, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 21, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 22, 'inventory_item_id' => 8, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 22, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 22, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 22, 'inventory_item_id' => 20, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 22, 'inventory_item_id' => 40, 'quantity_needed_per_unit' => 4, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 22, 'inventory_item_id' => 38, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 22, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            ['menu_item_id' => 23, 'inventory_item_id' => 1, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 5, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 23, 'inventory_item_id' => 37, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 8, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 8, 'quantity_needed_per_unit' => 4, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 27, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            //['menu_item_id' => 23, 'inventory_item_id' => 38, 'quantity_needed_per_unit' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 6, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 9, 'quantity_needed_per_unit' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 10, 'quantity_needed_per_unit' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['menu_item_id' => 23, 'inventory_item_id' => 11, 'quantity_needed_per_unit' => 9, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
+
+
+
+
         ]);
     }
 }

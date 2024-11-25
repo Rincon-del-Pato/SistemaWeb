@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
@@ -85,7 +86,7 @@ Route::middleware([
 
     Route::resource('customers', CustomerController::class)->names('customers');
 
-
+    Route::resource('orders', OrderController::class)->names('orders');
 
 
 

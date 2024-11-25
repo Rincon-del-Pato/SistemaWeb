@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             OrdersSeeder::class,
             OrderItemsSeeder::class,
             PaymentDetailsSeeder::class,
-            EmployeeSalesSeeder::class,
+            //EmployeeSalesSeeder::class,
             InvoicesSeeder::class,
             InvoiceItemsSeeder::class,
         ]);
