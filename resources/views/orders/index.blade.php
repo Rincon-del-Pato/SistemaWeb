@@ -4,9 +4,9 @@
 
 @section('content')
     <div class="px-4 pt-2 pb-4">
-        <div class="flex space-x-4">
+        <div class="flex justify-center space-x-4">
             <!-- Panel principal (contenedor de cards) -->
-            <div id="mainPanel" class="flex-1 transition-all duration-300 ease-in-out">
+            <div id="mainPanel" class="flex-1 max-w-7xl">
                 <div class="bg-white shadow-lg rounded-xl">
                     <div class="p-6 border-b">
                         <div class="flex items-center justify-between">
@@ -168,9 +168,18 @@
                         <!-- Lista de pedidos -->
                         <div class="p-4 overflow-y-auto" style="max-height: 400px">
                             <h6 class="mb-3 text-sm font-bold text-gray-700">Pedidos de la mesa</h6>
-                            <div id="ordersList" class="space-y-3">
-                                <!-- Los pedidos se cargarán dinámicamente aquí -->
-                            </div>
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-2 text-xs font-semibold text-left text-gray-600">Cant.</th>
+                                        <th class="px-4 py-2 text-xs font-semibold text-left text-gray-600">Descripción</th>
+                                        <th class="px-4 py-2 text-xs font-semibold text-right text-gray-600">Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orderItemsList" class="divide-y divide-gray-100">
+                                    <!-- Los items se cargarán dinámicamente aquí -->
+                                </tbody>
+                            </table>
                         </div>
 
                         <!-- Resumen y acciones -->
@@ -239,23 +248,50 @@
                 document.getElementById('maxCapacity').textContent = capacity;
             } else {
                 const tableCard = document.querySelector(`[onclick*="selectTable(${tableId},"]`);
-                const waiterName = tableCard.querySelector('.text-sm.text-gray-600')?.textContent.trim() || '{{ Auth::user()->name }}';
-                // Obtener el total de la orden
+                const waiterName = tableCard.querySelector('.text-sm.text-gray-600')?.textContent.trim() ||
+                    '{{ Auth::user()->name }}';
                 const totalElement = tableCard.querySelector('.text-sm.font-semibold.text-gray-800');
                 const total = totalElement ? totalElement.textContent : 'S/. 0.00';
+
+                // Limpiar la tabla de items
+                const tbody = document.getElementById('orderItemsList');
+                tbody.innerHTML = '';
+
+                // Agregar console.log para debugging
+                console.log('Table ID:', tableId);
+                console.log('Status:', status);
+
+                @foreach ($tables as $table)
+                    if ({{ $table->id }} === tableId && '{{ $table->status->value }}' === 'Ocupado') {
+                        console.log('Found matching table:', {{ $table->id }});
+                        console.log('Order items:', {!! json_encode($table->orders->first()->orderItems) !!});
+
+                        const orderItems = {!! json_encode($table->orders->first()->orderItems) !!};
+                        orderItems.forEach(item => {
+                            console.log('Processing item:', item);
+                            const row = `
+                                    <tr class="hover:bg-gray-50 border-b border-gray-100">
+                                        <td class="px-4 py-3 text-sm text-center text-gray-700 font-medium">
+                                            ${item.quantity}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-700">
+                                            ${item.menu_item ? item.menu_item.name : 'N/A'}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-right whitespace-nowrap font-medium text-gray-900">
+                                            <span class="font-normal text-gray-500">S/.</span> ${parseFloat(item.price).toFixed(2)}
+                                        </td>
+                                    </tr>
+                                `;
+                            tbody.innerHTML += row;
+                        });
+                    }
+                @endforeach
 
                 freeTablePanel.classList.add('hidden');
                 occupiedTablePanel.classList.remove('hidden');
                 document.getElementById('tableInfo').textContent = tableName;
                 document.getElementById('waiterInfo').textContent = waiterName;
                 document.getElementById('totalAmount').textContent = total;
-
-                // Eliminar estas líneas que causan error
-                // const orderTotal = tableCard.querySelector('.text-sm.font-semibold.text-gray-800')
-                // e.preventDefault();
-                // const peopleCount = document.getElementById('peopleCount').value;
-                // document.getElementById('customerCount').value = peopleCount;
-                // this.submit();
             }
         }
 

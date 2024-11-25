@@ -106,4 +106,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Employee::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . ($this->employee ? $this->employee->lastname : '');
+    }
 }

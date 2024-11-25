@@ -34,6 +34,21 @@ class Order extends Model
         return $this->belongsTo(Table::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function employee()
+    {
+        return $this->user->employee();
+    }
+
+    public function getWaiterFullNameAttribute()
+    {
+        return $this->user ? $this->user->getFullNameAttribute() : 'No asignado';
+    }
+
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);

@@ -18,34 +18,14 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['customer', 'table', 'orderItems.menuItem'])->latest()->get();
+        $tables = Table::with(['orders.orderItems.menuItem', 'orders.user.employee'])
+            ->get();
 
-        // Obtener conteos de mesas
-        $availableCount = Table::where('status', TableStatus::Disponible->value)->count();
-        $occupiedCount = Table::where('status', TableStatus::Ocupado->value)->count();
-
-        $tables = Table::with(['orders' => function($query) {
-            $query->latest();
-        }])->get();
-
-        // Preparar los datos de los empleados para cada mesa
-        $tables = $tables->map(function($table) {
-            if ($table->status->value === 'Ocupado') {
-                $order = $table->orders->first();
-                $table->setAttribute('num_guests', $order ? $order->num_guests : 0);
-                $employee = $order ? Employee::where('user_id', $order->user_id)->first() : null;
-                if ($employee) {
-                    $firstName = explode(' ', $employee->user->name)[0]; // Toma solo el primer nombre
-                    $firstLastName = explode(' ', $employee->lastname)[0]; // Toma solo el primer apellido
-                    $table->setAttribute('waiterName', $firstName . ' ' . $firstLastName);
-                } else {
-                    $table->setAttribute('waiterName', 'No asignado');
-                }
-            }
-            return $table;
-        });
-
-        return view('orders.index', compact('orders', 'tables', 'availableCount', 'occupiedCount'));
+        return view('orders.index', [
+            'tables' => $tables,
+            'availableCount' => $tables->where('status.value', 'Disponible')->count(),
+            'occupiedCount' => $tables->where('status.value', 'Ocupado')->count(),
+        ]);
     }
 
     public function create(Request $request)

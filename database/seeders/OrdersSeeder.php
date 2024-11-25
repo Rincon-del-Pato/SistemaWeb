@@ -20,7 +20,7 @@ class OrdersSeeder extends Seeder
             [
                 'customer_id' => 1,
                 'table_id' => 1,
-                'total' => 35.50,
+                'total' => 99.00,
                 'num_guests' => 4,
                 'user_id' => 3,
                 'order_type' => 'Local',
@@ -137,7 +137,7 @@ class OrdersSeeder extends Seeder
             [
                 'customer_id' => 10,
                 'table_id' => 10,
-                'total' => 33.70,
+                'total' => 238.00,
                 'num_guests' => 2,
                 'user_id' => 3,
                 'order_type' => 'Local',

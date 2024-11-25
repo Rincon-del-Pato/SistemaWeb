@@ -19,7 +19,7 @@ class MenuItemSizeSeeder extends Seeder
             [
                 'menu_item_id' => 1,
                 'size_id' => 1,
-                'price' => 4.00,
+                'price' => 3.50,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -311,21 +311,21 @@ class MenuItemSizeSeeder extends Seeder
             [
                 'menu_item_id' => 28,
                 'size_id' => 1,
-                'price' => 38.00,
+                'price' => 31.00,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'menu_item_id' => 29,
                 'size_id' => 1,
-                'price' => 38.00,
+                'price' => 50.00,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'menu_item_id' => 30,
                 'size_id' => 1,
-                'price' => 39.00,
+                'price' => 45.00,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

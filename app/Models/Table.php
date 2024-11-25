@@ -21,28 +21,29 @@ class Table extends Model
         'status' => TableStatus::class
     ];
 
-    protected $appends = ['waiterName'];
+    protected $appends = ['waiterName', 'num_guests'];
 
     public function getWaiterNameAttribute()
     {
-        if ($this->status->value === 'Ocupado') {
+        if ($this->status->value === 'Ocupado' && $this->orders->isNotEmpty()) {
             $order = $this->orders->first();
-            $employee = $order ? Employee::where('user_id', $order->user_id)->first() : null;
-            if ($employee) {
-                // Obtener solo el primer nombre del usuario
-                $firstName = explode(' ', $employee->user->name)[0];
-                // Obtener solo el primer apellido
-                $lastName = explode(' ', $employee->lastname)[0];
-                return $firstName . ' ' . $lastName;
-            }
-            return 'No asignado';
+            $firstName = explode(' ', $order->user->name)[0];
+            $lastName = explode(' ', optional($order->user->employee)->lastname)[0];
+            return $firstName . ' ' . $lastName;
         }
         return null;
     }
 
+    public function getNumGuestsAttribute()
+    {
+        return $this->status->value === 'Ocupado' && $this->orders->isNotEmpty() 
+            ? $this->orders->first()->num_guests 
+            : 0;
+    }
+
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class)->latest();
     }
 
     public function scopeAvailable(Builder $query): Builder
