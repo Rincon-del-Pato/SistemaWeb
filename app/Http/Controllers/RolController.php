@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -15,9 +16,12 @@ class RolController extends Controller
     {
 
         $query = Role::query();
-
-
         $roles = $query->paginate(10);
+        // Añadir fecha formateada para el filtrado
+        foreach ($roles as $role) {
+            $role->formatted_date = Carbon::parse($role->created_at)->format('Y-m-d');
+        }
+
         return view('roles.index', compact('roles'));
     }
 
@@ -29,7 +33,7 @@ class RolController extends Controller
         //
         $role = new Role();
         $permissions = Permission::all();
-        return view('roles.create', compact('role','permissions'));
+        return view('roles.create', compact('role', 'permissions'));
     }
 
     /**
@@ -39,9 +43,10 @@ class RolController extends Controller
     {
 
         Role::create([
-        'name' => $request->name,
-        'description' => $request->description,
-        'tipo'=>'cargo']);
+            'name' => $request->name,
+            'description' => $request->description,
+            'tipo' => 'cargo'
+        ]);
         return redirect()->route('roles.index');
     }
 
@@ -52,7 +57,6 @@ class RolController extends Controller
     {
         //
         return view('roles.show', compact('role'));
-
     }
 
     /**
@@ -64,8 +68,7 @@ class RolController extends Controller
 
         $permissions = Permission::all();
 
-        return view('roles.edit', compact('role','permissions'));
-
+        return view('roles.edit', compact('role', 'permissions'));
     }
 
 
@@ -78,7 +81,8 @@ class RolController extends Controller
         $role->update([
             'name' => $request->name,
             'description' => $request->description,
-            'tipo'=>'cargo']);
+            'tipo' => 'cargo'
+        ]);
 
         $role->permissions()->sync($request->permissions);
         return redirect()->route('roles.index')->with('success', 'Rol actualizado con éxito');
@@ -93,5 +97,4 @@ class RolController extends Controller
 
         return redirect()->route('roles.index');
     }
-
 }

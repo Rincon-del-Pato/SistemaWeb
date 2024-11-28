@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Table;
-use App\Enums\TableStatus;  // Asegúrate de que esta línea esté presente
 use Illuminate\Http\Request;
+use App\Enums\TableStatus;  // Asegúrate de que esta línea esté presente
 
 class TableController extends Controller
 {
     public function index()
     {
         $tables = Table::paginate(10);
+
+        foreach ($tables as $table) {
+            $table->formatted_date = Carbon::parse($table->created_at)->format('Y-m-d');
+        }
+
         return view('tables.index', compact('tables'));
     }
 

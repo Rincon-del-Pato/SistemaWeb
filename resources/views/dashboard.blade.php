@@ -7,39 +7,42 @@
 @stop
 
 @section('content')
-    {{-- Banner opcional --}}
-    {{-- <div class="mb-4 text-center">
-        <img src="vendor/adminlte/dist/img/Fondo1.jpeg" alt="logo" style="width: 1150px; height: 500px;">
-    </div> --}}
-
-    {{-- Mostrar todos los datos en JSON --}}
-    {{-- <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Dashboard Data - JSON Format</h3>
-        </div>
-        <div class="card-body">
-            <pre>
-            {!! json_encode(
-                [
-                    'ventas_totales' => number_format($salesTotal, 2),
-                    'pedidos_hoy' => $ordersToday,
-                    'ventas_diarias' => [
-                        'fechas' => $salesDatesLabels,
-                        'totales' => $salesTotals,
-                        'maximo_eje_y' => $yAxisMax,
-                    ],
-                    'inventario' => [
-                        'productos' => $inventoryItems,
-                        'niveles_stock' => $inventoryLevels,
-                    ],
-                ],
-                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE,
-            ) !!}
-        </pre>
-        </div>
-    </div> --}}
-
     <div class="container-fluid">
+        <!-- Filtros y botones de exportación -->
+        <div class="mb-4 bg-white rounded-lg shadow-md p-4">
+            <form action="{{ route('dashboard.filter') }}" method="POST" class="flex flex-wrap gap-4 items-end">
+                @csrf
+                <div class="flex-1 min-w-[200px]">
+                    <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900">Fecha Inicial</label>
+                    <input type="date" id="start_date" name="start_date" 
+                           value="{{ $startDate->format('Y-m-d') }}"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+                <div class="flex-1 min-w-[200px]">
+                    <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900">Fecha Final</label>
+                    <input type="date" id="end_date" name="end_date" 
+                           value="{{ $endDate->format('Y-m-d') }}"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+                <div>
+                    <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Filtrar
+                    </button>
+                </div>
+                <div class="flex gap-2">
+                    <a href="{{ route('dashboard.export-sales', [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')]) }}" 
+                       class="px-5 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        Exportar Ventas
+                    </a>
+                    <a href="{{ route('dashboard.export-inventory') }}" 
+                       class="px-5 py-2.5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700">
+                        Exportar Inventario
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Resto del contenido existente -->
         <div class="grid gap-6 mb-8 md:grid-cols-3">
             <!-- Ventas Totales -->
             <div class="relative overflow-hidden rounded-lg shadow-lg bg-info group">

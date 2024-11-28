@@ -12,6 +12,7 @@ use Google\Service\Drive\Permission;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Google\Service\Drive as Google_Service_Drive;
+use Carbon\Carbon;
 
 class EmployeesController extends Controller
 {
@@ -20,29 +21,34 @@ class EmployeesController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        // $employees = Employees::with('user.roles')->get();
-
         $query = Employee::query();
 
-        // Aplicar filtro de búsqueda si existe
         if ($request->has('search')) {
             $searchTerm = $request->search;
 
-            // Filtro por nombre del empleado, DNI del empleado o nombre del rol
             $query->where(function ($q) use ($searchTerm) {
-                $q->where('dni', 'LIKE', "%{$searchTerm}%")   // Búsqueda por DNI del empleado
+                $q->where('dni', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('lastname', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('phone', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('address', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('city', 'LIKE', "%{$searchTerm}%")
                     ->orWhereHas('user', function ($query) use ($searchTerm) {
-                        $query->where('name', 'LIKE', "%{$searchTerm}%")  // Búsqueda por nombre del usuario
-                            ->orWhereHas('roles', function ($query) use ($searchTerm) {
-                                $query->where('name', 'LIKE', "%{$searchTerm}%")
-                                    ->orWhere('description', 'LIKE', "%{$searchTerm}%");
-                            });
+                        $query->where('name', 'LIKE', "%{$searchTerm}%")
+                            ->orWhere('email', 'LIKE', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('user.roles', function ($query) use ($searchTerm) {
+                        $query->where('name', 'LIKE', "%{$searchTerm}%")
+                            ->orWhere('description', 'LIKE', "%{$searchTerm}%");
                     });
             });
         }
 
         $employees = $query->paginate(10);
+
+        // Reemplazar each por foreach
+        foreach ($employees as $employee) {
+            $employee->formatted_date = Carbon::parse($employee->created_at)->format('Y-m-d');
+        }
 
         return view('employees.index', compact('employees'));
     }
@@ -52,7 +58,7 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('description', 'name');  // Cambiado: usando 'name' como valor
+        $roles = Role::pluck('description', 'name');
         $employee = new Employee;
         $user = new User;
 
@@ -109,7 +115,7 @@ class EmployeesController extends Controller
     public function edit(Employee $employee)
     {
         $user = User::find($employee->user_id);
-        $roles = Role::pluck('description', 'name');  // Cambiado: usando 'name' como valor
+        $roles = Role::pluck('description', 'name');
         return view('employees.edit', compact('employee', 'roles', 'user'));
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\InventoryItem;
 use App\Models\InventoryLog;
 use App\Enums\ChangeType;
+use Carbon\Carbon;
 
 class InventoryItemsController extends Controller
 {
@@ -19,12 +20,20 @@ class InventoryItemsController extends Controller
         $preenvasados = InventoryItem::with(['unit', 'supplier'])
             ->where('item_type', 'Preenvasado')
             ->orderBy('name')
-            ->paginate(10, ['*'], 'preenvasados');
+            ->paginate(9, ['*'], 'preenvasados');
 
         $ingredientes = InventoryItem::with(['unit', 'supplier'])
             ->where('item_type', 'Ingrediente')
             ->orderBy('name')
-            ->paginate(10, ['*'], 'ingredientes');
+            ->paginate(9, ['*'], 'ingredientes');
+
+        // Agregar fechas formateadas
+        foreach ($preenvasados as $item) {
+            $item->formatted_date = Carbon::parse($item->created_at)->format('Y-m-d');
+        }
+        foreach ($ingredientes as $item) {
+            $item->formatted_date = Carbon::parse($item->created_at)->format('Y-m-d');
+        }
 
         return view('inventory-items.index', compact('preenvasados', 'ingredientes'));
     }

@@ -56,6 +56,13 @@ Route::middleware([
     Route::get('/dashboard/inventory-status', [DashboardController::class, 'getInventoryStatus']);
     Route::get('/dashboard/employee-performance', [DashboardController::class, 'getEmployeePerformance']);
 
+    // Nuevas rutas para reportes del dashboard
+    Route::post('/dashboard/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
+    Route::get('/dashboard/export-sales/{startDate?}/{endDate?}', [DashboardController::class, 'exportSales'])
+        ->name('dashboard.export-sales');
+    Route::get('/dashboard/export-inventory', [DashboardController::class, 'exportInventory'])
+        ->name('dashboard.export-inventory');
+
     //Personal
     Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])->names('roles');
     Route::resource('permisos', PermissionsionController::class)->names('permisos');
