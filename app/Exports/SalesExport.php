@@ -1,14 +1,12 @@
-
 <?php
 
 namespace App\Exports;
 
 use App\Models\Order;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\{FromCollection, WithHeadings, WithMapping};
 
-class SalesExport implements FromQuery, WithHeadings, WithMapping
+class SalesExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $startDate;
     protected $endDate;
@@ -19,10 +17,9 @@ class SalesExport implements FromQuery, WithHeadings, WithMapping
         $this->endDate = $endDate;
     }
 
-    public function query()
+    public function collection()
     {
-        return Order::query()
-            ->whereBetween('order_date', [$this->startDate, $this->endDate]);
+        return Order::whereBetween('order_date', [$this->startDate, $this->endDate])->get();
     }
 
     public function headings(): array

@@ -1,18 +1,18 @@
-
 <?php
 
 namespace App\Exports;
 
 use App\Models\InventoryItem;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Support\Collection;
 
-class InventoryExport implements FromQuery, WithHeadings, WithMapping
+class InventoryExport implements FromCollection, WithHeadings, WithMapping
 {
-    public function query()
+    public function collection()
     {
-        return InventoryItem::query();
+        return InventoryItem::all();
     }
 
     public function headings(): array
