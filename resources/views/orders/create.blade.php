@@ -5,8 +5,8 @@
 @section('content')
     <div class="px-4 pt-2 pb-4">
         <!-- Categorías -->
-        <div class="bg-white shadow-lg rounded-xl mb-4">
-            <div class="p-4 flex gap-2 overflow-x-auto">
+        <div class="mb-4 bg-white shadow-lg rounded-xl">
+            <div class="flex gap-2 p-4 overflow-x-auto">
                 @foreach($categories as $category)
                     <button class="px-4 py-2 text-sm font-semibold rounded-lg transition-colors
                         {{ request()->category == $category->id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}"
@@ -22,14 +22,14 @@
             <!-- Panel de Menús -->
             <div class="flex-1">
                 <div class="bg-white shadow-lg rounded-xl">
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+                    <div class="grid grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                         @foreach($menus as $menu)
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+                            <div class="p-4 transition-shadow border rounded-lg cursor-pointer hover:shadow-md"
                                 onclick="addToOrder({{ $menu->id }}, '{{ $menu->name }}', {{ $menu->price }})">
-                                <img src="{{ asset($menu->image) }}" class="w-full h-32 object-cover rounded-lg mb-3">
+                                <img src="{{ asset($menu->image) }}" class="object-cover w-full h-32 mb-3 rounded-lg">
                                 <h3 class="font-bold text-gray-800">{{ $menu->name }}</h3>
-                                <p class="text-sm text-gray-600 mb-2">{{ $menu->description }}</p>
-                                <p class="text-blue-600 font-bold">S/. {{ number_format($menu->price, 2) }}</p>
+                                <p class="mb-2 text-sm text-gray-600">{{ $menu->description }}</p>
+                                <p class="font-bold text-blue-600">S/. {{ number_format($menu->price, 2) }}</p>
                             </div>
                         @endforeach
                     </div>
@@ -38,23 +38,23 @@
 
             <!-- Panel de Resumen -->
             <div class="w-96">
-                <div class="bg-white shadow-lg rounded-xl p-4">
+                <div class="p-4 bg-white shadow-lg rounded-xl">
                     <!-- Información de la Mesa y Mozo -->
                     <div class="mb-4">
-                        <h3 class="font-bold text-lg text-gray-800 mb-2">Mesa: <span class="text-blue-600">{{ $table->table_number }}</span></h3>
+                        <h3 class="mb-2 text-lg font-bold text-gray-800">Mesa: <span class="text-blue-600">{{ $table->table_number }}</span></h3>
                         <p class="text-gray-600">Mozo: {{ Auth::user()->name }}</p>
                         <p class="text-gray-600">Personas: <span id="customerCount">{{ $customerCount }}</span></p>
                     </div>
 
                     <!-- Tabla de Pedidos -->
-                    <div class="border rounded-lg overflow-hidden">
+                    <div class="overflow-hidden border rounded-lg">
                         <table class="w-full" id="orderTable">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cant.</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Descripción</th>
-                                    <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Precio</th>
-                                    <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Subt.</th>
+                                    <th class="px-4 py-2 text-xs font-medium text-left text-gray-500 uppercase">Cant.</th>
+                                    <th class="px-4 py-2 text-xs font-medium text-left text-gray-500 uppercase">Descripción</th>
+                                    <th class="px-4 py-2 text-xs font-medium text-right text-gray-500 uppercase">Precio</th>
+                                    <th class="px-4 py-2 text-xs font-medium text-right text-gray-500 uppercase">Subt.</th>
                                     <th class="px-4 py-2"></th>
                                 </tr>
                             </thead>
@@ -63,8 +63,8 @@
                             </tbody>
                             <tfoot class="bg-gray-50">
                                 <tr>
-                                    <td colspan="3" class="px-4 py-2 text-right font-bold">Total:</td>
-                                    <td class="px-4 py-2 text-right font-bold" id="totalAmount">S/. 0.00</td>
+                                    <td colspan="3" class="px-4 py-2 font-bold text-right">Total:</td>
+                                    <td class="px-4 py-2 font-bold text-right" id="totalAmount">S/. 0.00</td>
                                     <td></td>
                                 </tr>
                             </tfoot>
@@ -72,13 +72,13 @@
                     </div>
 
                     <!-- Botones de Acción -->
-                    <div class="mt-4 flex gap-2">
+                    <div class="flex gap-2 mt-4">
                         <button type="button" onclick="submitOrder()"
-                            class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700">
+                            class="flex-1 px-4 py-2 font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
                             Confirmar Pedido
                         </button>
                         <a href="{{ route('orders.index') }}"
-                            class="flex-1 bg-gray-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-700 text-center">
+                            class="flex-1 px-4 py-2 font-bold text-center text-white bg-gray-600 rounded-lg hover:bg-gray-700">
                             Cancelar
                         </a>
                     </div>

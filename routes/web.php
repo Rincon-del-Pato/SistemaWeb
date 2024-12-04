@@ -95,6 +95,8 @@ Route::middleware([
 
     Route::resource('orders', OrderController::class)->names('orders');
 
+    
+
 
 
 });
