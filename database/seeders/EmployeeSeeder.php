@@ -24,6 +24,8 @@ class EmployeeSeeder extends Seeder
                 'address' => 'Calle',
                 'city' => 'Guadalupe',
                 'user_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'lastname' => 'Becerra Linares',
@@ -33,6 +35,8 @@ class EmployeeSeeder extends Seeder
                 'address' => 'Calle',
                 'city' => 'Guadalupe',
                 'user_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'lastname' => 'Suarez Chimoy',
@@ -42,6 +46,8 @@ class EmployeeSeeder extends Seeder
                 'address' => 'Calle',
                 'city' => 'Guadalupe',
                 'user_id' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         ]);
 

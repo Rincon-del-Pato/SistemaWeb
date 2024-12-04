@@ -20,28 +20,28 @@ class UserSeeder extends Seeder
                 'email'    => 'admin@example.com',
                 'password' => Hash::make('12345678'), // password
                 'role' => 'gerente_general',
-                'image_employee' => 'employees/2NcHZB9PykfmhanUC9onDMqGwHhHmqybtBYinhlf.jpg',
+                'image_employee' => 'https://lh3.googleusercontent.com/d/1ljlsRh8me99UqbDUbEerdsRmd7Rm6cAS',
             ],
             [
                 'name' => 'Luis Alberto',
                 'email' => 'chef@gmail.com',
                 'password' => Hash::make('chef1234'), // password
                 'role' => 'cocinero',
-                'image_employee' => 'employees/xrJAwxz7N8NTB3HyLYFKhtErsl1wv3wTgGyw7wo9.jpg',
+                'image_employee' => 'https://lh3.googleusercontent.com/d/1e4QmKrJC7VXO4Y9KB6zZAxq0Vv80WN0l',
             ],
             [
                 'name' => 'Nilo',
                 'email' => 'mesero@gmail.com',
                 'password' => Hash::make('mesera1234'), // password
                 'role' => 'mesero',
-                'image_employee' => 'employees/s5jOH8CztSVmaS8QzhAAHrcopztCnlKlnMv1wbe4.jpg',
+                'image_employee' => 'https://lh3.googleusercontent.com/d/1acip8WUiGk1LN4rYiA0rP1qT7HM5oSGM',
             ],
             [
                 'name' => 'Julia',
                 'email' => 'asistentecocina1@gmail.com',
                 'password' => Hash::make('asistente11234'), // password
                 'role' => 'asistente_cocina',
-                'image_employee' => 'employees/a6E74Z2SDWoVea0lcjVFpkKV5vmkdy6YXEGDM5pd.jpg',
+                'image_employee' => 'https://lh3.googleusercontent.com/d/11hbUf8isRiqRYm8dJkUNOUScqyJlM9Q6',
             ],
         ];
 

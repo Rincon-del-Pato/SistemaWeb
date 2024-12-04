@@ -159,7 +159,7 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => null,
+    'layout_dark_mode' => false, // Cambiar a false
 
     /*
     |--------------------------------------------------------------------------
@@ -192,7 +192,7 @@ return [
     |
     */
 
-    'classes_body' => '',
+    'classes_body' => '', // Eliminar 'dark-mode'
     'classes_brand' => '',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
@@ -200,7 +200,7 @@ return [
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-white navbar-light', // Cambiar a modo claro
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -300,7 +300,11 @@ return [
         [
             'type' => 'navbar-search',
             'text' => 'search',
-            'topnav_right' => true,
+            'topnav_right' => false,
+        ],
+        [
+            'type' => 'darkmode-widget', // Agregar este elemento
+            'topnav_right' => true,      // Para que aparezca a la derecha
         ],
         [
             'type' => 'fullscreen-widget',
@@ -328,7 +332,7 @@ return [
         [
             'text' => 'Roles',
             'url' => 'roles',
-            'icon' => 'fas fa-user-lock',
+            'icon' => 'fas fa-user-shield',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -336,7 +340,7 @@ return [
         [
             'text' => 'Usuarios',
             'url' => 'usuarios',
-            'icon' => 'fas fa-user-plus',
+            'icon' => 'fas fa-users-cog',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -344,7 +348,7 @@ return [
         [
             'text' => 'Empleados',
             'url' => 'employees',
-            'icon' => 'fas fa-users',
+            'icon' => 'fas fa-user-tie',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -352,7 +356,7 @@ return [
         [
             'text' => 'Mesas',
             'url' => 'tables',
-            'icon' => 'fas fa-chair',
+            'icon' => 'fas fa-utensils',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
@@ -360,54 +364,60 @@ return [
         [
             'text' => 'Categorias',
             'url' => 'categories',
-            'icon' => 'fas fa-archive',
+            'icon' => 'fas fa-tags',
             // 'label' => 4,
             // 'label_color' => 'success',
+        ],
+        [
+            'text' => 'Gestionar Inventario',
+            'icon' => 'fas fa-boxes',
+            'submenu' => [
+                [
+                    'text' => 'Inventario',
+                    'url' => 'inventory',
+                    'icon' => 'fas fa-box-open',
+                ],
+                [
+                    'text' => 'Proveedor',
+                    'url' => 'suppliers',
+                    'icon' => 'fas fa-truck',
+                ],
+                [
+                    'text' => 'Unidad de Medida',
+                    'url' => 'units',
+                    'icon' => 'fas fa-weight'
+                ]
+            ]
         ],
 
         [
             'text' => 'Platos del Menú',
-            'icon' => 'fas fa-box',
+            'icon' => 'fas fa-concierge-bell',
             'submenu' => [
                 [
                     'text' => 'Menú',
-                    'url' => 'menu-item-sizes',
+                    'url' => 'menu',
+                    'icon' => 'fas fa-clipboard-list',
                 ],
-                [
-                    'text' => 'Platos',
-                    'url' => 'menu-items',
-                ],
+                // [
+                //     'text' => 'Platos',
+                //     'url' => 'menu-items',
+                // ],
                 [
                     'text' => 'Tamaño',
                     'url' => 'size',
+                    'icon' => 'fas fa-ruler'
                 ]
             ]
         ],
         [
             'text' => 'Clientes',
             'url' => 'customers',
-            'icon' => 'fas fa-users', // Icono de Font Awesome para "clientes"
+            'icon' => 'fas fa-user-friends', // Icono de Font Awesome para "clientes"
             // 'label' => null, // O un número si quieres mostrar un contador
             // 'label_color' => 'success', // Color de la etiqueta si usas un contador
             // 'can' => 'view-customers', // Permiso requerido (puedes configurarlo con Spatie Permissions o policies)
         ],
-        [
-            'text' => 'Inventario',
-            'icon' => 'fas fa-box',
-            'submenu' => [
-                [
-                    'text' => 'Lista de Inventario',
-                    'url' => 'inventory',
-                    'icon' => 'fas fa-warehouse',
-                ],
-                [
-                    'text' => 'Proveedor',
-                    'url' => 'suppliers',
-                    'icon' => 'fas fa-carrot',
-                ]
-            ]
-        ],
-
         [
             // 'text' => 'Productos',
             // 'url' => 'products',
@@ -417,9 +427,9 @@ return [
         ],
 
         [
-            // 'text' => 'Ordenes',
-            // 'url' => 'orders',
-            // 'icon' => 'fas fa-concierge-bell',
+            'text' => 'Ordenes',
+            'url' => 'orders',
+            'icon' => 'fas fa-utensils',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],

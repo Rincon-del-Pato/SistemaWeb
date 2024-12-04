@@ -7,4 +7,6 @@ enum TableStatus: string
     case Disponible = 'Disponible';
     case Ocupado = 'Ocupado';
     case Reservado = 'Reservado';
+    case Mantenimiento = 'Mantenimiento';
 }
+

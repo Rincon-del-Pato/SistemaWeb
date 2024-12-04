@@ -2,29 +2,32 @@
 
 @section('title', 'Empleados')
 
-@section('content_header')
-    <h1 class="text-2xl font-bold text-gray-800">Crear empleados</h1>
-@stop
-
 @section('content')
-<div class="py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            @includeif('partials.errors')
+<div class="p-4 container-fluid">
+    <div class="mb-4 bg-white rounded-lg shadow-sm">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold text-gray-800">Crear Empleado</h1>
+            <p class="mt-1 text-sm text-gray-600">Ingrese los datos del nuevo empleado</p>
+        </div>
+    </div>
 
-            <div class="p-6 bg-white border-b border-gray-200">
-                <form method="POST" action="{{ route('employees.store') }}" role="form" enctype="multipart/form-data" class="space-y-6">
-                    @csrf
-                    @include('employees.form')
-                </form>
-            </div>
+    <div class="bg-white rounded-lg shadow-sm">
+        <div class="p-6">
+            <form method="POST" action="{{ route('employees.store') }}" role="form" enctype="multipart/form-data">
+                @csrf
+                @include('employees.form')
+            </form>
         </div>
     </div>
 </div>
 @stop
 
 @section('css')
-    {{-- Podemos eliminar el CSS de Bootstrap si ya no lo necesitamos --}}
+    <style>
+        .content-wrapper {
+            background-color: #f8fafc;
+        }
+    </style>
 @stop
 
 @section('js')

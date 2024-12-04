@@ -1,24 +1,24 @@
 <li @isset($item['id']) id="{{ $item['id'] }}" @endisset class="nav-item has-treeview {{ $item['submenu_class'] }}">
 
     {{-- Menu toggler --}}
-    <a class="nav-link {{ $item['class'] }} @isset($item['shift']) {{ $item['shift'] }} @endisset"
+    <a class="nav-link flex items-center gap-3 text-base {{ $item['class'] }} @isset($item['shift']) {{ $item['shift'] }} @endisset"
        href="" {!! $item['data-compiled'] ?? '' !!}>
 
         <i class="{{ $item['icon'] ?? 'far fa-fw fa-circle' }} {{
             isset($item['icon_color']) ? 'text-'.$item['icon_color'] : ''
         }}"></i>
 
-        <p>
+        <span class="flex-1 overflow-hidden nav-text">
             {{ $item['text'] }}
-            <i class="fas fa-angle-left right"></i>
 
             @isset($item['label'])
-                <span class="badge badge-{{ $item['label_color'] ?? 'primary' }} right">
+                <span class="badge badge-{{ $item['label_color'] ?? 'primary' }} float-right">
                     {{ $item['label'] }}
                 </span>
             @endisset
-        </p>
+        </span>
 
+        <i class="transition-transform duration-300 fas fa-angle-left nav-arrow"></i>
     </a>
 
     {{-- Menu items --}}

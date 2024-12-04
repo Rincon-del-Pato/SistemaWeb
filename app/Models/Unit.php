@@ -2,22 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Unit extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'unit_name',
         'abbreviation',
         'description',
     ];
 
-    public function ingredients()
+    public function sizes()
     {
-        return $this->hasMany(Ingredient::class);
+        return $this->hasMany(Size::class);
     }
 
     public function inventoryItems()

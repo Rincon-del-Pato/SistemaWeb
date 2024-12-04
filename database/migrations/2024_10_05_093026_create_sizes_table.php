@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
             $table->string('size_name', 50);
-            $table->string('description', 255)->nullable(); 
+            $table->string('description', 255)->nullable();
             $table->timestamps();
         });
     }

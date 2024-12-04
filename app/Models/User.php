@@ -75,8 +75,12 @@ class User extends Authenticatable
     public function adminlte_image()
     {
         // return 'https://picsum.photos/300/300';
+        // if ($this->profile_photo_path) {
+        //     return asset('storage/' . $this->profile_photo_path);
+        // }
+
         if ($this->profile_photo_path) {
-            return asset('storage/' . $this->profile_photo_path);
+             return asset($this->profile_photo_path);
         }
 
         return 'https://picsum.photos/300/300';
@@ -101,5 +105,20 @@ class User extends Authenticatable
     public function employees()
     {
         return $this->hasMany(Employee::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . ($this->employee ? $this->employee->lastname : '');
     }
 }

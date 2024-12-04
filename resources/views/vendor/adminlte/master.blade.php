@@ -102,6 +102,39 @@
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
 
+        {{-- Estilos personalizados para el sidebar --}}
+        <style>
+            /* Rotación del ícono cuando el menú está expandido */
+            .nav-item.has-treeview.menu-open > .nav-link .nav-arrow {
+                transform: rotate(-90deg);
+                transition: transform 0.15s ease-in-out;
+            }
+
+            /* Ocultar ícono de flecha cuando la barra está minimizada */
+            .sidebar-collapse .nav-arrow {
+                display: none;
+                transition: transform 0.15s ease-in-out;
+            }
+
+            /* Restaurar visibilidad al hover en modo minimizado */
+            .sidebar-collapse .nav-sidebar:hover .nav-arrow {
+                display: block;
+            }
+
+            /* Ocultar texto en modo minimizado */
+            .sidebar-collapse .nav-text {
+                visibility: hidden;
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            /* Mostrar texto al hover en modo minimizado */
+            .sidebar-collapse .nav-sidebar:hover .nav-text {
+                visibility: visible;
+                opacity: 1;
+            }
+        </style>
+
         @if(config('adminlte.google_fonts.allowed', true))
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         @endif
@@ -147,6 +180,8 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
 
+    @vite(['resources/css/app.css','resources/js/app.js'])
+
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
@@ -179,6 +214,28 @@
 
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
+
+    @push('js')
+    <script>
+        $(document).ready(function() {
+            // Obtener el estado del modo oscuro del localStorage
+            var darkMode = localStorage.getItem('darkMode') === 'true';
+
+            // Aplicar el modo oscuro si está activo
+            if (darkMode) {
+                $('body').addClass('dark-mode');
+            }
+
+            // Manejar el clic en el botón de modo oscuro
+            $('.nav-link[data-widget="darkmode"]').on('click', function(e) {
+                e.preventDefault();
+                $('body').toggleClass('dark-mode');
+                // Guardar el estado en localStorage
+                localStorage.setItem('darkMode', $('body').hasClass('dark-mode'));
+            });
+        });
+    </script>
+    @endpush
 
 </body>
 

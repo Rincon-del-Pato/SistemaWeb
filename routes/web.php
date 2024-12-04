@@ -4,12 +4,11 @@ use App\Models\Tables;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
-use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuItemController;
@@ -17,12 +16,9 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
-use App\Http\Controllers\InventoryController;
-use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MenuItemSizeController;
 use App\Http\Controllers\InventoryItemsController;
 use App\Http\Controllers\PermissionsionController;
-use App\Http\Controllers\SupplierProductController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
@@ -55,31 +51,54 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Rutas adicionales para obtener datos específicos del dashboard
+    //Dashboard
     Route::get('/dashboard/sales-data', [DashboardController::class, 'getSalesData']);
     Route::get('/dashboard/inventory-status', [DashboardController::class, 'getInventoryStatus']);
     Route::get('/dashboard/employee-performance', [DashboardController::class, 'getEmployeePerformance']);
 
+    // Nuevas rutas para reportes del dashboard
+    Route::post('/dashboard/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
+    Route::get('/dashboard/export-sales/{startDate?}/{endDate?}', [DashboardController::class, 'exportSales'])
+        ->name('dashboard.export-sales');
+    Route::get('/dashboard/export-inventory', [DashboardController::class, 'exportInventory'])
+        ->name('dashboard.export-inventory');
+
+    //Personal
     Route::resource('roles', RolController::class)->parameters(['roles' => 'role'])->names('roles');
     Route::resource('permisos', PermissionsionController::class)->names('permisos');
     Route::resource('usuarios', UserController::class)->names('usuarios');
-
-    Route::resource('settings', SettingsController::class)->names('settings');
-
     Route::resource('employees', EmployeesController::class)->names('employees');
 
-    Route::resource('categories', CategoryController::class)->names('categories');
-
-    Route::resource('menu-items', MenuItemController::class)->names('menu-items');
-    Route::resource('size', SizeController::class)->names('size');
-    Route::resource('menu-item-sizes', MenuItemSizeController::class)->names('menu-item-sizes');
-    Route::resource('customers', CustomerController::class)->names('customers');
-    Route::resource('suppliers', SupplierController::class)->names('suppliers');
-    Route::resource('inventory', InventoryController::class)->names('inventory');
+    //Sistema
+    Route::resource('settings', SettingsController::class)->names('settings');
     Route::resource('tables', TableController::class)->names('tables');
+
+    //Inventario
     Route::resource('units', UnitController::class)->names('units');
+    Route::resource('inventory-items', InventoryItemsController::class)->names('inventory-items');
+    Route::resource('suppliers', SupplierController::class)->names('suppliers');
     Route::resource('inventory', InventoryItemsController::class)->names('inventory');
-    Route::resource('menu_items', MenuItemController::class)->names('menu-items');
+    Route::get('/inventory/{id}/history', [InventoryItemsController::class, 'history'])->name('inventory.history');
+    Route::get('/inventory/{id}/register-movement', [InventoryItemsController::class, 'registerMovement'])
+        ->name('inventory.register-movement');
+    Route::post('/inventory/{id}/store-movement', [InventoryItemsController::class, 'storeMovement'])
+        ->name('inventory.store-movement');
+    Route::get('/inventory/{id}/supply', [InventoryItemsController::class, 'supply'])->name('inventory.supply');
+    Route::post('/inventory/{id}/store-supply', [InventoryItemsController::class, 'storeSupply'])->name('inventory.store-supply');
+
+    //Menu
+    Route::resource('categories', CategoryController::class)->names('categories');
+    Route::resource('size', SizeController::class)->names('size');
+    Route::resource('menu', MenuItemController::class)->names('menu');
+
+    Route::resource('customers', CustomerController::class)->names('customers');
+
+    Route::resource('orders', OrderController::class)->names('orders');
+
+    
+
+
+
 });
 
 

@@ -13,7 +13,9 @@ class SizeController extends Controller
     public function index()
     {
         //
-        $sizes = Size::all();
+        $query = Size::query();
+
+        $sizes = $query->paginate(10);
         return view('sizes.index', compact('sizes'));
     }
 
@@ -22,7 +24,7 @@ class SizeController extends Controller
      */
     public function create()
     {
-        //
+        return view('sizes.create');
     }
 
     /**
@@ -30,38 +32,57 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'size_name' => 'required|max:255',
+            'description' => 'required'
+        ]);
+
+        Size::create($request->all());
+
+        return redirect()->route('sizes.index')
+            ->with('success', 'Tamaño creado exitosamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Size $size)
     {
-        //
+        return view('sizes.show', compact('size'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Size $size)
     {
-        //
+        return view('sizes.edit', compact('size'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Size $size)
     {
-        //
+        $request->validate([
+            'size_name' => 'required|max:255',
+            'description' => 'required'
+        ]);
+
+        $size->update($request->all());
+
+        return redirect()->route('sizes.index')
+            ->with('success', 'Tamaño actualizado exitosamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Size $size)
     {
-        //
+        $size->delete();
+
+        return redirect()->route('sizes.index')
+            ->with('success', 'Tamaño eliminado exitosamente.');
     }
 }

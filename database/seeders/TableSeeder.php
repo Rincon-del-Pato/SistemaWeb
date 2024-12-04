@@ -16,7 +16,7 @@ class TableSeeder extends Seeder
     {
         //
         DB::table('tables')->insert([
-            ['table_number' => '01', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '01', 'seating_capacity' => 4, 'status' => 'Ocupado', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '02', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '03', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '04', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -25,7 +25,7 @@ class TableSeeder extends Seeder
             ['table_number' => '07', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '08', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '09', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['table_number' => '10', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '10', 'seating_capacity' => 2, 'status' => 'Ocupado', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '11', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '12', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '13', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -35,7 +35,7 @@ class TableSeeder extends Seeder
             ['table_number' => '17', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '18', 'seating_capacity' => 2, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['table_number' => '19', 'seating_capacity' => 4, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['table_number' => '20', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['table_number' => '20', 'seating_capacity' => 6, 'status' => 'Disponible', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
         ]);
     }
 }

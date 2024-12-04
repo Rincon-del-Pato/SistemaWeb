@@ -12,8 +12,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AuthController::class, 'profile']);
-    
+
     Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
-    Route::get('/inventory', [DashboardController::class, 'getInventoryData']);
-    Route::get('/sales', [DashboardController::class, 'getSalesData']);
+    // Route::get('/inventory', [DashboardController::class, 'getInventoryData']);
+    // Route::get('/sales', [DashboardController::class, 'getSalesData']);
 });

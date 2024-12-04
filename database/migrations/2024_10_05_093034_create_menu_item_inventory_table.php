@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('menu_item_id')->constrained('menu_items')->onDelete('cascade');
             $table->foreignId('inventory_item_id')->constrained('inventory_items')->onDelete('cascade');
-            $table->decimal('quantity_needed', 10, 2);
+            $table->decimal('quantity_needed_per_unit', 10, 2);
             $table->timestamps();
         });
     }

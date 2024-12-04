@@ -16,65 +16,638 @@ class MenuItemSeeder extends Seeder
     {
         //
         DB::table('menu_items')->insert([
-            // Bebidas
-            ['category_id' => 1, 'name' => 'Pepsi', 'description' => 'Refresco de cola', 'image_url' => 'https://example.com/pepsi.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Fanta', 'description' => 'Refresco de naranja', 'image_url' => 'https://example.com/fanta.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Sprite', 'description' => 'Refresco de limón', 'image_url' => 'https://example.com/sprite.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Coca-Cola', 'description' => 'Refresco de cola', 'image_url' => 'https://example.com/coca_cola.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Agua Mineral', 'description' => 'Agua embotellada sin gas', 'image_url' => 'https://example.com/agua_mineral.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Agua con Gas', 'description' => 'Agua embotellada con gas', 'image_url' => 'https://example.com/agua_con_gas.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Jugos Naturales', 'description' => 'Jugos frescos de frutas', 'image_url' => 'https://example.com/jugos_naturales.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Té Helado', 'description' => 'Té frío con limón', 'image_url' => 'https://example.com/te_helado.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Limonada', 'description' => 'Jugo de limón natural', 'image_url' => 'https://example.com/limonada.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 1, 'name' => 'Cerveza', 'description' => 'Cerveza fría de marca local', 'image_url' => 'https://example.com/cerveza.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            [
+                'category_id' => 1,
+                'name' => 'Tamalitos verdes',
+                'description' => 'Tamalitos a base de maíz verde, típicos de la región norteña',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Ceviche mixto',
+                'description' => 'Ceviche de pescados frescos y mixtos con mariscos, un clásico de la costa',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Tiradito de pescado',
+                'description' => 'Delgados filetes de pescado en salsa de limón y ají, estilo peruano',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Ceviche de Pescado',
+                'description' => 'Ceviche de pescados frescos, un clásico de la costa',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Ceviche Ojo de Uva',
+                'description' => 'Ceviche de pescados Ojo de Uva, un clásico de la costa',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Tortilla de Raya',
+                'description' => 'Tortilla de maiz y de pescado Raya',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Ceviche Mero',
+                'description' => 'Ceviche de pescados Mero, un clásico de la costa',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Humitas',
+                'description' => 'Humitas de maiz con salsa de limón y ají, estilo peruano',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
 
-            // Entradas
-            ['category_id' => 2, 'name' => 'Alitas de Pollo', 'description' => 'Alitas crujientes con salsa barbacoa', 'image_url' => 'https://example.com/alitas_pollo.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Chips con Guacamole', 'description' => 'Chips acompañados con guacamole fresco', 'image_url' => 'https://example.com/chips_guacamole.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Nachos con Queso', 'description' => 'Nachos cubiertos con queso derretido y salsa', 'image_url' => 'https://example.com/nachos_queso.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Bruschetta', 'description' => 'Pan tostado con tomate, ajo, albahaca y aceite de oliva', 'image_url' => 'https://example.com/bruschetta.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Ceviche', 'description' => 'Pescado marinado con limón, cebolla y cilantro', 'image_url' => 'https://example.com/ceviche.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Empanadas de Carne', 'description' => 'Empanadas rellenas de carne de res', 'image_url' => 'https://example.com/empanada_carne.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Rollitos de Primavera', 'description' => 'Rollitos fritos con carne y vegetales', 'image_url' => 'https://example.com/rollitos_primavera.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Humus con Pita', 'description' => 'Humus acompañado con pan pita', 'image_url' => 'https://example.com/humus_pita.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Tartar de Atún', 'description' => 'Atún crudo acompañado de aguacate y salsa de soja', 'image_url' => 'https://example.com/tartar_atun.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 2, 'name' => 'Sopa de Lentejas', 'description' => 'Sopa caliente de lentejas y vegetales', 'image_url' => 'https://example.com/sopa_lentejas.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche Maternal',
+                'description' => 'Ceviche tradicional con ingredientes frescos y un toque casero',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche de caballa',
+                'description' => 'Ceviche preparado con caballa fresca, marinado en limón y especias',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche Exótico en el Rincón',
+                'description' => 'Ceviche con sabores tropicales y mariscos frescos, servido en un rincón especial',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche de Pescado y/o tiradito',
+                'description' => 'Ceviche de pescado fresco, opción de tiradito con salsas de ají',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche Mixto',
+                'description' => 'Ceviche mixto de mariscos frescos, marinado en jugo de limón y especias',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche de Ojo de Uva',
+                'description' => 'Ceviche único con pescado fresco y jugo de uva para un toque especial',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche de Robalo',
+                'description' => 'Ceviche preparado con robalo fresco, marinado en limón y ají',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche Mixto de Ojo de Uva',
+                'description' => 'Ceviche mixto con jugo de uva y una variedad de mariscos frescos',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche Mixto de Robalo',
+                'description' => 'Ceviche mixto preparado con robalo y otros mariscos, marinado al estilo tradicional',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche de Pulpo',
+                'description' => 'Ceviche de pulpo fresco, marinado con jugo de limón y un toque de ají',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ceviche de Langostinos',
+                'description' => 'Ceviche preparado con langostinos frescos, marinado en limón y hierbas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Causa de Pescado y otros',
+                'description' => 'Causa rellena de pescado fresco y otros ingredientes peruanos',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Leche de Tigre',
+                'description' => 'Leche de tigre fresca y picante, servida como un energizante plato',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Ocopa de Langostinos',
+                'description' => 'Ocopa cremosa servida con langostinos frescos y papas andinas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 3,
+                'name' => 'Jalea de Pescado',
+                'description' => 'Jalea crujiente de pescado fresco, acompañada de yuca frita y salsa criolla',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 3,
+                'name' => 'Jalea Mixta',
+                'description' => 'Jalea mixta con una combinación de mariscos y pescado, servida con yuca frita y salsas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 3,
+                'name' => 'Jalea de Ojo de Uva',
+                'description' => 'Jalea especial preparada con pescado de ojo de uva, acompañada de yuca frita y salsas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 3,
+                'name' => 'Jalea de Robalo',
+                'description' => 'Jalea de robalo fresco, crujiente y servida con yuca frita y salsa criolla',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 3,
+                'name' => 'Jalea de Mero o Lenguado',
+                'description' => 'Jalea crujiente de mero o lenguado, servida con yuca frita y salsa criolla',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 4,
+                'name' => 'Chicharrón de Pescado con yuca frita',
+                'description' => 'Chicharrón crujiente de pescado fresco, acompañado de yuca frita y salsa criolla',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 4,
+                'name' => 'Chicharrón de Ojo de Uva con yuca frita',
+                'description' => 'Chicharrón crujiente de pescado de ojo de uva, servido con yuca frita',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 4,
+                'name' => 'Chicharrón de Langostinos con yuca frita',
+                'description' => 'Chicharrón crujiente de langostinos frescos, acompañado de yuca frita',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 4,
+                'name' => 'Chicharrón de Robalo',
+                'description' => 'Chicharrón crujiente de robalo, servido con yuca frita y salsas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Sudado de Conchas Negras',
+                'description' => 'Sudado de conchas negras frescas, cocinado con hierbas y especias',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Ceviche o Tortilla de Conchas Negras',
+                'description' => 'Ceviche tradicional o tortilla de conchas negras, preparado con limón y ají',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Ceviche de Pescado con Conchas Negras',
+                'description' => 'Ceviche de pescado fresco combinado con conchas negras, servido con camote y choclo',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Ceviche de Ojo de Uva con Conchas Negras',
+                'description' => 'Ceviche de pescado ojo de uva con conchas negras, en limón fresco y especias',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Ceviche de Robalo con Conchas Negras',
+                'description' => 'Ceviche de robalo fresco con conchas negras, acompañado de maíz y batata',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Ceviche de Lenguado o Mero con Conchas Negras',
+                'description' => 'Ceviche de lenguado o mero con conchas negras, marinado en limón y ají',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Arroz con Mariscos y Conchas Negras',
+                'description' => 'Arroz sazonado con mariscos frescos y conchas negras, un festín de sabores marinos',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Arroz con Conchas Negras',
+                'description' => 'Arroz preparado con conchas negras, cocido a la perfección con especias',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 6,
+                'name' => 'Tortilla de Yuyo',
+                'description' => 'Tortilla hecha con yuyo fresco y especias, un plato tradicional del mar',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 6,
+                'name' => 'Tortilla de Raya',
+                'description' => 'Tortilla suave y deliciosa hecha con raya, sazonada y cocida al punto',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 6,
+                'name' => 'Tortilla de Mariscos',
+                'description' => 'Tortilla de mariscos mixtos, servida con salsas frescas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 6,
+                'name' => 'Omelet de Mariscos',
+                'description' => 'Omelet relleno de mariscos frescos, sazonado con hierbas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 6,
+                'name' => 'Tortilla de Langostinos',
+                'description' => 'Tortilla crujiente de langostinos, perfecta como entrada o plato principal',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 6,
+                'name' => 'Tortilla de Huevos',
+                'description' => 'Tortilla clásica de huevos, sencilla y esponjosa',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 7,
+                'name' => 'Arroz con pato',
+                'description' => 'Arroz sazonado con culantro y servido con pato tierno',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 7,
+                'name' => 'Pato a la Naranja',
+                'description' => 'Pato cocido con una exquisita salsa de naranja',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 7,
+                'name' => 'Tacu Tacu con Seco de Pato',
+                'description' => 'Tacu tacu de arroz y frejoles, servido con un jugoso seco de pato',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
 
-            // Platos principales
-            ['category_id' => 3, 'name' => 'Tacos de Carnitas', 'description' => 'Tacos rellenos de carne de cerdo con cebolla y cilantro', 'image_url' => 'https://example.com/tacos_carnitas.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Salmón a la Parrilla', 'description' => 'Salmón a la parrilla con salsa de limón y hierbas', 'image_url' => 'https://example.com/salmon_parrilla.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Hamburguesa Clásica', 'description' => 'Hamburguesa de carne de res con queso', 'image_url' => 'https://example.com/hamburguesa_clasica.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Pollo al Horno', 'description' => 'Pollo asado con papas y hierbas', 'image_url' => 'https://example.com/pollo_horno.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Pizza Margherita', 'description' => 'Pizza con tomate, mozzarella y albahaca', 'image_url' => 'https://example.com/pizza_margherita.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Lasaña', 'description' => 'Lasaña con carne, salsa bechamel y queso gratinado', 'image_url' => 'https://example.com/lasana.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Spaghetti Bolognesa', 'description' => 'Espaguetis con salsa de carne y tomate', 'image_url' => 'https://example.com/spaghetti_bolognesa.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Ribs BBQ', 'description' => 'Costillas de cerdo con salsa barbacoa', 'image_url' => 'https://example.com/ribs_bqq.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Sushi Variado', 'description' => 'Selección de sushi con atún, salmón y aguacate', 'image_url' => 'https://example.com/sushi_variado.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 3, 'name' => 'Curry de Pollo', 'description' => 'Pollo con arroz y salsa de curry', 'image_url' => 'https://example.com/curry_pollo.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            [
+                'category_id' => 7,
+                'name' => 'Cabrito Combinado',
+                'description' => 'Cabrito norteño acompañado de arroz, frijoles y yuca',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
 
-            // Postres
-            ['category_id' => 4, 'name' => 'Tiramisú', 'description' => 'Postre italiano con capas de café y crema mascarpone', 'image_url' => 'https://example.com/tiramisu.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Brownie con Helado', 'description' => 'Brownie de chocolate con helado de vainilla', 'image_url' => 'https://example.com/brownie_helado.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Flan de Vainilla', 'description' => 'Postre de flan con sabor a vainilla', 'image_url' => 'https://example.com/flan_vainilla.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Cheesecake', 'description' => 'Tarta de queso con base de galleta', 'image_url' => 'https://example.com/cheesecake.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Mousse de Chocolate', 'description' => 'Mousse de chocolate suave y cremoso', 'image_url' => 'https://example.com/mousse_chocolate.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Pastel de Zanahoria', 'description' => 'Pastel de zanahoria con cobertura de queso crema', 'image_url' => 'https://example.com/pastel_zanahoria.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Helado de Fruta', 'description' => 'Helado natural de frutas', 'image_url' => 'https://example.com/helado_fruta.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Panna Cotta', 'description' => 'Postre italiano de crema con frutas rojas', 'image_url' => 'https://example.com/panna_cotta.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Tarta de Limón', 'description' => 'Tarta de limón con base de galleta', 'image_url' => 'https://example.com/tarta_limon.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 4, 'name' => 'Pudín de Chía', 'description' => 'Pudín de chía con leche de almendras y frutas', 'image_url' => 'https://example.com/pudin_chia.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            [
+                'category_id' => 7,
+                'name' => 'Cabrito Deshuesado',
+                'description' => 'Cabrito deshuesado, cocido a fuego lento con especias y hierbas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
 
-            // Ensaladas
-            ['category_id' => 5, 'name' => 'Ensalada Griega', 'description' => 'Ensalada con pepino, tomate, aceitunas y queso feta', 'image_url' => 'https://example.com/ensalada_griega.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada Caprese', 'description' => 'Ensalada con tomate, mozzarella y albahaca', 'image_url' => 'https://example.com/ensalada_caprese.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada César', 'description' => 'Ensalada con pollo, croutons y aderezo César', 'image_url' => 'https://example.com/ensalada_cesar.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada de Quinoa', 'description' => 'Ensalada de quinoa con vegetales y limón', 'image_url' => 'https://example.com/ensalada_quinoa.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada de Atún', 'description' => 'Ensalada con atún, lechuga, tomate y pepino', 'image_url' => 'https://example.com/ensalada_atun.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada Mediterránea', 'description' => 'Ensalada con tomate, pepino, aceitunas, cebolla y feta', 'image_url' => 'https://example.com/ensalada_mediterranea.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada de Pollo', 'description' => 'Ensalada con pollo a la parrilla, tomate y aguacate', 'image_url' => 'https://example.com/ensalada_pollo.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada de Frutas', 'description' => 'Ensalada fresca con frutas de temporada', 'image_url' => 'https://example.com/ensalada_frutas.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada de Espinaca', 'description' => 'Ensalada con espinaca, fresas y nueces', 'image_url' => 'https://example.com/ensalada_espinaca.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['category_id' => 5, 'name' => 'Ensalada de Arroz Integral', 'description' => 'Ensalada con arroz integral, pimientos y cebollín', 'image_url' => 'https://example.com/ensalada_arroz_integral.jpg', 'available' => true, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            [
+                'category_id' => 7,
+                'name' => 'Bisteck con arroz',
+                'description' => 'Bisteck a la parrilla, acompañado de arroz blanco y ensalada',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+            [
+                'category_id' => 7,
+                'name' => 'Bisteck a lo pobre',
+                'description' => 'Bisteck a la parrilla servido con arroz, plátano frito, huevo y papas fritas',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 7,
+                'name' => 'Lomo Fino',
+                'description' => 'Lomo fino de res, cocido al gusto y servido con guarniciones a elección',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 8,
+                'name' => 'Sopa a la criolla',
+                'description' => 'Sopa a base de carne, fideos y especias, tradicional y sabrosa',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 8,
+                'name' => 'Sopa a la minuta',
+                'description' => 'Sopa ligera de carne y fideos con un toque de leche, muy reconfortante',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 8,
+                'name' => 'Sopa de Fideo fino',
+                'description' => 'Sopa de fideo fino con un caldo suave y delicioso',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 9,
+                'name' => 'Chicha Morada',
+                'description' => 'Refresco tradicional de maíz morado, aromatizado con frutas y especias',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 9,
+                'name' => 'Limonada',
+                'description' => 'Limonada fresca y natural, perfecta para acompañar los platos',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Gaseosa Personal',
+                'description' => 'Gaseosa individual para refrescar tu comida',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Gaseosa Litro',
+                'description' => 'Botella de gaseosa de un litro, ideal para compartir',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Cusqueña (Blanca/Negra) 620ml',
+                'description' => 'Cerveza Cusqueña en presentación de 620ml, disponible en variedades blanca o negra',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Cusqueña Personal',
+                'description' => 'Cerveza Cusqueña en botella personal, perfecta para disfrutar sola',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Pilsen 620ml',
+                'description' => 'Cerveza Pilsen en botella de 620ml, refrescante y lista para compartir',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Pilsen Personal',
+                'description' => 'Cerveza Pilsen en botella personal, perfecta para disfrutar sola',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Cristal 620ml',
+                'description' => 'Cerveza Cristal en botella de 620ml, refrescante y lista para compartir',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Cristal Personal',
+                'description' => 'Cerveza Cristal en botella personal, perfecta para disfrutar sola',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Corona 620ml',
+                'description' => 'Cerveza Corona en botella de 620ml, refrescante y lista para compartir',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ],
+
+            [
+                'category_id' => 10,
+                'name' => 'Cerveza Corona Personal',
+                'description' => 'Cerveza Corona en botella personal, perfecta para disfrutar sola',
+                'image_url' => '',
+                'available' => true,
+                'created_at' => '2024-01-10 12:30:00',
+                'updated_at' => '2024-02-15 14:20:00'
+            ]
         ]);
     }
 }

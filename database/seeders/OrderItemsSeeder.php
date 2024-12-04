@@ -16,9 +16,9 @@ class OrderItemsSeeder extends Seeder
     {
         //
         DB::table('order_items')->insert([
-            ['order_id' => 1, 'menu_item_id' => 1, 'quantity' => 2, 'price' => 15.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['order_id' => 1, 'menu_item_id' => 2, 'quantity' => 1, 'price' => 12.30, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['order_id' => 1, 'menu_item_id' => 3, 'quantity' => 3, 'price' => 18.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['order_id' => 1, 'menu_item_id' => 1, 'quantity' => 2, 'price' => 7.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['order_id' => 1, 'menu_item_id' => 2, 'quantity' => 1, 'price' => 32.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['order_id' => 1, 'menu_item_id' => 3, 'quantity' => 3, 'price' => 60.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 2, 'menu_item_id' => 4, 'quantity' => 1, 'price' => 22.10, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 2, 'menu_item_id' => 5, 'quantity' => 2, 'price' => 14.60, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 2, 'menu_item_id' => 6, 'quantity' => 1, 'price' => 23.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -43,9 +43,9 @@ class OrderItemsSeeder extends Seeder
             ['order_id' => 9, 'menu_item_id' => 25, 'quantity' => 1, 'price' => 17.30, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 9, 'menu_item_id' => 26, 'quantity' => 2, 'price' => 22.10, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 9, 'menu_item_id' => 27, 'quantity' => 1, 'price' => 19.50, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['order_id' => 10, 'menu_item_id' => 28, 'quantity' => 3, 'price' => 28.60, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['order_id' => 10, 'menu_item_id' => 29, 'quantity' => 2, 'price' => 33.70, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['order_id' => 10, 'menu_item_id' => 30, 'quantity' => 1, 'price' => 19.80, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['order_id' => 10, 'menu_item_id' => 28, 'quantity' => 3, 'price' => 93.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['order_id' => 10, 'menu_item_id' => 29, 'quantity' => 2, 'price' => 100.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['order_id' => 10, 'menu_item_id' => 30, 'quantity' => 1, 'price' => 45.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 11, 'menu_item_id' => 31, 'quantity' => 2, 'price' => 14.30, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 11, 'menu_item_id' => 32, 'quantity' => 1, 'price' => 22.40, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['order_id' => 11, 'menu_item_id' => 33, 'quantity' => 1, 'price' => 27.00, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],

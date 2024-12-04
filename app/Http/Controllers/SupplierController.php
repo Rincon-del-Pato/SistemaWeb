@@ -13,7 +13,7 @@ class SupplierController extends Controller
     public function index()
     {
         //
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::paginate(10);
         return view('suppliers.index', compact('suppliers'));
     }
 
@@ -22,7 +22,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('suppliers.create');
     }
 
     /**
@@ -30,7 +30,18 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'contact_name' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+        ]);
+
+        Supplier::create($request->all());
+
+        return redirect()->route('suppliers.index')
+            ->with('success', 'Proveedor creado exitosamente.');
     }
 
     /**
@@ -44,24 +55,38 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Supplier $supplier)
     {
-        //
+        return view('suppliers.edit', compact('supplier'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Supplier $supplier)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'contact_name' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+        ]);
+
+        $supplier->update($request->all());
+
+        return redirect()->route('suppliers.index')
+            ->with('success', 'Proveedor actualizado exitosamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->delete();
+
+        return redirect()->route('suppliers.index')
+            ->with('success', 'Proveedor eliminado exitosamente.');
     }
 }

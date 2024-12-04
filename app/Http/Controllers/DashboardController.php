@@ -7,54 +7,105 @@ use App\Models\Order;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use App\Models\InventoryItem;
+use App\Exports\SalesExport;
+use App\Exports\InventoryExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
-    //
     public function index()
     {
-        $daysToShow = 14; // Cambia esto al número de días que quieres mostrar
-        $salesTotal = Order::sum('total');
+        $startDate = Carbon::now()->subDays(13);
+        $endDate = Carbon::now();
+        return $this->getDashboardData($startDate, $endDate);
+    }
+
+    public function filter(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date'
+        ]);
+
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        
+        return $this->getDashboardData($startDate, $endDate);
+    }
+
+    private function getDashboardData($startDate, $endDate)
+    {
+        $salesTotal = Order::whereBetween('order_date', [$startDate, $endDate])->sum('total');
         $ordersToday = Order::whereDate('created_at', now()->toDateString())->count();
-        $inventoryStatus = InventoryItem::whereColumn('quantity', '<=', 'reorder_level')->get();
+        $inventoryStatus = InventoryItem::where('quantity', '>', 0)
+            ->whereColumn('quantity', '<=', 'reorder_level')
+            ->count();
 
-        // Generar las fechas de los últimos X días hasta hoy
-        $dates = collect();
-        for ($i = $daysToShow - 1; $i >= 0; $i--) {
-            $date = Carbon::now()->subDays($i);
-            // Formateo en español (día y mes en formato abreviado)
-            $dates->push($date->translatedFormat('j M'));
-        }
-
-        // Obtener las ventas agrupadas por fecha para los últimos X días
         $salesData = Order::selectRaw('DATE(order_date) as date, SUM(total) as total')
-            ->where('order_date', '>=', Carbon::now()->subDays($daysToShow - 1))
+            ->whereBetween('order_date', [$startDate, $endDate])
             ->groupBy('date')
             ->orderBy('date', 'ASC')
+            ->get()
             ->pluck('total', 'date');
 
-        // Rellenar los días faltantes con 0 ventas
-        $salesDates = $dates->map(function ($date, $index) use ($salesData) {
-            $dateKey = Carbon::now()->subDays($index)->format('Y-m-d');
-            return [
-                'date' => $date,
-                'total' => $salesData->get($dateKey, 0)  // Si no hay ventas en esa fecha, se asigna 0
-            ];
-        });
+        $dates = collect();
+        $currentDate = $startDate->copy();
+        while ($currentDate <= $endDate) {
+            $dateKey = $currentDate->format('Y-m-d');
+            $formattedDate = $currentDate->translatedFormat('j M');
+            
+            $dates->push([
+                'date' => $formattedDate,
+                'total' => $salesData->get($dateKey, 0)
+            ]);
+            
+            $currentDate->addDay();
+        }
 
-        // Separar las fechas y los totales en dos colecciones
-        $salesDatesLabels = $salesDates->pluck('date'); // Fechas formateadas en español
-        $salesTotals = $salesDates->pluck('total');
+        $salesDatesLabels = $dates->pluck('date');
+        $salesTotals = $dates->pluck('total');
 
-        $inventoryItems = InventoryItem::pluck('name');
-        $inventoryLevels = InventoryItem::pluck('quantity');
+        $inventory = InventoryItem::select('name', 'quantity', 'reorder_level')
+            ->whereNotNull('quantity')
+            ->where('quantity', '>=', 0)
+            ->orderBy('quantity', 'asc')
+            ->take(10)
+            ->get();
 
-        $maxSales = $salesTotals->max();
-        $yAxisMax = ceil($maxSales * 1.15);
+        $inventoryItems = $inventory->pluck('name');
+        $inventoryLevels = $inventory->pluck('quantity');
+        $reorderLevels = $inventory->pluck('reorder_level');
 
-        $maxInventoryLevel = $inventoryLevels->max();
-        $yAxisInventoryMax = ceil($maxInventoryLevel * 1.15);  // Agrega un 10% de margen por encima del máximo
-        return view('dashboard', compact('salesTotal', 'ordersToday', 'inventoryStatus', 'salesDatesLabels', 'salesTotals', 'inventoryItems', 'inventoryLevels', 'yAxisMax', 'yAxisInventoryMax'));
+        $yAxisMax = ceil($salesTotals->max() * 1.15);
+        $yAxisInventoryMax = ceil($inventoryLevels->max() * 1.15);
+
+        return view('dashboard', compact(
+            'salesTotal',
+            'ordersToday',
+            'inventoryStatus',
+            'salesDatesLabels',
+            'salesTotals',
+            'inventoryItems',
+            'inventoryLevels',
+            'reorderLevels',
+            'yAxisMax',
+            'yAxisInventoryMax',
+            'startDate',
+            'endDate'
+        ));
+    }
+
+    public function exportSales($startDate = null, $endDate = null)
+    {
+        $startDate = $startDate ? Carbon::parse($startDate) : Carbon::now()->subDays(13);
+        $endDate = $endDate ? Carbon::parse($endDate) : Carbon::now();
+        
+        return Excel::download(new SalesExport($startDate, $endDate), 'ventas.xlsx');
+    }
+
+    public function exportInventory()
+    {
+        return Excel::download(new InventoryExport, 'inventario.xlsx');
     }
 
     public function getSalesData()
@@ -76,4 +127,7 @@ class DashboardController extends Controller
     {
         // Lógica para obtener el rendimiento de empleados
     }
+
+    //composer require maatwebsite/excel
+    //php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
 }
