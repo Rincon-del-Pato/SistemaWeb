@@ -9,11 +9,13 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\MenuItemSizeController;
@@ -43,6 +45,9 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
+Route::get('/analytics', function () {
+    return view('analytics.dashboard');
+})->middleware(['auth'])->name('analytics');
 
 Route::middleware([
     'auth:sanctum',
@@ -93,14 +98,14 @@ Route::middleware([
 
     Route::resource('customers', CustomerController::class)->names('customers');
 
-    Route::resource('orders', OrderController::class)->names('orders');
+    Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+    Route::resource('orders', OrderController::class)->except(['store'])->names('orders');
 
-    
+    Route::resource('commands', CommandController::class);
+    Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');
 
-
-
+    Route::post('analytics', [AnalyticsController::class, 'index'])->name('analytics');
 });
-
 
 // Route::resource('products', ProductsController::class)->names('products');
 // Route::put('/products/{id}/status', [ProductsController::class, 'updateStatus'])->name('products.updateStatus');
@@ -110,7 +115,6 @@ Route::middleware([
 // Route::get('/orders', [OrdersController::class, 'index'])->name('order.index');
 // Route::get('/orders/create/{tableId}', [OrdersController::class, 'create'])->name('orders.create');
 // Route::post('/orders/table/{tableId}', [OrdersController::class, 'store'])->name('orders.store');
-
 
 // Route::post('/orders/{order}/items', [OrdersController::class, 'addItems'])->name('orders.addItems');
 // Route::post('/orders/{order}/complete', [OrdersController::class, 'completeOrder'])->name('orders.complete');
