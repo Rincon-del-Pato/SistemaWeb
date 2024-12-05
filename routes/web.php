@@ -93,11 +93,15 @@ Route::middleware([
 
     Route::resource('customers', CustomerController::class)->names('customers');
 
-    Route::resource('orders', OrderController::class)->names('orders');
-
-    
-
-
+    Route::middleware(['auth'])->group(function () {
+        // ...existing code...
+        
+        // Modifica la ruta de orders.store para que sea más específica
+        Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+        Route::resource('orders', OrderController::class)->except(['store'])->names('orders');
+        
+        // ...existing code...
+    });
 
 });
 

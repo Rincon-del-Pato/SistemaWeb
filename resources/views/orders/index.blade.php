@@ -6,94 +6,70 @@
     <div class="px-2 pt-2 pb-4">
         <div class="flex justify-center space-x-3">
             <!-- Panel principal (contenedor de cards) -->
-            <div id="mainPanel" class="flex-1 max-w-[1200px]">
-                <div class="bg-white shadow-lg rounded-xl">
-                    <div class="p-6 border-b">
+            <div id="mainPanel" class="flex-1">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="p-3 sm:p-4 border-b">
                         <div class="flex items-center justify-between">
-                            <div class="flex gap-3">
-                                <span
-                                    class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg shadow-sm hover:bg-green-600">
-                                    <i class="mr-2 fas fa-check-circle"></i>
+                            <div class="flex gap-2 sm:gap-3">
+                                <span class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-green-500 rounded-lg shadow-sm hover:bg-green-600">
+                                    <i class="mr-1 sm:mr-2 fas fa-check-circle"></i>
                                     {{ $availableCount }} Libre
                                 </span>
-                                <span
-                                    class="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg shadow-sm hover:bg-red-600">
-                                    <i class="mr-2 fas fa-times-circle"></i>
+                                <span class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-red-500 rounded-lg shadow-sm hover:bg-red-600">
+                                    <i class="mr-1 sm:mr-2 fas fa-times-circle"></i>
                                     {{ $occupiedCount }} Ocupado
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6"
+
+                    <!-- Grid de mesas ajustado para diferentes pantallas -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6 gap-2 p-2"
                         id="tablesGrid">
                         @foreach ($tables as $table)
-                            <div class="relative shadow-md rounded-lg border-2 overflow-hidden
+                            <div class="relative border-2 rounded-lg overflow-hidden cursor-pointer transform transition-all duration-300 ease-in-out
                                 {{ $table->status->value === 'Disponible' ? 'border-green-600 bg-green-50' : 'border-red-600 bg-red-50' }}
-                                cursor-pointer hover:shadow-xl transition-all duration-300"
+                                hover:shadow-lg hover:-translate-y-1"
                                 onclick="selectTable({{ $table->id }}, {{ $table->seating_capacity }}, '{{ $table->table_number }}', '{{ $table->status->value }}')">
-
-                                <div class="flex flex-col items-center p-1">
-                                    <!-- Número de mesa -->
-                                    <h4 class="text-lg font-bold text-gray-800">{{ $table->table_number }}</h4>
-
+                                <div class="flex flex-col items-center p-2 sm:p-3 2xl:p-4">
+                                    <h4 class="text-base sm:text-lg 2xl:text-xl font-bold text-gray-800">{{ $table->table_number }}</h4>
                                     @if ($table->status->value === 'Ocupado')
-                                        <!-- Mozo que atiende -->
-                                        <p class="text-sm text-gray-600">
+                                        <p class="text-sm sm:text-base 2xl:text-2xl text-gray-600">
                                             <i class="mr-1 fas fa-user-tie"></i>
                                             {{ $table->waiterName }}
                                         </p>
-
-                                        <!-- Imagen de la mesa -->
-                                        <img src="{{ asset('imagen/mesa-llena.png') }}" class="w-12 h-12 my-1">
-
-                                        <!-- Información de mesa ocupada -->
-                                        <div class="flex items-center justify-between gap-3 text-sm text-gray-600">
-                                            <div class="flex items-center gap-1">
-                                                <i class="fas fa-users"></i>
-                                                <span>{{ $table->num_guests }}</span>
-                                            </div>
-                                            <div class="flex items-center gap-1">
-                                                <i class="far fa-clock"></i>
-                                                @php
-                                                    $created = new DateTime($table->orders->first()->created_at);
-                                                    $now = new DateTime();
-                                                    $interval = $created->diff($now);
-                                                    if ($interval->h > 0) {
-                                                        $timeDisplay = $interval->h . 'h ' . $interval->i . 'm';
-                                                    } else {
-                                                        $timeDisplay = $interval->i . ' min';
-                                                    }
-                                                @endphp
-                                                <span>{{ $timeDisplay }}</span>
-                                            </div>
-
+                                        <img src="{{ asset('imagen/mesa-llena.png') }}" class="w-8 h-8 sm:w-10 sm:h-10 my-2">
+                                        <div class="flex items-center justify-between gap-2 text-sm sm:text-base 2xl:text-xl text-gray-600">
+                                            @php
+                                                $created = new DateTime($table->orders->first()->created_at);
+                                                $now = new DateTime();
+                                                $interval = $created->diff($now);
+                                                $timeDisplay = $interval->h > 0
+                                                    ? $interval->h . 'h ' . $interval->i . 'm'
+                                                    : $interval->i . ' min';
+                                            @endphp
+                                            <span>{{ $timeDisplay }}</span>
                                         </div>
-
-                                        <!-- Total de la orden -->
-                                        <div class="text-sm font-semibold text-gray-800">
+                                        <div class="text-sm sm:text-base 2xl:text-xl font-semibold text-gray-800">
                                             Total: S/. {{ number_format($table->orders->first()->total, 2) }}
                                         </div>
                                     @else
-                                        <!-- Imagen de la mesa -->
-                                        <img src="{{ asset('imagen/mesa-vacia.png') }}" class="w-12 h-12 my-1">
-
-                                        <!-- Indicador de disponible -->
-                                        <div class="flex flex-col items-center gap-2 text-green-600">
-                                            <i class="text-lg fas fa-check-circle"></i>
-                                            <span class="text-sm font-semibold">Libre</span>
+                                        <img src="{{ asset('imagen/mesa-vacia.png') }}" class="w-8 h-8 sm:w-10 sm:h-10 2xl:w-14 2xl:h-14 my-2">
+                                        <div class="flex flex-col items-center gap-1 text-green-600">
+                                            <i class="text-base sm:text-lg 2xl:text-xl fas fa-check-circle"></i>
+                                            <span class="text-xs sm:text-sm 2xl:text-base font-semibold">Libre</span>
                                         </div>
                                     @endif
                                 </div>
                             </div>
                         @endforeach
                     </div>
-
                 </div>
             </div>
 
-            <!-- Panel lateral (formulario) -->
-            <div id="sidePanel" class="w-0 overflow-hidden transition-all duration-300 ease-in-out">
-                <div class="bg-white shadow-lg w-96 rounded-xl max-h-[calc(100vh-100px)]">
+            <!-- Panel lateral -->
+            <div id="sidePanel" class="w-0 overflow-hidden transition-all duration-300">
+                <div class="bg-white rounded-lg shadow-sm w-80 sm:w-96">
                     <!-- Panel para mesa libre -->
                     <div id="freeTablePanel" class="hidden">
                         <div class="flex flex-col h-full">
@@ -116,7 +92,7 @@
                                                 <button type="button" onclick="decreasePeopleCount()"
                                                     class="px-6 py-2 text-lg font-bold bg-gray-100 border-r border-gray-300 hover:bg-gray-200">-</button>
                                                 <input type="number" id="peopleCount" value="1" min="1"
-                                                    class="flex-1 py-1 text-xl font-medium text-center border-none focus:outline-none focus:ring-0">
+                                                    class="flex-1 py-1 text-lg font-medium text-center border-none focus:outline-none focus:ring-0">
                                                 <button type="button" onclick="increasePeopleCount()"
                                                     class="px-6 py-2 text-lg font-bold bg-gray-100 border-l border-gray-300 hover:bg-gray-200">+</button>
                                             </div>
@@ -376,130 +352,142 @@
         }
     </script>
 @stop
+
 @section('style')
     <style>
+        /* Estilos base */
         #sidePanel {
             transition: width 0.3s ease;
-            overflow: hidden;
         }
 
-        .auto-rows-fr {
-            grid-auto-rows: 1fr;
-        }
-
-        .hover\:scale-105:hover {
-            transform: scale(1.05);
-        }
-
-        /* Ajustes adicionales para pantallas pequeñas */
-        @media (max-width: 1366px) {
+        /* Ajustes para 1366x768 */
+        @media (min-width: 1024px) and (max-width: 1366px) {
             .grid {
-                gap: 0.5rem !important;
+                gap: 0.5rem;
             }
 
-            .p-6 {
-                padding: 1rem !important;
+            #tablesGrid > div {
+                min-height: 140px;
+            }
+
+            #sidePanel {
+                width: 320px;
             }
 
             .text-lg {
-                font-size: 0.9rem !important;
+                font-size: 0.875rem;
             }
 
-            .w-12 {
-                width: 2.5rem !important;
+            .text-base {
+                font-size: 0.8125rem;
             }
 
-            .h-12 {
-                height: 2.5rem !important;
-            }
-        }
-
-        /* Ajustes específicos para el panel lateral */
-        @media (max-width: 1366px) {
-            #sidePanel .text-lg {
-                font-size: 0.875rem !important;
-            }
-
-            #sidePanel .text-base {
-                font-size: 0.8125rem !important;
-            }
-
-            #sidePanel .text-sm {
-                font-size: 0.75rem !important;
-            }
-
-            #sidePanel .text-xs {
-                font-size: 0.6875rem !important;
-            }
-
-            #sidePanel .p-3 {
-                padding: 0.75rem !important;
-            }
-
-            #sidePanel .gap-2 {
-                gap: 0.375rem !important;
-            }
-
-            #sidePanel table td,
-            #sidePanel table th {
-                padding: 0.375rem 0.5rem !important;
+            .text-sm {
+                font-size: 0.75rem;
             }
         }
 
-        /* Ajustes para pantallas grandes */
-        @media (min-width: 1680px) {
-            #sidePanel {
-                min-width: 400px;
-            }
-
-            #sidePanel .text-lg {
-                font-size: 1.125rem !important;
-            }
-
-            #sidePanel .text-base {
-                font-size: 1rem !important;
-            }
-
-            #sidePanel .text-sm {
-                font-size: 0.875rem !important;
-            }
-
-            #sidePanel .text-xs {
-                font-size: 0.75rem !important;
-
-            }
-
-            #sidePanel .p-3 {
-                padding: 1rem !important;
-            }
-
-            #sidePanel table td,
-            #sidePanel table th {
-                padding: 0.5rem 0.75rem !iant;
-            }
-
+        /* Ajustes para 1682x913 - Solo modificamos tamaños de texto */
+        @media (min-width: 1600px) {
             .grid {
-                gap: 1rem !important;
+                gap: 1rem;
             }
 
-            .p-6 {
-                padding: 1.5rem !important;
+            #tablesGrid > div {
+                min-height: 180px;
             }
 
-            .w-12 {
-                width: 3rem !important;
+            /* Ajustes específicos de texto */
+            .text-xl {
+                font-size: 1.5rem;
             }
 
-            .h-12 {
-                height: 3rem !important;
+            .text-lg {
+                font-size: 1.25rem;
+            }
+
+            .text-base {
+                font-size: 1.125rem;
+            }
+
+            .text-sm {
+                font-size: 1rem;
+            }
+
+            .text-xs {
+                font-size: 0.875rem;
+            }
+
+            /* Ajustes para textos específicos */
+            #tablesGrid .font-bold {
+                font-size: 1.35rem;
+            }
+
+            #tablesGrid .text-gray-600 {
+                font-size: 1.1rem;
+            }
+
+            #tablesGrid .font-semibold {
+                font-size: 1.15rem;
+            }
+
+            /* Mantener tamaños de imágenes */
+            .w-8, .h-8, .w-10, .h-10 {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            /* Ajustes específicos para la información de mesa ocupada */
+            #tablesGrid .text-gray-600 {
+                font-size: 1.25rem;  /* Aumentado */
+            }
+
+            #tablesGrid .font-semibold.text-gray-800 {
+                font-size: 1.3rem;   /* Aumentado */
+                margin-top: 0.5rem;
+            }
+
+            /* Ajuste para el tiempo y total */
+            #tablesGrid .flex.items-center.justify-between span {
+                font-size: 1.25rem;  /* Aumentado */
+            }
+
+            /* Ajuste para el nombre del mozo */
+            #tablesGrid p.text-xs.sm\:text-sm.2xl\:text-base {
+                font-size: 1.2rem;   /* Aumentado */
+                margin: 0.5rem 0;    /* Espaciado adicional */
             }
         }
 
-        /* Ajustes para hover en pantallas grandes */
-        @media (min-width: 1680px) {
-            .hover\:shadow-xl:hover {
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        /* Transiciones suaves */
+        .transition-all {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mejora de hover */
+        .hover\:shadow-lg:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Animación al cargar */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
             }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #tablesGrid > div {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        #tablesGrid > div:nth-child(n) {
+            animation-delay: calc(n * 0.05s);
         }
     </style>
 @stop

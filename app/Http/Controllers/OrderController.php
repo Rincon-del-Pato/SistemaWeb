@@ -11,6 +11,7 @@ use App\Models\Employee;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use App\Enums\PaymentsStatus;
+use Illuminate\Support\Facades\DB;
 use Google\Service\Bigquery\CategoricalValue;
 use App\Enums\TableStatus;  // Agregar este import
 
@@ -33,59 +34,70 @@ class OrderController extends Controller
         $table = Table::findOrFail($request->table_id);
         $customerCount = $request->customer_count;
         $categories = Category::all();
-        $menus = MenuItem::when($request->category, function($query, $category) {
+        $menus = MenuItem::with(['sizes' => function($query) {
+            $query->orderBy('price', 'asc');
+        }])
+        ->when($request->category, function($query, $category) {
             return $query->where('category_id', $category);
-        })->where('available', true)->get();
+        })
+        ->where('available', true)
+        ->get();
 
         return view('orders.create', compact('table', 'customerCount', 'categories', 'menus'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'table_id' => 'required|exists:tables,id',
-            'customer_count' => 'required|integer|min:1',
-            'items' => 'required|array',
-            'items.*.menu_item_id' => 'required|exists:menu_items,id',
-            'items.*.quantity' => 'required|integer|min:1',
-        ]);
+        // // Validar los datos recibidos
+        // $validated = $request->validate([
+        //     'table_id' => 'required|exists:tables,id',
+        //     'customer_count' => 'required|integer|min:1',
+        //     'customer_id' => 'nullable|exists:customers,id',
+        //     'items' => 'required|array|min:1',
+        //     'items.*.menu_item_id' => 'required|exists:menu_items,id',
+        //     'items.*.quantity' => 'required|integer|min:1',
+        //     'items.*.price' => 'required|numeric|min:0',
+        // ]);
 
-        // Obtener el employee_id del usuario autenticado
-        $employee = auth()->user()->employee;
-
-        // Crear el pedido
-        $order = Order::create([
-            'table_id' => $validated['table_id'],
-            'num_guests' => $validated['customer_count'], // Cambiado de customer_count a num_guests
-            'user_id' => auth()->id(),
-            'order_type' => OrderType::Local->value, // Corregido: agregando ->value
-            'payment_status' => PaymentsStatus::Pendiente->value, // Corregido: agregando ->value
-            'total' => 0
-        ]);
-
-        // Crear el registro en employee_sales
-        $order->employeeSales()->create([
-            'employee_id' => $employee->id,
-            'sale_amount' => 0, // Se actualizará después
-        ]);
-
-        // Actualizar estado de la mesa
-        Table::where('id', $validated['table_id'])
-            ->update(['status' => TableStatus::Ocupado->value]);
-
-        $total = 0;
-        foreach ($validated['items'] as $item) {
-            $menuItem = MenuItem::find($item['menu_item_id']);
-            $order->orderItems()->create([
-                'menu_item_id' => $item['menu_item_id'],
-                'quantity' => $item['quantity'],
-                'price' => $menuItem->price
+        try {
+            DB::beginTransaction();
+            
+            // Crear la orden principal
+            $order = Order::create([
+                'table_id' => $request->table_id,
+                'customer_id' => $request->customer_id, // Agregamos el customer_id
+                'num_guests' => $request->customer_count,
+                'user_id' => auth()->id(),
+                'order_type' => OrderType::Local->value,
+                'payment_status' => PaymentsStatus::Pendiente->value,
+                'total' => 0,
+                'order_date' => now()
             ]);
-            $total += $menuItem->price * $item['quantity'];
+
+            // Procesar los items
+            $total = 0;
+            foreach ($request->items as $item) {
+                $order->orderItems()->create([
+                    'menu_item_id' => $item['menu_item_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price']
+                ]);
+                $total += $item['price'] * $item['quantity'];
+            }
+
+            // Actualizar el total de la orden
+            $order->update(['total' => $total]);
+
+            // Actualizar estado de la mesa
+            Table::where('id', $request->table_id)
+                ->update(['status' => TableStatus::Ocupado->value]);
+
+            DB::commit();
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-
-        $order->update(['total' => $total]);
-
-        return redirect()->route('orders.index')->with('success', 'Orden creada exitosamente');
     }
 }
