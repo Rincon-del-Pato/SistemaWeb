@@ -117,31 +117,33 @@ def predict_with_ml(data, vista_temporal="Semanal", current_period=None):
 
     # Obtener la última fecha de datos reales
     ultima_fecha_real = df["fecha"].max()
-    
+
     # Verificar si estamos intentando predecir períodos pasados
     if current_period is not None:
         current_date = pd.to_datetime(current_period)
         if current_date < ultima_fecha_real:
             return None  # No predecir si es un período pasado
-    
+
     # Configurar períodos futuros según la vista
     if vista_temporal == "Trimestral":
         # Encontrar el primer día del siguiente mes después del último mes
         siguiente_fecha = ultima_fecha_real + pd.offsets.MonthEnd(0) + pd.offsets.Day(1)
         meses_restantes = 3 - (siguiente_fecha.month % 3)
         periods = meses_restantes
-        freq = 'M'
+        freq = "M"
     elif vista_temporal == "Mensual":
         # Encontrar el primer día de la siguiente semana
-        siguiente_fecha = ultima_fecha_real + pd.Timedelta(days=(7 - ultima_fecha_real.weekday()))
+        siguiente_fecha = ultima_fecha_real + pd.Timedelta(
+            days=(7 - ultima_fecha_real.weekday())
+        )
         semanas_restantes = 5 - siguiente_fecha.isocalendar()[1] % 4
         periods = semanas_restantes
-        freq = 'W'
+        freq = "W"
     else:  # Semanal
         siguiente_fecha = ultima_fecha_real + pd.Timedelta(days=1)
         dias_restantes = 7 - siguiente_fecha.weekday()
         periods = dias_restantes
-        freq = 'D'
+        freq = "D"
 
     # Generar fechas futuras
     future_dates = pd.date_range(start=siguiente_fecha, periods=periods, freq=freq)
@@ -166,9 +168,18 @@ def predict_with_ml(data, vista_temporal="Semanal", current_period=None):
     df["ordenes_promedio"] = df["num_ordenes"].rolling(ventana, min_periods=1).mean()
 
     # Seleccionar características
-    features = ["dia_semana", "mes", "dia_mes", "año", "semana", "trimestre",
-               "num_ordenes", "ventas_promedio", "ordenes_promedio"]
-    
+    features = [
+        "dia_semana",
+        "mes",
+        "dia_mes",
+        "año",
+        "semana",
+        "trimestre",
+        "num_ordenes",
+        "ventas_promedio",
+        "ordenes_promedio",
+    ]
+
     X = df[features].fillna(method="ffill")
     y = df["ventas"]
 
@@ -185,7 +196,7 @@ def predict_with_ml(data, vista_temporal="Semanal", current_period=None):
     future_df["año"] = future_df["fecha"].dt.year
     future_df["semana"] = future_df["fecha"].dt.isocalendar().week
     future_df["trimestre"] = future_df["fecha"].dt.quarter
-    
+
     # Usar promedios de los últimos datos como valores base
     future_df["num_ordenes"] = df["num_ordenes"].tail(ventana).mean()
     future_df["ventas_promedio"] = df["ventas"].tail(ventana).mean()
@@ -193,7 +204,7 @@ def predict_with_ml(data, vista_temporal="Semanal", current_period=None):
 
     # Realizar predicción
     forecast = model.predict(future_df[features])
-    
+
     return pd.Series(forecast, index=future_dates)
 
 
@@ -222,11 +233,13 @@ def analyze_patterns(data):
 
 # Configuración de la aplicación Streamlit
 st.set_page_config(page_title="Dashboard de Ventas", layout="wide")
+
+
 st.title("📊 Dashboard de Ventas - El Rincón del Pato")
 
 # Obtener datos iniciales para el dashboard
 query_inicial = """
-SELECT 
+SELECT
     DATE(order_date) AS fecha,
     COUNT(*) AS num_ordenes,
     COALESCE(SUM(total), 0) AS ventas
@@ -269,7 +282,9 @@ with tab1:
     st.subheader("Tendencias y Predicciones")
 
     # Agregar filtros de tiempo
-    filtros_col1, filtros_col2, filtros_col3 = st.columns(3)  # Cambiado de 4 a 3 columnas
+    filtros_col1, filtros_col2, filtros_col3 = st.columns(
+        3
+    )  # Cambiado de 4 a 3 columnas
     with filtros_col1:
         query_años = """
         SELECT DISTINCT YEAR(order_date) as año
@@ -307,7 +322,7 @@ with tab1:
             periodo_label = "mes"
         else:  # Semanal
             query_semanas = f"""
-            SELECT DISTINCT 
+            SELECT DISTINCT
                 WEEK(order_date) as semana
             FROM orders
             WHERE YEAR(order_date) = {año_seleccionado}
@@ -324,7 +339,7 @@ with tab1:
     # Modificar las queries según la vista
     if vista_temporal == "Trimestral":
         query_tendencia = f"""
-        SELECT 
+        SELECT
             DATE_FORMAT(order_date, '%Y-%m-01') AS fecha,
             MONTH(order_date) AS mes,
             COUNT(*) AS num_ordenes,
@@ -338,7 +353,7 @@ with tab1:
         """
     elif vista_temporal == "Mensual":
         query_tendencia = f"""
-        SELECT 
+        SELECT
             DATE(MIN(order_date)) AS fecha,
             WEEK(order_date) AS semana,
             COUNT(*) AS num_ordenes,
@@ -352,7 +367,7 @@ with tab1:
         """
     else:  # Semanal
         query_tendencia = f"""
-        SELECT 
+        SELECT
             DATE(order_date) AS fecha,
             DAYOFWEEK(order_date) AS dia,
             COUNT(*) AS num_ordenes,
@@ -371,7 +386,7 @@ with tab1:
     col1, col2 = st.columns(2)
     with col1:
         st.write(f"📈 Tendencia de Ventas por {vista_temporal}")
-        
+
         if len(data_tendencia) == 0:
             st.warning("No hay datos disponibles para el período seleccionado.")
         else:
@@ -383,7 +398,9 @@ with tab1:
             elif vista_temporal == "Mensual":
                 x_labels = [f"Semana {week}" for week in data_tendencia["semana"]]
             else:  # Semanal
-                x_labels = [fecha.strftime("%d-%b") for fecha in data_tendencia["fecha"]]
+                x_labels = [
+                    fecha.strftime("%d-%b") for fecha in data_tendencia["fecha"]
+                ]
 
             # Verificar si hay valores válidos antes de graficar
             if data_tendencia["ventas"].notna().any():
@@ -399,14 +416,18 @@ with tab1:
                 # Calcular límites del eje y solo con valores válidos
                 ventas_validas = data_tendencia["ventas"].dropna()
                 if len(ventas_validas) > 0:
-                    y_min = max(0, ventas_validas.min() * 0.9)  # No permitir valores negativos
+                    y_min = max(
+                        0, ventas_validas.min() * 0.9
+                    )  # No permitir valores negativos
                     y_max = ventas_validas.max() * 1.1
 
                     # Configurar límites del eje y
                     plt.ylim(y_min, y_max)
 
                     # Agregar valores sobre los puntos
-                    for x, y in zip(range(len(data_tendencia)), data_tendencia["ventas"]):
+                    for x, y in zip(
+                        range(len(data_tendencia)), data_tendencia["ventas"]
+                    ):
                         if pd.notna(y):  # Solo agregar etiquetas para valores válidos
                             plt.annotate(
                                 f"S/. {y:,.0f}",
@@ -418,8 +439,10 @@ with tab1:
                             )
 
                 # Configurar eje x
-                plt.xticks(range(len(data_tendencia)), x_labels, rotation=45, ha="right")
-                
+                plt.xticks(
+                    range(len(data_tendencia)), x_labels, rotation=45, ha="right"
+                )
+
                 plt.title(
                     f"Tendencia de Ventas {vista_temporal}s ({año_seleccionado})",
                     pad=20,
@@ -440,7 +463,9 @@ with tab1:
                 yticks = plt.gca().get_yticks()
 
             else:
-                st.warning("No hay valores válidos para graficar en el período seleccionado.")
+                st.warning(
+                    "No hay valores válidos para graficar en el período seleccionado."
+                )
 
             # Restaurar descripción estadística solo si hay datos válidos
             if len(data_tendencia) > 1 and data_tendencia["ventas"].notna().any():
@@ -448,13 +473,17 @@ with tab1:
                 with col_stats1:
                     # Mostrar estadísticas de tendencia
                     tendencia = stats.linregress(
-                        range(len(data_tendencia["ventas"])), 
-                        data_tendencia["ventas"].fillna(method='ffill')  # Rellenar NaN para el cálculo
+                        range(len(data_tendencia["ventas"])),
+                        data_tendencia["ventas"].fillna(
+                            method="ffill"
+                        ),  # Rellenar NaN para el cálculo
                     )
                     st.write(
                         f"📊 Tendencia: {'Positiva ↗️' if tendencia.slope > 0 else 'Negativa ↘️'}"
                     )
-                    st.write(f"Variación promedio diaria: S/. {abs(tendencia.slope):,.2f}")
+                    st.write(
+                        f"Variación promedio diaria: S/. {abs(tendencia.slope):,.2f}"
+                    )
 
                 with col_stats2:
                     # Calcular y mostrar variación porcentual
@@ -477,7 +506,7 @@ with tab1:
             # Modificar las queries para obtener solo datos hasta el período actual
             if vista_temporal == "Trimestral":
                 query_historico = f"""
-                SELECT 
+                SELECT
                     DATE(order_date) AS fecha,
                     COUNT(*) AS num_ordenes,
                     COALESCE(SUM(total), 0) AS ventas
@@ -491,7 +520,7 @@ with tab1:
                 """
             elif vista_temporal == "Mensual":
                 query_historico = f"""
-                SELECT 
+                SELECT
                     DATE(order_date) AS fecha,
                     COUNT(*) AS num_ordenes,
                     COALESCE(SUM(total), 0) AS ventas
@@ -505,7 +534,7 @@ with tab1:
                 """
             else:  # Semanal
                 query_historico = f"""
-                SELECT 
+                SELECT
                     DATE(order_date) AS fecha,
                     COUNT(*) AS num_ordenes,
                     COALESCE(SUM(total), 0) AS ventas
@@ -519,32 +548,39 @@ with tab1:
                 """
 
             data_historico = get_data_from_sql(query_historico)
-            
+
             # Verificar si estamos en un período actual o futuro
             ultima_fecha_real = data_historico["fecha"].max()
             fecha_actual = pd.Timestamp.now().date()
-            
+
             if pd.to_datetime(ultima_fecha_real).date() < fecha_actual:
                 # Calcular predicciones solo si estamos en el período actual
                 forecast_ml = predict_with_ml(
                     data_historico,
                     vista_temporal=vista_temporal,
-                    current_period=ultima_fecha_real
+                    current_period=ultima_fecha_real,
                 )
-                
+
                 if forecast_ml is not None:
                     # Crear gráfica de predicciones
                     fig = plt.figure(figsize=(14, 8))
 
                     # Ajustar etiquetas según la vista
                     if vista_temporal == "Trimestral":
-                        x_labels = [f"{MESES_ES[date.month]}" for date in forecast_ml.index]
+                        x_labels = [
+                            f"{MESES_ES[date.month]}" for date in forecast_ml.index
+                        ]
                         titulo = "Meses restantes del trimestre"
                     elif vista_temporal == "Mensual":
-                        x_labels = [f"Semana {date.isocalendar()[1]}" for date in forecast_ml.index]
+                        x_labels = [
+                            f"Semana {date.isocalendar()[1]}"
+                            for date in forecast_ml.index
+                        ]
                         titulo = "Semanas restantes del mes"
                     else:
-                        x_labels = [date.strftime("%d-%b") for date in forecast_ml.index]
+                        x_labels = [
+                            date.strftime("%d-%b") for date in forecast_ml.index
+                        ]
                         titulo = "Días restantes de la semana"
 
                     plt.plot(
@@ -559,12 +595,24 @@ with tab1:
                     )
 
                     # Configurar gráfica
-                    plt.xticks(range(len(forecast_ml)), x_labels, rotation=45, ha="right")
-                    plt.title(f"Predicción de Ventas\n{titulo}", pad=20, fontsize=20, fontweight="bold")
+                    plt.xticks(
+                        range(len(forecast_ml)), x_labels, rotation=45, ha="right"
+                    )
+                    plt.title(
+                        f"Predicción de Ventas\n{titulo}",
+                        pad=20,
+                        fontsize=20,
+                        fontweight="bold",
+                    )
                     plt.xlabel("Período", fontsize=18, labelpad=10, fontweight="bold")
-                    plt.ylabel("Ventas Estimadas (S/.)", fontsize=18, labelpad=10, fontweight="bold")
+                    plt.ylabel(
+                        "Ventas Estimadas (S/.)",
+                        fontsize=18,
+                        labelpad=10,
+                        fontweight="bold",
+                    )
                     plt.grid(True, linestyle="--", alpha=0.7)
-                    
+
                     # Agregar valores sobre los puntos
                     for x, y in zip(range(len(forecast_ml)), forecast_ml.values):
                         plt.annotate(
@@ -592,8 +640,12 @@ with tab1:
 
                     predicciones_df = pd.DataFrame(
                         {
-                            "Período": [d.strftime(formato_fecha) for d in forecast_ml.index],
-                            "Venta Estimada": [f"S/. {x:,.2f}" for x in forecast_ml.values],
+                            "Período": [
+                                d.strftime(formato_fecha) for d in forecast_ml.index
+                            ],
+                            "Venta Estimada": [
+                                f"S/. {x:,.2f}" for x in forecast_ml.values
+                            ],
                         }
                     )
                     st.dataframe(predicciones_df)
@@ -601,7 +653,9 @@ with tab1:
                 else:
                     st.info("No se muestran predicciones para períodos pasados.")
             else:
-                st.info("No hay predicciones disponibles para este período ya que ya tenemos datos reales.")
+                st.info(
+                    "No hay predicciones disponibles para este período ya que ya tenemos datos reales."
+                )
 
         except Exception as e:
             st.warning(f"No hay suficientes datos para generar predicciones: {str(e)}")
@@ -621,7 +675,7 @@ with tab2:
 
     if vista_productos == "Top Productos":
         query_top = """
-        SELECT mi.name AS platillo, 
+        SELECT mi.name AS platillo,
                COALESCE(SUM(oi.quantity), 0) AS cantidad_vendida,
                COALESCE(SUM(oi.quantity * oi.price), 0) AS ingresos_totales
         FROM menu_items mi
@@ -655,7 +709,7 @@ with tab2:
 
     elif vista_productos == "Por Categoría":
         query_cat = """
-        SELECT 
+        SELECT
             c.name AS categoria,
             COUNT(oi.id) AS total_ordenes,
             COALESCE(SUM(oi.quantity * oi.price), 0) AS total_ventas
@@ -690,7 +744,7 @@ with tab2:
 
     else:  # Análisis de Rendimiento
         query_rend = """
-        SELECT 
+        SELECT
             mi.name as platillo,
             COUNT(oi.id) as veces_ordenado,
             SUM(oi.quantity) as unidades_vendidas,
@@ -748,7 +802,7 @@ with tab3:
     # Obtener datos según el período seleccionado
     if periodo == "Semanal":
         query_comp = """
-        SELECT 
+        SELECT
             WEEK(order_date) as periodo,
             COUNT(*) as num_ordenes,
             SUM(total) as total_ventas,
@@ -761,7 +815,7 @@ with tab3:
         """
     elif periodo == "Mensual":
         query_comp = """
-        SELECT 
+        SELECT
             DATE_FORMAT(order_date, '%Y-%m') as periodo,
             COUNT(*) as num_ordenes,
             SUM(total) as total_ventas,
@@ -774,7 +828,7 @@ with tab3:
         """
     else:  # Diario
         query_comp = """
-        SELECT 
+        SELECT
             DATE(order_date) as periodo,
             COUNT(*) as num_ordenes,
             SUM(total) as total_ventas,
@@ -888,7 +942,7 @@ with tab4:
 
     elif vista_datos == "Productos":
         query_productos = """
-        SELECT 
+        SELECT
             mi.name as producto,
             c.name as categoria,
             COUNT(DISTINCT oi.id) as veces_vendido,

@@ -15,6 +15,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\MenuItemSizeController;
@@ -44,6 +45,9 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
+Route::get('/analytics', function () {
+    return view('analytics.dashboard');
+})->middleware(['auth'])->name('analytics');
 
 Route::middleware([
     'auth:sanctum',
@@ -99,6 +103,8 @@ Route::middleware([
 
     Route::resource('commands', CommandController::class);
     Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');
+
+    Route::post('analytics', [AnalyticsController::class, 'index'])->name('analytics');
 });
 
 // Route::resource('products', ProductsController::class)->names('products');

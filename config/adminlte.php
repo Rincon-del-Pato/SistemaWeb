@@ -443,6 +443,12 @@ return [
         ],
 
         [
+            'text' => 'Analytics',
+            'url' => 'analytics',
+            'icon' => 'fas fa-chart-line',
+        ],
+
+        [
             // 'text' => 'Carta',
             // 'url' => 'menus',
             // 'icon' => 'far fa-file-alt',
