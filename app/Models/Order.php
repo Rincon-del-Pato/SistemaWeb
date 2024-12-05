@@ -51,11 +51,21 @@ class Order extends Model
 
     public function orderItems(): HasMany
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class)->with('menuItem');
     }
 
     public function employeeSales()
     {
         return $this->hasMany(EmployeeSale::class);
+    }
+
+    public function commandTickets(): HasMany
+    {
+        return $this->hasMany(CommandTicket::class);
+    }
+
+    public function commandTicket()
+    {
+        return $this->hasOne(CommandTicket::class)->latest();
     }
 }

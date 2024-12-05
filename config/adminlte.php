@@ -435,6 +435,14 @@ return [
         ],
 
         [
+            'text' => 'Comandas',
+            'url' => 'commands',
+            'icon' => 'fas fa-receipt',
+            'label_color' => 'warning',
+            'active' => ['commands*']
+        ],
+
+        [
             // 'text' => 'Carta',
             // 'url' => 'menus',
             // 'icon' => 'far fa-file-alt',

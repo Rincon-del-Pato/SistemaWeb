@@ -332,18 +332,25 @@
 
         function addNewOrder() {
             const tableId = document.getElementById('currentTableId').value;
-            const customerCount = document.getElementById('currentCustomerCount').value;
-
             if (!tableId) {
-                alert('Error: No se ha seleccionado una mesa');
+                alert('Por favor, seleccione una mesa primero');
                 return;
             }
 
-            const url = new URL('{{ route('orders.create') }}');
-            url.searchParams.append('table_id', tableId);
-            url.searchParams.append('customer_count', customerCount);
+            // Obtener el ID de la orden actual de la mesa
+            @foreach ($tables as $table)
+                if ({{ $table->id }} === parseInt(tableId) && '{{ $table->status->value }}' === 'Ocupado') {
+                    const orderId = {{ $table->orders->first()->id ?? 'null' }};
+                    if (orderId) {
+                        window.location.href = `{{ url('orders') }}/${orderId}/edit`;
+                        return;
+                    }
+                }
+            @endforeach
 
-            window.location.href = url.toString();
+            // Si no hay orden existente, crear una nueva
+            const customerCount = document.getElementById('currentCustomerCount').value || 1;
+            window.location.href = `{{ route('orders.create') }}?table_id=${tableId}&customer_count=${customerCount}`;
         }
 
         function processPayment() {

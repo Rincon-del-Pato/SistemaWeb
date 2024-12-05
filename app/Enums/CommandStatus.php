@@ -4,8 +4,8 @@ namespace App\Enums;
 
 enum CommandStatus: string
 {
-    case PENDING = 'pending';
-    case IN_PROGRESS = 'in_progress';
-    case COMPLETED = 'completed';
-    case CANCELLED = 'cancelled';
+    case Pendiente = 'Pendiente';
+    case En_Progreso = 'En_Progreso';
+    case Completado = 'Completado';
+    case Cancelado = 'Cancelado';
 }

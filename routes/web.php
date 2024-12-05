@@ -9,6 +9,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuItemController;
@@ -93,18 +94,12 @@ Route::middleware([
 
     Route::resource('customers', CustomerController::class)->names('customers');
 
-    Route::middleware(['auth'])->group(function () {
-        // ...existing code...
-        
-        // Modifica la ruta de orders.store para que sea más específica
-        Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
-        Route::resource('orders', OrderController::class)->except(['store'])->names('orders');
-        
-        // ...existing code...
-    });
+    Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+    Route::resource('orders', OrderController::class)->except(['store'])->names('orders');
 
+    Route::resource('commands', CommandController::class);
+    Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');
 });
-
 
 // Route::resource('products', ProductsController::class)->names('products');
 // Route::put('/products/{id}/status', [ProductsController::class, 'updateStatus'])->name('products.updateStatus');
@@ -114,7 +109,6 @@ Route::middleware([
 // Route::get('/orders', [OrdersController::class, 'index'])->name('order.index');
 // Route::get('/orders/create/{tableId}', [OrdersController::class, 'create'])->name('orders.create');
 // Route::post('/orders/table/{tableId}', [OrdersController::class, 'store'])->name('orders.store');
-
 
 // Route::post('/orders/{order}/items', [OrdersController::class, 'addItems'])->name('orders.addItems');
 // Route::post('/orders/{order}/complete', [OrdersController::class, 'completeOrder'])->name('orders.complete');
