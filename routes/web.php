@@ -100,6 +100,7 @@ Route::middleware([
 
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
     Route::resource('orders', OrderController::class)->except(['store'])->names('orders');
+    Route::get('/orders/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
 
     Route::resource('commands', CommandController::class);
     Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');

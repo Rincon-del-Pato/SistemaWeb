@@ -8,7 +8,7 @@
             <!-- Panel principal (contenedor de cards) -->
             <div id="mainPanel" class="flex-1">
                 <div class="bg-white rounded-lg shadow-sm">
-                    <div class="p-3 sm:p-4 border-b">
+                    <div class="p-3 border-b sm:p-4">
                         <div class="flex items-center justify-between">
                             <div class="flex gap-2 sm:gap-3">
                                 <span class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-green-500 rounded-lg shadow-sm hover:bg-green-600">
@@ -24,7 +24,7 @@
                     </div>
 
                     <!-- Grid de mesas ajustado para diferentes pantallas -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6 gap-2 p-2"
+                    <div class="grid grid-cols-2 gap-2 p-2 sm:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6"
                         id="tablesGrid">
                         @foreach ($tables as $table)
                             <div class="relative border-2 rounded-lg overflow-hidden cursor-pointer transform transition-all duration-300 ease-in-out
@@ -32,14 +32,14 @@
                                 hover:shadow-lg hover:-translate-y-1"
                                 onclick="selectTable({{ $table->id }}, {{ $table->seating_capacity }}, '{{ $table->table_number }}', '{{ $table->status->value }}')">
                                 <div class="flex flex-col items-center p-2 sm:p-3 2xl:p-4">
-                                    <h4 class="text-base sm:text-lg 2xl:text-xl font-bold text-gray-800">{{ $table->table_number }}</h4>
+                                    <h4 class="text-base font-bold text-gray-800 sm:text-lg 2xl:text-xl">{{ $table->table_number }}</h4>
                                     @if ($table->status->value === 'Ocupado')
-                                        <p class="text-sm sm:text-base 2xl:text-2xl text-gray-600">
+                                        <p class="text-sm text-gray-600 sm:text-base 2xl:text-2xl">
                                             <i class="mr-1 fas fa-user-tie"></i>
                                             {{ $table->waiterName }}
                                         </p>
-                                        <img src="{{ asset('imagen/mesa-llena.png') }}" class="w-8 h-8 sm:w-10 sm:h-10 my-2">
-                                        <div class="flex items-center justify-between gap-2 text-sm sm:text-base 2xl:text-xl text-gray-600">
+                                        <img src="{{ asset('imagen/mesa-llena.png') }}" class="w-8 h-8 my-2 sm:w-10 sm:h-10">
+                                        <div class="flex items-center justify-between gap-2 text-sm text-gray-600 sm:text-base 2xl:text-xl">
                                             @php
                                                 $created = new DateTime($table->orders->first()->created_at);
                                                 $now = new DateTime();
@@ -50,14 +50,14 @@
                                             @endphp
                                             <span>{{ $timeDisplay }}</span>
                                         </div>
-                                        <div class="text-sm sm:text-base 2xl:text-xl font-semibold text-gray-800">
+                                        <div class="text-sm font-semibold text-gray-800 sm:text-base 2xl:text-xl">
                                             Total: S/. {{ number_format($table->orders->first()->total, 2) }}
                                         </div>
                                     @else
-                                        <img src="{{ asset('imagen/mesa-vacia.png') }}" class="w-8 h-8 sm:w-10 sm:h-10 2xl:w-14 2xl:h-14 my-2">
+                                        <img src="{{ asset('imagen/mesa-vacia.png') }}" class="w-8 h-8 my-2 sm:w-10 sm:h-10 2xl:w-14 2xl:h-14">
                                         <div class="flex flex-col items-center gap-1 text-green-600">
                                             <i class="text-base sm:text-lg 2xl:text-xl fas fa-check-circle"></i>
-                                            <span class="text-xs sm:text-sm 2xl:text-base font-semibold">Libre</span>
+                                            <span class="text-xs font-semibold sm:text-sm 2xl:text-base">Libre</span>
                                         </div>
                                     @endif
                                 </div>
@@ -180,7 +180,7 @@
                                     <button type="button" onclick="addNewOrder()"
                                         class="px-3 py-1.5 text-sm font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
                                         <i class="mr-1 fas fa-plus"></i>
-                                        Agregar
+                                        Editar pedido
                                     </button>
                                     <button type="button" onclick="processPayment()"
                                         class="px-3 py-1.5 text-sm font-bold text-white bg-green-600 rounded-lg hover:bg-green-700">
@@ -340,11 +340,11 @@
             // Obtener el ID de la orden actual de la mesa
             @foreach ($tables as $table)
                 if ({{ $table->id }} === parseInt(tableId) && '{{ $table->status->value }}' === 'Ocupado') {
-                    const orderId = {{ $table->orders->first()->id ?? 'null' }};
-                    if (orderId) {
-                        window.location.href = `{{ url('orders') }}/${orderId}/edit`;
+                    @if($table->orders->isNotEmpty())
+                        const orderId = {{ $table->orders->first()->id }};
+                        window.location.href = '{{ url("/orders") }}/' + orderId + '/edit';
                         return;
-                    }
+                    @endif
                 }
             @endforeach
 

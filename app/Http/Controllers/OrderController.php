@@ -9,13 +9,14 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\MenuItem;
-use App\Models\CommandTicket;
+use App\Enums\CommandStatus;
 use Illuminate\Http\Request;
 use App\Enums\PaymentsStatus;
+use App\Models\CommandTicket;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Google\Service\Bigquery\CategoricalValue;
 use App\Enums\TableStatus;  // Agregar este import
-use App\Enums\CommandStatus;
 
 class OrderController extends Controller
 {
@@ -116,51 +117,30 @@ class OrderController extends Controller
 
     public function edit(Order $order)
     {
-        $table = $order->table;
-        $categories = Category::all();
-        $menus = MenuItem::with(['sizes' => function($query) {
-            $query->orderBy('price', 'asc');
-        }, 'category'])->where('available', true)->get();
+        $order->load(['orderItems.menuItem.sizes', 'table', 'user', 'commandTicket.items']);
 
-        // Cargar explícitamente las relaciones necesarias
-        $order->load(['orderItems.menuItem.sizes', 'commandTicket.items']);
-        
-        $commandTicket = $order->commandTicket;
-        $commandStatus = $commandTicket ? $commandTicket->status : null;
-
-        $orderItems = $order->orderItems->map(function ($item) use ($commandStatus) {
-            $menuItem = $item->menuItem;
-            if (!$menuItem) {
-                return null;
+        // Modificar para incluir el estado de la comanda en cada item
+        foreach ($order->orderItems as $item) {
+            $commandItem = $order->commandTicket?->items->where('menu_item_id', $item->menu_item_id)->first();
+            // Verificar si el item está en la comanda
+            if ($commandItem) {
+                $item->commandStatus = $order->commandTicket->status;
+                $item->isEditable = $order->commandTicket->status === 'Pendiente';
+            } else {
+                // Si el item no está en la comanda, es editable
+                $item->commandStatus = null;
+                $item->isEditable = true;
             }
+        }
 
-            // Buscar el tamaño correspondiente al precio
-            $size = $menuItem->sizes->first(function($size) use ($item) {
-                return abs($size->pivot->price - $item->price) < 0.01;
-            });
+        $categories = Category::all();
+        $menus = MenuItem::with(['sizes' => function ($query) {
+            $query->orderBy('price', 'asc');
+        }])
+        ->where('available', true)
+        ->get();
 
-            return [
-                'menuId' => $item->menu_item_id,
-                'name' => $menuItem->name,
-                'price' => $item->price,
-                'sizeName' => $size ? $size->size_name : 'Normal',
-                'quantity' => $item->quantity,
-                'subtotal' => $item->price * $item->quantity,
-                'special_requests' => $item->special_requests,
-                'isCompleted' => $commandStatus === CommandStatus::Completado->value,
-                'command_ticket_item_id' => $item->commandTicketItem?->id
-            ];
-        })->filter();
-
-        return view('orders.create', [
-            'table' => $table,
-            'categories' => $categories,
-            'menus' => $menus,
-            'customerCount' => $order->num_guests,
-            'existingOrder' => $order,
-            'existingOrderItems' => $orderItems,
-            'commandStatus' => $commandStatus
-        ]);
+        return view('orders.edit', compact('order', 'categories', 'menus'));
     }
 
     public function update(Request $request, Order $order)
@@ -168,55 +148,80 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            // Validar la solicitud
+            // Validación de la solicitud
             $request->validate([
                 'items' => 'required|array',
                 'items.*.menu_item_id' => 'required|exists:menu_items,id',
                 'items.*.quantity' => 'required|integer|min:1',
                 'items.*.price' => 'required|numeric|min:0',
-                'items.*.special_requests' => 'nullable|string'
+                'items.*.special_requests' => 'nullable|string',
+                'items.*.is_new' => 'required|boolean'
             ]);
 
-            $commandTicket = $order->commandTicket;
+            $newItems = [];
+            $existingCommandTicket = $order->commandTicket;
             $existingItems = $order->orderItems->pluck('menu_item_id')->toArray();
 
+            // Procesar cada item del request
             foreach ($request->items as $item) {
-                // Verificar si el item ya existe
-                $isExistingItem = in_array($item['menu_item_id'], $existingItems);
-                
-                // Si el item existe y está completado, saltarlo
-                if ($isExistingItem && $commandTicket && 
-                    $commandTicket->status === CommandStatus::Completado->value) {
-                    continue;
-                }
+                if ($item['is_new']) {
+                    // Guardar nuevos ítems para la nueva comanda
+                    $newItems[] = $item;
 
-                // Si es un nuevo item, crear registros
-                if (!$isExistingItem) {
-                    // Crear order item
-                    $orderItem = $order->orderItems()->create([
+                    // Crear el nuevo ítem en la orden
+                    $order->orderItems()->create([
                         'menu_item_id' => $item['menu_item_id'],
                         'quantity' => $item['quantity'],
-                        'price' => $item['price'],
-                        'special_requests' => $item['special_requests'] ?? null
+                        'price' => $item['price']
                     ]);
+                } else {
+                    // Actualizar ítems existentes si la comanda está pendiente
+                    if ($existingCommandTicket && $existingCommandTicket->status === CommandStatus::Pendiente->value) {
+                        $order->orderItems()
+                            ->where('menu_item_id', $item['menu_item_id'])
+                            ->update([
+                                'quantity' => $item['quantity']
+                            ]);
 
-                    // Crear command ticket item
-                    if ($commandTicket) {
-                        $commandTicket->items()->create([
-                            'menu_item_id' => $item['menu_item_id'],
-                            'quantity' => $item['quantity'],
-                            'special_requests' => $item['special_requests'] ?? null,
-                            'status' => CommandStatus::Pendiente->value
-                        ]);
+                        $existingCommandTicket->items()
+                            ->where('menu_item_id', $item['menu_item_id'])
+                            ->update([
+                                'quantity' => $item['quantity'],
+                                'special_requests' => $item['special_requests'] ?? null
+                            ]);
                     }
                 }
             }
 
+            // Crear nueva comanda solo para los nuevos ítems
+            if (!empty($newItems)) {
+                $newCommandTicket = CommandTicket::create([
+                    'order_id' => $order->id,
+                    'status' => CommandStatus::Pendiente->value
+                ]);
+
+                // Crear ítems en la nueva comanda
+                foreach ($newItems as $item) {
+                    $newCommandTicket->items()->create([
+                        'menu_item_id' => $item['menu_item_id'],
+                        'quantity' => $item['quantity'],
+                        'special_requests' => $item['special_requests'] ?? null
+                    ]);
+                }
+
+                // Registrar el log de la nueva comanda
+                $newCommandTicket->logs()->create([
+                    'command_ticket_id' => $newCommandTicket->id,
+                    'previous_status' => CommandStatus::Pendiente->value,
+                    'new_status' => CommandStatus::Pendiente->value,
+                    'change_date' => now(),
+                    'notes' => 'Nueva comanda creada para ítems adicionales'
+                ]);
+            }
+
             // Actualizar el total de la orden
-            $order->total = $order->orderItems->sum(function ($item) {
-                return $item->quantity * $item->price;
-            });
-            $order->save();
+            $total = $order->orderItems()->sum(DB::raw('quantity * price'));
+            $order->update(['total' => $total]);
 
             DB::commit();
             return response()->json([
@@ -225,10 +230,11 @@ class OrderController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Error en actualización de orden: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
-            ]);
+            ], 500);
         }
     }
 
