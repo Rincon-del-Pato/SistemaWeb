@@ -101,6 +101,10 @@ Route::middleware([
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
     Route::resource('orders', OrderController::class)->except(['store'])->names('orders');
     Route::get('/orders/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::get('/orders/{order}/pre-bill', [OrderController::class, 'preBill'])->name('orders.pre-bill');
+    Route::get('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/change-table', [OrderController::class, 'changeTable'])->name('orders.change-table');
+    Route::get('/orders/{order}/payment', [OrderController::class, 'payment'])->name('orders.payment');
 
     Route::resource('commands', CommandController::class);
     Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');

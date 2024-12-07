@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Google\Service\Bigquery\CategoricalValue;
 use App\Enums\TableStatus;  // Agregar este import
+use Barryvdh\DomPDF\Facade\Pdf;  // Cambia esta línea si estabas usando la anterior
 
 class OrderController extends Controller
 {
@@ -266,5 +267,101 @@ class OrderController extends Controller
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
+    }
+
+    public function preBill(Order $order)
+    {
+        $order->load(['orderItems.menuItem', 'table', 'user']);
+
+        $pdf = PDF::loadView('orders.pre-bill', compact('order'));
+
+        // Configurar el tamaño del papel para tickets
+        $pdf->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm (ancho) x 297mm (alto)
+
+        return $pdf->stream('pre-cuenta-' . $order->id . '.pdf');
+    }
+
+    public function cancel(Order $order)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Cargar todas las comandas asociadas a la orden
+            $order->load('commandTickets');
+
+            // Cancelar todas las comandas, independientemente de su estado
+            foreach ($order->commandTickets as $commandTicket) {
+                $oldStatus = $commandTicket->status;
+
+                // Actualizar estado de la comanda
+                $commandTicket->update([
+                    'status' => CommandStatus::Cancelado->value
+                ]);
+
+                // Registrar el cambio en el log
+                $commandTicket->logs()->create([
+                    'command_ticket_id' => $commandTicket->id,
+                    'previous_status' => $oldStatus,
+                    'new_status' => CommandStatus::Cancelado->value,
+                    'change_date' => now(),
+                    'notes' => 'Comanda cancelada por anulación de pedido'
+                ]);
+            }
+
+            // Liberar mesa
+            $order->table->update(['status' => TableStatus::Disponible]);
+
+            // Marcar orden como anulada
+            $order->update([
+                'payment_status' => PaymentsStatus::Anulado->value
+            ]);
+
+            DB::commit();
+            return redirect()->route('orders.index')
+                ->with('success', 'Pedido y comandas cancelados correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error al cancelar pedido: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Error al cancelar el pedido: ' . $e->getMessage());
+        }
+    }
+
+    public function changeTable(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $currentTable = Table::findOrFail($request->currentTableId);
+            $newTable = Table::findOrFail($request->newTableId);
+
+            if ($newTable->status !== TableStatus::Disponible) {
+                throw new \Exception('La mesa seleccionada no está disponible');
+            }
+
+            // Actualizar la orden con la nueva mesa
+            $order = Order::where('table_id', $currentTable->id)
+                ->where('payment_status', PaymentsStatus::Pendiente)
+                ->firstOrFail();
+
+            $order->update(['table_id' => $newTable->id]);
+
+            // Actualizar estados de las mesas
+            $currentTable->update(['status' => TableStatus::Disponible]);
+
+            $newTable->update(['status' => TableStatus::Ocupado]);
+
+            DB::commit();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function payment(Order $order)
+    {
+        // Redirigir a la vista de pagos
+        return view('orders.payment', compact('order'));
     }
 }

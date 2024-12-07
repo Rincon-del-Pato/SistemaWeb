@@ -178,14 +178,32 @@
 
                                 <div class="grid grid-cols-2 gap-2">
                                     <button type="button" onclick="addNewOrder()"
-                                        class="px-3 py-1.5 text-sm font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                                        <i class="mr-1 fas fa-plus"></i>
-                                        Editar pedido
+                                        class="px-3 py-1.5 text-sm font-bold text-white bg-red-500 rounded-lg hover:bg-red-600">
+                                        <i class="fas fa-arrow-right"></i> Agregar Pedido
                                     </button>
+                                    <button type="button" onclick="cancelOrder()"
+                                        class="px-3 py-1.5 text-sm font-bold text-white bg-gray-700 rounded-lg hover:bg-gray-800">
+                                        <i class="fas fa-times"></i> Anular Pedido
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 mt-2">
+                                    <button type="button" onclick="generatePreBill()"
+                                        class="px-3 py-1.5 text-sm font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-600">
+                                        <i class="fas fa-print"></i> Pre Cuenta
+                                    </button>
+                                    <button type="button" onclick="changeTable()"
+                                        class="px-3 py-1.5 text-sm font-bold text-white bg-indigo-500 rounded-lg hover:bg-indigo-600">
+                                        <i class="fas fa-exchange-alt"></i> Cambiar Mesa
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 mt-2">
                                     <button type="button" onclick="processPayment()"
-                                        class="px-3 py-1.5 text-sm font-bold text-white bg-green-600 rounded-lg hover:bg-green-700">
-                                        <i class="mr-1 fas fa-cash-register"></i>
-                                        Cobrar
+                                        class="px-3 py-1.5 text-sm font-bold text-white bg-green-500 rounded-lg hover:bg-green-600">
+                                        <i class="fas fa-cash-register"></i> Cobrar Imprimir
+                                    </button>
+                                    <button type="button" onclick="closeSidePanel()"
+                                        class="px-3 py-1.5 text-sm font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-700">
+                                        <i class="fas fa-times"></i> Cancelar
                                     </button>
                                 </div>
                             </div>
@@ -353,9 +371,116 @@
             window.location.href = `{{ route('orders.create') }}?table_id=${tableId}&customer_count=${customerCount}`;
         }
 
+        function cancelOrder() {
+            const tableId = document.getElementById('currentTableId').value;
+            if (!tableId) {
+                alert('Por favor, seleccione una mesa primero');
+                return;
+            }
+
+            if (confirm('¿Está seguro de anular este pedido?')) {
+                @foreach ($tables as $table)
+                    if ({{ $table->id }} === parseInt(tableId) && '{{ $table->status->value }}' === 'Ocupado') {
+                        @if($table->orders->isNotEmpty())
+                            const orderId = {{ $table->orders->first()->id }};
+                            window.location.href = '{{ url("/orders") }}/' + orderId + '/cancel';
+                            return;
+                        @endif
+                    }
+                @endforeach
+            }
+        }
+
+        function generatePreBill() {
+            const tableId = document.getElementById('currentTableId').value;
+            if (!tableId) {
+                alert('Por favor, seleccione una mesa primero');
+                return;
+            }
+
+            @foreach ($tables as $table)
+                if ({{ $table->id }} === parseInt(tableId) && '{{ $table->status->value }}' === 'Ocupado') {
+                    @if($table->orders->isNotEmpty())
+                        const orderId = {{ $table->orders->first()->id }};
+                        window.open('{{ url("/orders") }}/' + orderId + '/pre-bill', '_blank');
+                        return;
+                    @endif
+                }
+            @endforeach
+        }
+
+        function changeTable() {
+            const tableId = document.getElementById('currentTableId').value;
+            if (!tableId) {
+                alert('Por favor, seleccione una mesa primero');
+                return;
+            }
+
+            // Implementar lógica para mostrar modal de cambio de mesa
+            // Aquí puedes usar SweetAlert2 o tu propio modal
+            Swal.fire({
+                title: 'Cambiar Mesa',
+                html: `
+                    <select id="newTableId" class="swal2-input">
+                        @foreach ($tables as $table)
+                            @if($table->status->value === 'Disponible')
+                                <option value="{{ $table->id }}">{{ $table->table_number }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Cambiar',
+                cancelButtonText: 'Cancelar',
+                preConfirm: () => {
+                    const newTableId = document.getElementById('newTableId').value;
+                    if (!newTableId) {
+                        Swal.showValidationMessage('Seleccione una mesa destino');
+                    }
+                    return { newTableId };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Hacer la petición para cambiar de mesa
+                    fetch(`/orders/change-table`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            currentTableId: tableId,
+                            newTableId: result.value.newTableId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                        }
+                    });
+                }
+            });
+        }
+
         function processPayment() {
-            // Implementar redirección a la página de cobro
-            // window.location.href = '/orders/payment/' + tableId;
+            const tableId = document.getElementById('currentTableId').value;
+            if (!tableId) {
+                alert('Por favor, seleccione una mesa primero');
+                return;
+            }
+
+            @foreach ($tables as $table)
+                if ({{ $table->id }} === parseInt(tableId) && '{{ $table->status->value }}' === 'Ocupado') {
+                    @if($table->orders->isNotEmpty())
+                        const orderId = {{ $table->orders->first()->id }};
+                        window.location.href = '{{ url("/orders") }}/' + orderId + '/payment';
+                        return;
+                    @endif
+                }
+            @endforeach
         }
     </script>
 @stop
