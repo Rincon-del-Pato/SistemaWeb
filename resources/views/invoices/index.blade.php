@@ -15,11 +15,15 @@
                 <!-- Buscador -->
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                     </div>
-                    <input type="text" id="table-search" class="block pt-2 text-sm bg-white border border-gray-300 rounded-lg ps-10 w-80 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar comprobantes...">
+                    <input type="text" id="table-search"
+                        class="block pt-2 text-sm bg-white border border-gray-300 rounded-lg ps-10 w-80 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Buscar comprobantes...">
                 </div>
 
                 <!-- Selector de Fechas -->
@@ -32,18 +36,24 @@
 
             <div class="flex items-center gap-2">
                 <!-- Dropdown de Exportación -->
-                <button id="dropdownExportButton" data-dropdown-toggle="dropdownExport" class="text-gray-500 bg-white hover:bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-gray-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center">
+                <button id="dropdownExportButton" data-dropdown-toggle="dropdownExport" type="button"
+                    class="text-gray-500 bg-white hover:bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-gray-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center">
                     <i class="fas fa-download mr-2"></i>
                     Exportar
-                    <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4" />
                     </svg>
                 </button>
-                <div id="dropdownExport" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                <div id="dropdownExport" class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                     <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownExportButton">
-                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" onclick="exportTable('csv')">Exportar CSV</a></li>
-                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" onclick="exportTable('txt')">Exportar TXT</a></li>
-                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" onclick="exportTable('pdf')">Exportar PDF</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                                onclick="exportTable('csv')">Exportar CSV</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                                onclick="exportTable('txt')">Exportar TXT</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                                onclick="exportTable('pdf')">Exportar PDF</a></li>
                     </ul>
                 </div>
             </div>
@@ -65,7 +75,8 @@
                 <tbody>
                     @foreach ($invoices as $invoice)
                         <tr class="border-b hover:bg-gray-50" data-created="{{ $invoice->issue_date }}">
-                            <td class="px-6 py-4">{{ $invoice->series }}-{{ str_pad($invoice->number, 8, '0', STR_PAD_LEFT) }}</td>
+                            <td class="px-6 py-4">
+                                {{ $invoice->series }}-{{ str_pad($invoice->number, 8, '0', STR_PAD_LEFT) }}</td>
                             <td class="px-6 py-4">{{ $invoice->formatted_type }}</td>
                             <td class="px-6 py-4">{{ $invoice->customer_name }}</td>
                             <td class="px-6 py-4">{{ $invoice->issue_date->format('d/m/Y H:i') }}</td>
@@ -73,11 +84,13 @@
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center gap-2">
                                     <!-- Botón para ver modal -->
-                                    <button onclick="showInvoiceModal({{ $invoice->id }})" class="text-blue-600 hover:text-blue-900">
+                                    <button onclick="showInvoiceModal({{ $invoice->id }})"
+                                        class="text-blue-600 hover:text-blue-900">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                     <!-- Botón para imprimir PDF -->
-                                    <a href="{{ route('invoices.print', $invoice) }}" class="text-green-600 hover:text-green-900" target="_blank">
+                                    <a href="{{ route('invoices.print', $invoice) }}"
+                                        class="text-green-600 hover:text-green-900" target="_blank">
                                         <i class="fas fa-print"></i>
                                     </a>
                                 </div>
@@ -122,9 +135,17 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
 @stop
 
 @section('js')
+    <!-- Flowbite -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('table-search');
@@ -142,13 +163,14 @@
                 let visibleRows = 0;
 
                 tableRows.forEach(row => {
-                    const serieNumber = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    const serieNumber = row.querySelector('td:nth-child(1)').textContent
+                        .toLowerCase();
                     const type = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
                     const customer = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
 
                     const shouldShow = serieNumber.includes(searchTerm) ||
-                                     type.includes(searchTerm) ||
-                                     customer.includes(searchTerm);
+                        type.includes(searchTerm) ||
+                        customer.includes(searchTerm);
 
                     row.style.display = shouldShow ? '' : 'none';
                     if (shouldShow) visibleRows++;
@@ -160,7 +182,8 @@
             // Función para exportar la tabla
             window.exportTable = function(format) {
                 const table = document.querySelector('table');
-                const rows = Array.from(table.querySelectorAll('tbody tr')).filter(row => row.style.display !== 'none');
+                const rows = Array.from(table.querySelectorAll('tbody tr')).filter(row => row.style.display !==
+                    'none');
 
                 const dateFrom = document.getElementById('date-from').value;
                 const dateTo = document.getElementById('date-to').value;
@@ -187,7 +210,7 @@
                     data.push(rowData);
                 });
 
-                switch(format) {
+                switch (format) {
                     case 'csv':
                         downloadCSV(data, title);
                         break;
@@ -225,7 +248,9 @@
             }
 
             function downloadPDF(data, title) {
-                const { jsPDF } = window.jspdf;
+                const {
+                    jsPDF
+                } = window.jspdf;
                 const doc = new jsPDF();
 
                 // Configurar título y metadatos
@@ -261,11 +286,21 @@
                     },
                     // Configurar ancho de columnas
                     columnStyles: {
-                        0: {cellWidth: 30}, // Serie-Número
-                        1: {cellWidth: 25}, // Tipo
-                        2: {cellWidth: 50}, // Cliente
-                        3: {cellWidth: 35}, // Fecha
-                        4: {cellWidth: 30}  // Total
+                        0: {
+                            cellWidth: 30
+                        }, // Serie-Número
+                        1: {
+                            cellWidth: 25
+                        }, // Tipo
+                        2: {
+                            cellWidth: 50
+                        }, // Cliente
+                        3: {
+                            cellWidth: 35
+                        }, // Fecha
+                        4: {
+                            cellWidth: 30
+                        } // Total
                     }
                 });
 
@@ -273,7 +308,9 @@
             }
 
             function downloadFile(content, fileName, mimeType) {
-                const blob = new Blob([content], { type: mimeType });
+                const blob = new Blob([content], {
+                    type: mimeType
+                });
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -335,8 +372,4 @@
             }
         });
     </script>
-
-    <!-- jsPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 @stop
