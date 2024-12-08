@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\CommandController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuItemController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\MenuItemSizeController;
 use App\Http\Controllers\InventoryItemsController;
 use App\Http\Controllers\PermissionsionController;
+use App\Http\Controllers\DocumentConsultController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
@@ -48,6 +50,10 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/analytics', function () {
     return view('analytics.dashboard');
 })->middleware(['auth'])->name('analytics');
+
+Route::get('/api/consult-document/{type}/{number}', [DocumentConsultController::class, 'consult'])->name('api.consult-document');
+
+Route::get('/consulta-documento/{type}/{number}', [DocumentConsultController::class, 'consult'])->name('consulta.documento');
 
 Route::middleware([
     'auth:sanctum',
@@ -105,11 +111,13 @@ Route::middleware([
     Route::get('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/change-table', [OrderController::class, 'changeTable'])->name('orders.change-table');
     Route::get('/orders/{order}/payment', [OrderController::class, 'payment'])->name('orders.payment');
+    Route::post('/orders/{order}/process-payment', [OrderController::class, 'processPayment'])->name('orders.process-payment');
 
     Route::resource('commands', CommandController::class);
     Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');
 
     Route::post('analytics', [AnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
 });
 
 // Route::resource('products', ProductsController::class)->names('products');
