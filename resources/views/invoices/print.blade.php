@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,7 +62,7 @@
     <div class="header">
         <div class="company-name">{{ config('app.name', 'Restaurante') }}</div>
         <div class="document-type">
-            {{ strtoupper($invoice->invoice_type) }} ELECTRÓNICA
+            {{ $invoice->formatted_type }} ELECTRÓNICA
         </div>
         <div class="document-number">
             {{ $invoice->series }}-{{ str_pad($invoice->number, 8, '0', STR_PAD_LEFT) }}
@@ -107,6 +106,7 @@
     </div>
 
     <div class="footer">
+        <p>¡Gracias por su preferencia!</p>
         <p>Representación impresa de la {{ $invoice->invoice_type }} Electrónica</p>
         <p>Consulte este documento en www.sunat.gob.pe</p>
     </div>

@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Log;
 use Google\Service\Bigquery\CategoricalValue;
 use App\Enums\TableStatus;  // Agregar este import
 use Barryvdh\DomPDF\Facade\Pdf;  // Cambia esta línea si estabas usando la anterior
+use App\Enums\InvoiceType;  // Agregar este import
 
 class OrderController extends Controller
 {
@@ -367,48 +368,96 @@ class OrderController extends Controller
     {
         $order->load(['orderItems.menuItem', 'table', 'user']);
         $paymentMethods = PaymentMethod::all();
-        return view('orders.payment', compact('order', 'paymentMethods'));
+        $defaultCustomer = [
+            'name' => 'CLIENTE GENERAL',
+            'document_type' => 'DNI',
+            'document_number' => '00000000'
+        ];
+        return view('orders.payment', compact('order', 'paymentMethods', 'defaultCustomer'));
     }
 
     public function processPayment(Request $request, $id)
     {
         try {
+            DB::beginTransaction();
+
             $order = Order::findOrFail($id);
-            
+
             // Validar datos requeridos
             $validated = $request->validate([
                 'payment_method_id' => 'required',
                 'customer_document_number' => 'required',
                 'customer_name' => 'required',
-                'invoice_type' => 'required|in:boleta,factura',
                 'customer_document_type' => 'required|in:DNI,RUC',
             ]);
 
-            // Procesar el pago
-            $order->payment_method_id = $validated['payment_method_id'];
-            $order->customer_document_number = $validated['customer_document_number'];
-            $order->customer_name = $validated['customer_name'];
-            $order->invoice_type = $validated['invoice_type'];
-            $order->status = 'paid';
-            $order->payment_date = now();
-            
-            // Si es factura, guardar dirección
-            if ($request->has('customer_address')) {
-                $order->customer_address = $request->customer_address;
-            }
-            
-            $order->save();
+            // Determinar tipo de comprobante automáticamente
+            $invoiceType = $validated['customer_document_type'] === 'RUC' ?
+                InvoiceType::Factura :
+                InvoiceType::Boleta;
 
-            // Generar URL del comprobante
-            $invoice_url = route('orders.invoice', $order->id);
+            // Obtener o crear la serie según el tipo de comprobante
+            $seriesPrefix = $invoiceType === InvoiceType::Boleta ? 'B001' : 'F001';
+
+            $series = InvoiceSeries::firstOrCreate(
+                ['series' => $seriesPrefix],
+                [
+                    'document_type' => $invoiceType->value,
+                    'current_number' => 0,
+                    'is_active' => true
+                ]
+            );
+
+            $currentNumber = $series->current_number + 1;
+            $series->update(['current_number' => $currentNumber]);
+
+            // Crear la factura
+            $invoice = Invoice::create([
+                'order_id' => $order->id,
+                'invoice_type' => $invoiceType->value,
+                'series' => $series->series,
+                'number' => $currentNumber,
+                'total' => $order->total,
+                'tax' => $order->total * 0.18,
+                'customer_name' => $validated['customer_name'],
+                'customer_document_type' => $validated['customer_document_type'],
+                'customer_document_number' => $validated['customer_document_number'],
+                'customer_address' => $request->customer_address,
+                'issue_date' => now()
+            ]);
+
+            // Crear los items de la factura
+            foreach ($order->orderItems as $item) {
+                $invoice->items()->create([
+                    'description' => $item->menuItem->name,
+                    'quantity' => $item->quantity,
+                    'unit_price' => $item->price,
+                    'total_price' => $item->quantity * $item->price
+                ]);
+            }
+
+            // Registrar el pago
+            PaymentDetail::create([
+                'order_id' => $order->id,
+                'payment_method_id' => $validated['payment_method_id'],
+                'amount' => $order->total,
+                'payment_date' => now()
+            ]);
+
+            // Actualizar el estado de la orden y liberar la mesa
+            $order->update(['payment_status' => PaymentsStatus::Pagado->value]);
+            $order->table->update(['status' => TableStatus::Disponible->value]);
+
+            DB::commit();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Pago procesado correctamente',
-                'invoice_url' => $invoice_url
+                'invoice_url' => route('orders.invoice', $order->id)
             ]);
 
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Error al procesar pago: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
@@ -417,75 +466,15 @@ class OrderController extends Controller
         }
     }
 
-    // public function processPayment(Request $request, Order $order)
-    // {
+    public function invoice(Order $order)
+    {
+        $order->load(['orderItems.menuItem', 'table', 'user', 'invoice.items']);
 
-    //     try {
-    //         DB::beginTransaction();
+        $pdf = PDF::loadView('orders.invoice', compact('order'));
 
-    //         // Validar request
-    //         $validated = $request->validate([
-    //             'invoice_type' => 'required|in:boleta,factura',
-    //             'payment_method_id' => 'required|exists:payment_methods,id',
-    //             'customer_document_type' => 'required|in:DNI,RUC',
-    //             'customer_document_number' => 'required|string',
-    //             'customer_name' => 'required|string',
-    //             'customer_address' => 'nullable|string'
-    //         ]);
+        // Configurar el tamaño del papel para tickets
+        $pdf->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm (ancho) x 297mm (alto)
 
-    //         // Obtener serie según tipo de comprobante
-    //         $series = InvoiceSeries::where('series', $validated['invoice_type'] === 'boleta' ? 'B001' : 'F001')
-    //             ->first();
-    //         $series->increment('last_number');
-
-    //         // Crear la factura
-    //         $invoice = Invoice::create([
-    //             'order_id' => $order->id,
-    //             'invoice_type' => $validated['invoice_type'],
-    //             'series' => $series->series,
-    //             'number' => $series->last_number,
-    //             'total' => $order->total,
-    //             'tax' => $order->total * 0.18,
-    //             'customer_name' => $validated['customer_name'],
-    //             'customer_document_type' => $validated['customer_document_type'],
-    //             'customer_document_number' => $validated['customer_document_number'],
-    //             'customer_address' => $validated['customer_address']
-    //         ]);
-
-    //         // Crear los items de la factura
-    //         foreach ($order->orderItems as $item) {
-    //             $invoice->items()->create([
-    //                 'description' => $item->menuItem->name,
-    //                 'quantity' => $item->quantity,
-    //                 'unit_price' => $item->price,
-    //                 'total_price' => $item->quantity * $item->price
-    //             ]);
-    //         }
-
-    //         // Registrar el pago
-    //         PaymentDetail::create([
-    //             'order_id' => $order->id,
-    //             'payment_method_id' => $validated['payment_method_id'],
-    //             'amount' => $order->total
-    //         ]);
-
-    //         // Actualizar el estado de la orden y liberar la mesa
-    //         $order->update(['payment_status' => PaymentsStatus::Pagado]);
-    //         $order->table->update(['status' => TableStatus::Disponible]);
-
-    //         DB::commit();
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'invoice_url' => route('invoices.print', $invoice->id)
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         Log::error('Error al procesar pago: ' . $e->getMessage());
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
+        return $pdf->stream('comprobante-' . $order->invoice->series . '-' . $order->invoice->number . '.pdf');
+    }
 }

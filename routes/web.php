@@ -112,13 +112,20 @@ Route::middleware([
     Route::post('/orders/change-table', [OrderController::class, 'changeTable'])->name('orders.change-table');
     Route::get('/orders/{order}/payment', [OrderController::class, 'payment'])->name('orders.payment');
     Route::post('/orders/{order}/process-payment', [OrderController::class, 'processPayment'])->name('orders.process-payment');
+    Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 
     Route::resource('commands', CommandController::class);
     Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');
 
     Route::post('analytics', [AnalyticsController::class, 'index'])->name('analytics');
     Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
+
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('/invoices/{invoice}/details', [InvoiceController::class, 'details'])->name('invoices.details');
+    Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
 });
+
 
 // Route::resource('products', ProductsController::class)->names('products');
 // Route::put('/products/{id}/status', [ProductsController::class, 'updateStatus'])->name('products.updateStatus');

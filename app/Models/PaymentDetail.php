@@ -9,7 +9,16 @@ class PaymentDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['order_id', 'payment_method_id', 'amount'];
+    public $timestamps = false;  // Desactivar timestamps
+
+    protected $fillable = [
+        'order_id',
+        'payment_method_id',
+        'amount',
+        'payment_date'
+    ];
+
+    protected $dates = ['payment_date'];
 
     public function order()
     {

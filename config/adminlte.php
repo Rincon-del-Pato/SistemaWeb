@@ -449,6 +449,13 @@ return [
         ],
 
         [
+            'text' => 'Comprobantes',
+            'url'  => 'invoices',
+            'icon' => 'fas fa-file-invoice',
+            'active' => ['invoices*'],
+        ],
+
+        [
             // 'text' => 'Carta',
             // 'url' => 'menus',
             // 'icon' => 'far fa-file-alt',

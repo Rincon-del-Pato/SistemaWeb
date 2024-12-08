@@ -68,4 +68,9 @@ class Order extends Model
     {
         return $this->hasOne(CommandTicket::class)->latest();
     }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class)->latest();
+    }
 }
