@@ -316,45 +316,25 @@ return [
             'text' => 'Dashboard',
             'url'  => 'dashboard',
             'icon' => 'fas fa-tachometer-alt',
+            'can'  => 'panel.Dashboard'
         ],
         [
             'text' => 'Reportes',
             'url'  => 'reports',
             'icon' => 'fas fa-chart-pie',
-            // 'submenu' => [
-            //     [
-            //         'text' => 'Ventas por Categoría',
-            //         'url'  => 'reports?type=sales_by_category',
-            //         'icon' => 'fas fa-chart-bar',
-            //     ],
-            //     [
-            //         'text' => 'Rendimiento de Empleados',
-            //         'url'  => 'reports?type=employee_performance',
-            //         'icon' => 'fas fa-user-chart',
-            //     ],
-            //     [
-            //         'text' => 'Movimiento de Inventario',
-            //         'url'  => 'reports?type=inventory_movement',
-            //         'icon' => 'fas fa-boxes',
-            //     ],
-            //     [
-            //         'text' => 'Análisis de Clientes',
-            //         'url'  => 'reports?type=customer_analysis',
-            //         'icon' => 'fas fa-users',
-            //     ],
-            // ],
+            'can'  => 'panel.Reportes'
         ],
         [
             'text' => 'Analytics',
             'url' => 'analytics',
             'icon' => 'fas fa-chart-line',
+            'can'  => 'panel.IA'
         ],
         [
             'text' => 'Roles',
             'url' => 'roles',
             'icon' => 'fas fa-user-shield',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'can'  => 'panel.Roles'
         ],
 
         [
@@ -369,28 +349,26 @@ return [
             'text' => 'Empleados',
             'url' => 'employees',
             'icon' => 'fas fa-user-tie',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'can'  => 'panel.Empleados'
         ],
 
         [
             'text' => 'Mesas',
             'url' => 'tables',
             'icon' => 'fas fa-utensils',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'can'  => 'panel.Mesas'
         ],
 
         [
             'text' => 'Categorias',
             'url' => 'categories',
             'icon' => 'fas fa-tags',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'can'  => 'panel.Categorias'
         ],
         [
             'text' => 'Gestionar Inventario',
             'icon' => 'fas fa-boxes',
+            'can'  => 'panel.Inventario',
             'submenu' => [
                 [
                     'text' => 'Inventario',
@@ -413,6 +391,7 @@ return [
         [
             'text' => 'Platos del Menú',
             'icon' => 'fas fa-concierge-bell',
+            'can'  => 'panel.Menu',
             'submenu' => [
                 [
                     'text' => 'Menú',
@@ -433,31 +412,20 @@ return [
         [
             'text' => 'Clientes',
             'url' => 'customers',
-            'icon' => 'fas fa-user-friends', // Icono de Font Awesome para "clientes"
-            // 'label' => null, // O un número si quieres mostrar un contador
-            // 'label_color' => 'success', // Color de la etiqueta si usas un contador
-            // 'can' => 'view-customers', // Permiso requerido (puedes configurarlo con Spatie Permissions o policies)
+            'icon' => 'fas fa-user-friends',
+            'can'  => 'panel.Clientes'
         ],
-        [
-            // 'text' => 'Productos',
-            // 'url' => 'products',
-            // 'icon' => 'fas fa-box',
-            // 'label' => 4,
-            // 'label_color' => 'success',
-        ],
-
         [
             'text' => 'Ordenes',
             'url' => 'orders',
             'icon' => 'fas fa-utensils',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'can'  => 'panel.Ordenes'
         ],
-
         [
             'text' => 'Comandas',
             'url' => 'commands',
             'icon' => 'fas fa-receipt',
+            'can'  => 'panel.Comandas',
             'label_color' => 'warning',
             'active' => ['commands*']
         ],
@@ -467,6 +435,7 @@ return [
             'text' => 'Comprobantes',
             'url'  => 'invoices',
             'icon' => 'fas fa-file-invoice',
+            'can'  => 'panel.Comprobantes',
             'active' => ['invoices*'],
         ],
 

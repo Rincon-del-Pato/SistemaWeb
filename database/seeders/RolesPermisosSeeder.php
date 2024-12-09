@@ -68,6 +68,12 @@ class RolesPermisosSeeder extends Seeder
             'description' => 'Acceso al panel de Roles',
             'tipo' => 'panel'
         ])->syncRoles([$role7]);
+        //panel de usuarios
+        Permission::create([
+            'name' => 'panel.Usuarios',
+            'description' => 'Acceso al panel de Usuarios',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7]);
         //panel de empleados
         Permission::create([
             'name' => 'panel.Empleados',
