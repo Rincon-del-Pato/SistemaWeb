@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1><i class="fas fa-utensils"></i> BIENVENIDOS</h1>
+    <h1><i class="fas fa-utensils"></i> Bievenidos al Rincon del Pato</h1>
 @stop
 
 @section('content')
@@ -95,6 +95,60 @@
                 </div>
                 <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20"></div>
             </div>
+
+            <!-- Productos Más Vendidos -->
+            <div class="relative overflow-hidden rounded-lg shadow-lg bg-primary group">
+                <div class="p-6">
+                    <div class="relative z-10">
+                        <div class="text-2xl font-bold text-white">
+                            {{ $topSellingProduct }}
+                        </div>
+                        <div class="text-white/90">
+                            Producto Más Vendido
+                        </div>
+                    </div>
+                    <div class="absolute right-0 transition-transform opacity-50 top-2 text-white/50 group-hover:scale-110">
+                        <i class="mr-4 text-6xl transform fas fa-crown -rotate-12"></i>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20"></div>
+            </div>
+
+            <!-- Empleado del Período -->
+            <div class="relative overflow-hidden rounded-lg shadow-lg bg-purple-600 group">
+                <div class="p-6">
+                    <div class="relative z-10">
+                        <div class="text-2xl font-bold text-white">
+                            {{ $employeePerformance->first()?->name ?? 'N/A' }}
+                        </div>
+                        <div class="text-white/90">
+                            Empleado del Período
+                        </div>
+                    </div>
+                    <div class="absolute right-0 transition-transform opacity-50 top-2 text-white/50 group-hover:scale-110">
+                        <i class="mr-4 text-6xl transform fas fa-user-tie -rotate-12"></i>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20"></div>
+            </div>
+
+            <!-- Nueva tarjeta - Total de Órdenes -->
+            <div class="relative overflow-hidden rounded-lg shadow-lg bg-orange-500 group">
+                <div class="p-6">
+                    <div class="relative z-10">
+                        <div class="text-2xl font-bold text-white">
+                            {{ $totalOrders }}
+                        </div>
+                        <div class="text-white/90">
+                            Total de Órdenes
+                        </div>
+                    </div>
+                    <div class="absolute right-0 transition-transform opacity-50 top-2 text-white/50 group-hover:scale-110">
+                        <i class="mr-4 text-6xl transform fas fa-receipt -rotate-12"></i>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20"></div>
+            </div>
         </div>
 
         <!-- Gráficas -->
@@ -106,6 +160,30 @@
             <div class="min-w-0 p-4 bg-white rounded-lg shadow-md">
                 <h3 class="mb-4 text-xl font-semibold text-gray-900">Estado de Inventario</h3>
                 <div id="inventoryChart"></div>
+            </div>
+            <!-- Movido del final - Top 5 y Categorías juntos -->
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-md">
+                <h3 class="mb-4 text-xl font-semibold text-gray-900">Top 5 Productos Más Vendidos</h3>
+                <div id="topProductsChart"></div>
+            </div>
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-md">
+                <h3 class="mb-4 text-xl font-semibold text-gray-900">Categorías más Vendidas</h3>
+                <div id="categoriesChart"></div>
+            </div>
+        </div>
+
+        <!-- Nuevas gráficas -->
+        <div class="grid gap-6 mb-8 md:grid-cols-2">
+            <!-- Rendimiento de Empleados -->
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-md">
+                <h3 class="mb-4 text-xl font-semibold text-gray-900">Rendimiento de Empleados</h3>
+                <div id="employeeChart"></div>
+            </div>
+
+            <!-- Tipos de Órdenes -->
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-md">
+                <h3 class="mb-4 text-xl font-semibold text-gray-900">Tipos de Órdenes</h3>
+                <div id="orderTypesChart"></div>
             </div>
         </div>
     </div>
@@ -223,6 +301,119 @@
             };
 
             new ApexCharts(document.querySelector("#inventoryChart"), inventoryOptions).render();
+
+            // Nueva gráfica de productos más vendidos
+            const topProductsOptions = {
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                series: [{
+                    name: 'Cantidad Vendida',
+                    data: @json($topProductsQuantities)
+                }],
+                xaxis: {
+                    categories: @json($topProductsNames),
+                    labels: {
+                        style: {
+                            colors: '#9ca3af'
+                        }
+                    }
+                },
+                colors: ['#4f46e5'],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 3,
+                        horizontal: true
+                    }
+                }
+            };
+
+            new ApexCharts(document.querySelector("#topProductsChart"), topProductsOptions).render();
+
+            // Gráfica de Rendimiento de Empleados
+            const employeeChart = new ApexCharts(document.querySelector("#employeeChart"), {
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                series: [{
+                    name: 'Ventas Totales',
+                    data: @json($employeePerformance->pluck('total_sales'))
+                }],
+                xaxis: {
+                    categories: @json($employeePerformance->pluck('name')),
+                    labels: {
+                        style: { colors: '#9ca3af' }
+                    }
+                },
+                colors: ['#9333ea']
+            });
+            employeeChart.render();
+
+            // Gráfica de Tipos de Órdenes
+            const orderTypesChart = new ApexCharts(document.querySelector("#orderTypesChart"), {
+                chart: {
+                    type: 'pie',
+                    height: 350
+                },
+                series: @json($orderTypes->pluck('total')),
+                labels: @json($orderTypes->pluck('order_type')),
+                colors: ['#3b82f6', '#10b981', '#f59e0b']
+            });
+            orderTypesChart.render();
+
+            // Gráfica de Categorías - Reemplazar la configuración existente
+            const categoriesChart = new ApexCharts(document.querySelector("#categoriesChart"), {
+                chart: {
+                    type: 'donut',
+                    height: 350
+                },
+                series: @json($topCategories->pluck('total_quantity')->map(function($value) {
+                    return (int)$value;
+                })),
+                labels: @json($topCategories->pluck('name')),
+                colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f97316'],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function (val, opts) {
+                        const name = opts.w.config.labels[opts.seriesIndex];
+                        const value = opts.w.config.series[opts.seriesIndex];
+                        return name + ': ' + value;
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '65%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total Vendido',
+                                    formatter: function (w) {
+                                        return w.globals.seriesTotals.reduce((a, b) => {
+                                            return a + b;
+                                        }, 0);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom',
+                    horizontalAlign: 'center'
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + ' unidades';
+                        }
+                    }
+                }
+            });
+            categoriesChart.render();
 
             // Manejador de F1 modificado
             document.addEventListener('keydown', function(event) {

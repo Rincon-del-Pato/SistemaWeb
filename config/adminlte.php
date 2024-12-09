@@ -317,7 +317,38 @@ return [
             'url'  => 'dashboard',
             'icon' => 'fas fa-tachometer-alt',
         ],
-
+        [
+            'text' => 'Reportes',
+            'url'  => 'reports',
+            'icon' => 'fas fa-chart-pie',
+            // 'submenu' => [
+            //     [
+            //         'text' => 'Ventas por Categoría',
+            //         'url'  => 'reports?type=sales_by_category',
+            //         'icon' => 'fas fa-chart-bar',
+            //     ],
+            //     [
+            //         'text' => 'Rendimiento de Empleados',
+            //         'url'  => 'reports?type=employee_performance',
+            //         'icon' => 'fas fa-user-chart',
+            //     ],
+            //     [
+            //         'text' => 'Movimiento de Inventario',
+            //         'url'  => 'reports?type=inventory_movement',
+            //         'icon' => 'fas fa-boxes',
+            //     ],
+            //     [
+            //         'text' => 'Análisis de Clientes',
+            //         'url'  => 'reports?type=customer_analysis',
+            //         'icon' => 'fas fa-users',
+            //     ],
+            // ],
+        ],
+        [
+            'text' => 'Analytics',
+            'url' => 'analytics',
+            'icon' => 'fas fa-chart-line',
+        ],
         [
             'text' => 'Roles',
             'url' => 'roles',
@@ -431,11 +462,6 @@ return [
             'active' => ['commands*']
         ],
 
-        [
-            'text' => 'Analytics',
-            'url' => 'analytics',
-            'icon' => 'fas fa-chart-line',
-        ],
 
         [
             'text' => 'Comprobantes',

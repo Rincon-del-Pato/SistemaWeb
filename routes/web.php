@@ -9,6 +9,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CategoryController;
@@ -129,7 +130,16 @@ Route::middleware([
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
     Route::get('/invoices/{invoice}/details', [InvoiceController::class, 'details'])->name('invoices.details');
     Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
+
+    Route::get('/dashboard/export-employees', [DashboardController::class, 'exportEmployees'])->name('dashboard.export-employees');
+    Route::get('/dashboard/export-daily-sales', [DashboardController::class, 'exportDailySales'])->name('dashboard.export-daily-sales');
+    Route::get('/dashboard/export-orders', [DashboardController::class, 'exportOrders'])->name('dashboard.export-orders');
+    Route::get('/dashboard/export-reservations', [DashboardController::class, 'exportReservations'])->name('dashboard.export-reservations');
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('reports.generate');
 });
+
 
 
 // Route::resource('products', ProductsController::class)->names('products');
