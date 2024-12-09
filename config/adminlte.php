@@ -303,8 +303,8 @@ return [
             'topnav_right' => false,
         ],
         [
-            'type' => 'darkmode-widget', // Agregar este elemento
-            'topnav_right' => true,      // Para que aparezca a la derecha
+            'type' => 'darkmode-widget',
+            'topnav_right' => true,
         ],
         [
             'type' => 'fullscreen-widget',
@@ -312,22 +312,11 @@ return [
         ],
 
         // Sidebar items:
-        // [
-        //     'type' => 'sidebar-menu-search',
-        //     'text' => 'search',
-        // ],
-        // [
-        //     'text' => 'blog',
-        //     'url' => 'admin/blog',
-        //     'can' => 'manage-blog',
-        // ],
-        // [
-        //     'text' => 'pages',
-        //     'url' => 'admin/pages',
-        //     'icon' => 'far fa-fw fa-file',
-        //     'label' => 4,
-        //     'label_color' => 'success',
-        // ],
+        [
+            'text' => 'Dashboard',
+            'url'  => 'dashboard',
+            'icon' => 'fas fa-tachometer-alt',
+        ],
 
         [
             'text' => 'Roles',

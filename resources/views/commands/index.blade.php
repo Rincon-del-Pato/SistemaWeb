@@ -3,7 +3,7 @@
 @section('title', 'Comandas')
 
 @section('content_header')
-    <h1>Gestión de Comandas</h1>
+    <h1>Comandas</h1>
 @stop
 
 @section('content')
@@ -20,7 +20,32 @@
                             <div class="command-card cursor-pointer bg-white p-3 rounded shadow-sm mb-3 hover:shadow"
                                 onclick="showCommandDetail({{ $command->id }})">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span class="font-weight-bold">Mesa #{{ $command->order->table_id }}</span>
+                                    @if($command->order)
+                                        @php
+                                            $orderType = $command->order->order_type->value;
+                                        @endphp
+                                        @switch($orderType)
+                                            @case('Local')
+                                                <span class="font-weight-bold">
+                                                    Mesa #{{ $command->order->table ? $command->order->table->table_number : 'N/A' }}
+                                                </span>
+                                                @break
+                                            @case('ParaLlevar')
+                                                <span class="font-weight-bold">
+                                                    <i class="fas fa-shopping-bag mr-1"></i> Para Llevar
+                                                </span>
+                                                @break
+                                            @case('Delivery')
+                                                <span class="font-weight-bold">
+                                                    <i class="fas fa-motorcycle mr-1"></i> Delivery
+                                                </span>
+                                                @break
+                                            @default
+                                                <span class="font-weight-bold">Tipo: {{ $orderType }}</span>
+                                        @endswitch
+                                    @else
+                                        <span class="font-weight-bold">Orden no disponible</span>
+                                    @endif
                                     <span class="text-muted small">{{ $command->created_at->diffForHumans() }}</span>
                                 </div>
                                 <div class="mt-2">
@@ -43,7 +68,32 @@
                             <div class="command-card cursor-pointer bg-white p-3 rounded shadow-sm mb-3 hover:shadow"
                                 onclick="showCommandDetail({{ $command->id }})">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span class="font-weight-bold">Mesa #{{ $command->order->table_id }}</span>
+                                    @if($command->order)
+                                        @php
+                                            $orderType = $command->order->order_type->value;
+                                        @endphp
+                                        @switch($orderType)
+                                            @case('Local')
+                                                <span class="font-weight-bold">
+                                                    Mesa #{{ $command->order->table ? $command->order->table->table_number : 'N/A' }}
+                                                </span>
+                                                @break
+                                            @case('ParaLlevar')
+                                                <span class="font-weight-bold">
+                                                    <i class="fas fa-shopping-bag mr-1"></i> Para Llevar
+                                                </span>
+                                                @break
+                                            @case('Delivery')
+                                                <span class="font-weight-bold">
+                                                    <i class="fas fa-motorcycle mr-1"></i> Delivery
+                                                </span>
+                                                @break
+                                            @default
+                                                <span class="font-weight-bold">Tipo: {{ $orderType }}</span>
+                                        @endswitch
+                                    @else
+                                        <span class="font-weight-bold">Orden no disponible</span>
+                                    @endif
                                     <span class="text-muted small">{{ $command->created_at->diffForHumans() }}</span>
                                 </div>
                                 <div class="mt-2">
@@ -66,7 +116,32 @@
                             <div class="command-card cursor-pointer bg-white p-3 rounded shadow-sm mb-3 hover:shadow"
                                 onclick="showCommandDetail({{ $command->id }})">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span class="font-weight-bold">Mesa #{{ $command->order->table_id }}</span>
+                                    @if($command->order)
+                                        @php
+                                            $orderType = $command->order->order_type->value;
+                                        @endphp
+                                        @switch($orderType)
+                                            @case('Local')
+                                                <span class="font-weight-bold">
+                                                    Mesa #{{ $command->order->table ? $command->order->table->table_number : 'N/A' }}
+                                                </span>
+                                                @break
+                                            @case('ParaLlevar')
+                                                <span class="font-weight-bold">
+                                                    <i class="fas fa-shopping-bag mr-1"></i> Para Llevar
+                                                </span>
+                                                @break
+                                            @case('Delivery')
+                                                <span class="font-weight-bold">
+                                                    <i class="fas fa-motorcycle mr-1"></i> Delivery
+                                                </span>
+                                                @break
+                                            @default
+                                                <span class="font-weight-bold">Tipo: {{ $orderType }}</span>
+                                        @endswitch
+                                    @else
+                                        <span class="font-weight-bold">Orden no disponible</span>
+                                    @endif
                                     <span class="text-muted small">{{ $command->created_at->diffForHumans() }}</span>
                                 </div>
                                 <div class="mt-2">
@@ -94,7 +169,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="updateStatusBtn">Actualizar Estado</button>
                 </div>
             </div>
         </div>
@@ -115,72 +189,141 @@
 @stop
 
 @section('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // Función para refrescar las comandas cada 30 segundos
+        setInterval(function() {
+            if (!$('#commandDetailModal').hasClass('show')) {
+                location.reload();
+            }
+        }, 30000);
+
+        let currentCommandId; // Declarar variable global al inicio
+
         function showCommandDetail(commandId) {
+            currentCommandId = commandId; // Asignar el ID al inicio de la función
             axios.get(`/commands/${commandId}`)
                 .then(response => {
+                    console.log('Response:', response.data);
                     const command = response.data;
+                    
+                    let orderTypeDisplay = '';
+                    let additionalInfo = '';
+                    
+                    switch(command.order.type) {
+                        case 'Local':
+                            orderTypeDisplay = `Mesa #${command.order.info.table_number}`;
+                            break;
+                        case 'ParaLlevar':
+                            orderTypeDisplay = `<i class="fas fa-shopping-bag mr-1"></i> Para Llevar`;
+                            additionalInfo = command.order.info.special_instructions ? 
+                                `<p class="text-sm text-gray-600">Instrucciones: ${command.order.info.special_instructions}</p>` : '';
+                            break;
+                        case 'Delivery':
+                            orderTypeDisplay = `<i class="fas fa-motorcycle mr-1"></i> Delivery`;
+                            additionalInfo = `
+                                <p class="text-sm text-gray-600">Cliente: ${command.order.info.customer_name}</p>
+                                <p class="text-sm text-gray-600">Dirección: ${command.order.info.delivery_address}</p>
+                                ${command.order.info.special_instructions ? 
+                                    `<p class="text-sm text-gray-600">Instrucciones: ${command.order.info.special_instructions}</p>` : ''}
+                            `;
+                            break;
+                    }
+
+                    let actionButtons = '';
+                    if (command.status === 'Pendiente') {
+                        actionButtons = `
+                            <button onclick="changeStatus(${commandId}, 'En_Progreso')" 
+                                    class="btn btn-info btn-lg btn-block mb-2">
+                                Iniciar Preparación
+                            </button>`;
+                    } else if (command.status === 'En_Progreso') {
+                        actionButtons = `
+                            <button onclick="changeStatus(${commandId}, 'Completado')" 
+                                    class="btn btn-success btn-lg btn-block mb-2">
+                                Marcar como Completado
+                            </button>`;
+                    }
+
                     let html = `
                         <div class="command-detail">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h4>Mesa #${command.order.table_id}</h4>
+                                <div>
+                                    <h4>${orderTypeDisplay}</h4>
+                                    ${additionalInfo}
+                                </div>
                                 <span class="badge badge-${getStatusBadgeColor(command.status)}">${command.status}</span>
                             </div>
                             <div class="items-list mb-4">
-                                ${command.items.map(item => `
+                                ${command.order.items.map(item => `
                                     <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
                                         <div>
                                             <span class="font-weight-bold">${item.quantity}x</span>
                                             ${item.menu_item.name}
                                         </div>
-                                        ${item.special_requests ? 
-                                            `<small class="text-muted">${item.special_requests}</small>` : ''}
                                     </div>
                                 `).join('')}
                             </div>
-                            <div class="status-update mt-4">
-                                <select class="form-control" id="newStatus">
-                                    <option value="Pendiente" ${command.status === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
-                                    <option value="En_Progreso" ${command.status === 'En_Progreso' ? 'selected' : ''}>En Progreso</option>
-                                    <option value="Completado" ${command.status === 'Completado' ? 'selected' : ''}>Completado</option>
-                                    <option value="Cancelado" ${command.status === 'Cancelado' ? 'selected' : ''}>Cancelado</option>
-                                </select>
-                                <textarea class="form-control mt-2" id="statusNotes" placeholder="Notas adicionales..."></textarea>
+                            <div class="status-controls mt-4">
+                                ${actionButtons}
                             </div>
                         </div>
                     `;
+                    
                     $('#commandDetailContent').html(html);
                     $('#commandDetailModal').modal('show');
-                    
-                    // Guardar el ID de la comanda actual
-                    $('#updateStatusBtn').data('commandId', commandId);
+                    currentCommandId = commandId; // Variable global para mantener el ID actual
+                })
+                .catch(error => {
+                    console.error('Error detallado:', error.response || error);
+                    toastr.error('Error al cargar los detalles de la comanda');
                 });
         }
 
-        // Agregar manejador para el botón de actualizar
-        $('#updateStatusBtn').click(function() {
-            const commandId = $(this).data('commandId');
-            const newStatus = $('#newStatus').val();
-            const notes = $('#statusNotes').val();
+        function changeStatus(commandId, newStatus) {
+            console.log('Cambiando estado:', { commandId, newStatus }); // Debug log
+
+            const loadingBtn = Swal.fire({
+                title: 'Actualizando...',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
             axios.patch(`/commands/${commandId}/status`, {
-                status: newStatus,
-                notes: notes
+                status: newStatus
             })
             .then(response => {
-                if(response.data.success) {
-                    // Cerrar modal y recargar página
-                    $('#commandDetailModal').modal('hide');
-                    location.reload();
-                    // Opcional: Mostrar notificación de éxito
-                    toastr.success('Estado actualizado correctamente');
+                console.log('Respuesta:', response.data); // Debug log
+                loadingBtn.close();
+                
+                if (response.data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Estado actualizado',
+                        text: `Nuevo estado: ${newStatus}`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        $('#commandDetailModal').modal('hide');
+                        location.reload();
+                    });
+                } else {
+                    throw new Error(response.data.message);
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                toastr.error('Error al actualizar el estado');
+                console.error('Error completo:', error); // Debug log
+                loadingBtn.close();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.response?.data?.message || 'No se pudo actualizar el estado'
+                });
             });
-        });
+        }
 
         function getStatusBadgeColor(status) {
             const colors = {
@@ -191,5 +334,13 @@
             };
             return colors[status] || 'secondary';
         }
+
+        // Agregar manejador de F1
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'F1') {
+                event.preventDefault();
+                window.open('https://rincon-del-pato.github.io/Manual/', '_blank');
+            }
+        });
     </script>
 @stop

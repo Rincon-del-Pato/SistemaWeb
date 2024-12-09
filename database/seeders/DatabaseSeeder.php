@@ -48,6 +48,8 @@ class DatabaseSeeder extends Seeder
             //EmployeeSalesSeeder::class,
             InvoicesSeeder::class,
             InvoiceItemsSeeder::class,
+            CommandTicketSeeder::class,
+            CommandTicketItemSeeder::class,
         ]);
     }
 }

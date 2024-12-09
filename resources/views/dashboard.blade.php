@@ -109,44 +109,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal de Ayuda -->
-    <div id="helpModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-2xl max-h-full">
-            <div class="relative bg-white rounded-lg shadow">
-                <!-- Encabezado del Modal -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t">
-                    <h3 class="text-xl font-semibold text-gray-900">
-                        Ayuda del Sistema de Restaurante
-                    </h3>
-                    <button type="button" onclick="closeHelpModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                    </button>
-                </div>
-                <!-- Contenido del Modal -->
-                <div class="p-6 space-y-6">
-                    <div class="mb-4">
-                        <h4 class="text-lg font-bold text-gray-900">Dashboard</h4>
-                        <p class="text-gray-700">Visualización general de estadísticas y métricas importantes del restaurante.</p>
-                    </div>
-                    <div class="mb-4">
-                        <h4 class="text-lg font-bold text-gray-900">Filtros de Fecha</h4>
-                        <p class="text-gray-700">Use los selectores de fecha para filtrar la información mostrada en el dashboard.</p>
-                    </div>
-                    <div class="mb-4">
-                        <h4 class="text-lg font-bold text-gray-900">Exportación</h4>
-                        <p class="text-gray-700">Utilice los botones de exportación para descargar reportes de ventas e inventario.</p>
-                    </div>
-                </div>
-                <!-- Pie del Modal -->
-                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                    <button onclick="closeHelpModal()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Entendido</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @stop
 
 @section('css')
@@ -158,9 +120,6 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
-        // Inicializar el modal
-        let helpModal;
-
         document.addEventListener('DOMContentLoaded', function() {
             // Gráfica de Ventas Diarias
             const salesOptions = {
@@ -265,23 +224,13 @@
 
             new ApexCharts(document.querySelector("#inventoryChart"), inventoryOptions).render();
 
-            // Inicializar el modal
-            helpModal = new Modal(document.getElementById('helpModal'));
-
-            // Manejador de F1
+            // Manejador de F1 modificado
             document.addEventListener('keydown', function(event) {
                 if (event.key === 'F1') {
                     event.preventDefault();
-                    helpModal.show();
+                    window.open('https://rincon-del-pato.github.io/Manual/', '_blank');
                 }
             });
         });
-
-        // Función para cerrar el modal
-        function closeHelpModal() {
-            if (helpModal) {
-                helpModal.hide();
-            }
-        }
     </script>
 @stop

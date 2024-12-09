@@ -7,8 +7,6 @@ use App\Models\Table;
 use App\Models\Invoice;
 use App\Enums\OrderType;
 use App\Models\Category;
-use App\Models\Customer;
-use App\Models\Employee;
 use App\Models\MenuItem;
 use App\Enums\CommandStatus;
 use Illuminate\Http\Request;
@@ -20,28 +18,107 @@ use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Google\Service\Bigquery\CategoricalValue;
-use App\Enums\TableStatus;  // Agregar este import
-use Barryvdh\DomPDF\Facade\Pdf;  // Cambia esta línea si estabas usando la anterior
-use App\Enums\InvoiceType;  // Agregar este import
+use App\Enums\TableStatus;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Enums\InvoiceType;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $tables = Table::with(['orders.orderItems.menuItem', 'orders.user.employee'])
-            ->get();
+        // Obtener mesas con órdenes locales
+        $tables = Table::with(['orders' => function ($query) {
+            $query->where('payment_status', PaymentsStatus::Pendiente->value)
+                ->with(['orderItems.menuItem', 'user.employee'])
+                ->latest();
+        }])->get();
 
-        return view('orders.index', [
-            'tables' => $tables,
-            'availableCount' => $tables->where('status.value', 'Disponible')->count(),
-            'occupiedCount' => $tables->where('status.value', 'Ocupado')->count(),
-        ]);
+        // Obtener órdenes para llevar agrupadas por estado
+        $paraLlevarOrders = [
+            'Pendiente' => Order::with(['orderItems.menuItem', 'user.employee', 'customer', 'commandTickets'])
+                ->where('order_type', OrderType::ParaLlevar->value)
+                ->whereHas('commandTickets', function ($query) {
+                    $query->where('status', CommandStatus::Pendiente->value);
+                })
+                ->latest()
+                ->get(),
+
+            'Preparando' => Order::with(['orderItems.menuItem', 'user.employee', 'customer', 'commandTickets'])
+                ->where('order_type', OrderType::ParaLlevar->value)
+                ->whereHas('commandTickets', function ($query) {
+                    $query->where('status', CommandStatus::En_Progreso->value);
+                })
+                ->latest()
+                ->get(),
+
+            'Completado' => Order::with(['orderItems.menuItem', 'user.employee', 'customer', 'commandTickets'])
+                ->where('order_type', OrderType::ParaLlevar->value)
+                ->whereHas('commandTickets', function ($query) {
+                    $query->where('status', CommandStatus::Completado->value);
+                })
+                ->latest()
+                ->get()
+        ];
+
+        // Obtener órdenes delivery agrupadas por estado
+        $deliveryOrders = [
+            'Pendiente' => Order::with(['orderItems.menuItem', 'user.employee', 'customer', 'commandTickets'])
+                ->where('order_type', OrderType::Delivery->value)
+                ->whereHas('commandTickets', function ($query) {
+                    $query->where('status', CommandStatus::Pendiente->value);
+                })
+                ->latest()
+                ->get(),
+
+            'Preparando' => Order::with(['orderItems.menuItem', 'user.employee', 'customer', 'commandTickets'])
+                ->where('order_type', OrderType::Delivery->value)
+                ->whereHas('commandTickets', function ($query) {
+                    $query->where('status', CommandStatus::En_Progreso->value);
+                })
+                ->latest()
+                ->get(),
+
+            'Enviando' => Order::with(['orderItems.menuItem', 'user.employee', 'customer', 'commandTickets'])
+                ->where('order_type', OrderType::Delivery->value)
+                ->whereHas('commandTickets', function ($query) {
+                    $query->where('status', CommandStatus::Enviando->value);
+                })
+                ->latest()
+                ->get(),
+
+            'Completado' => Order::with(['orderItems.menuItem', 'user.employee', 'customer', 'commandTickets'])
+                ->where('order_type', OrderType::Delivery->value)
+                ->whereHas('commandTickets', function ($query) {
+                    $query->where('status', CommandStatus::Completado->value);
+                })
+                ->latest()
+                ->get()
+        ];
+
+        // Contar mesas disponibles y ocupadas
+        $availableCount = $tables->where('status.value', 'Disponible')->count();
+        $occupiedCount = $tables->where('status.value', 'Ocupado')->count();
+
+        return view('orders.index', compact(
+            'tables',
+            'availableCount',
+            'occupiedCount',
+            'paraLlevarOrders',
+            'deliveryOrders'
+        ));
     }
 
     public function create(Request $request)
     {
-        $table = Table::findOrFail($request->table_id);
-        $customerCount = $request->customer_count;
+        $orderType = $request->type ?? OrderType::Local->value;
+        $table = null;
+        $customerCount = 1;
+
+        if ($orderType === OrderType::Local->value) {
+            $table = Table::findOrFail($request->table_id);
+            $customerCount = $request->customer_count;
+        }
+
         $categories = Category::all();
         $menus = MenuItem::with(['sizes' => function ($query) {
             $query->orderBy('price', 'asc');
@@ -52,7 +129,7 @@ class OrderController extends Controller
             ->where('available', true)
             ->get();
 
-        return view('orders.create', compact('table', 'customerCount', 'categories', 'menus'));
+        return view('orders.create', compact('table', 'customerCount', 'categories', 'menus', 'orderType'));
     }
 
     public function store(Request $request)
@@ -60,17 +137,36 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
+            // Modificar la validación para no requerir customer_name en Para Llevar
+            $validatedData = $request->validate([
+                'order_type' => 'required|in:Local,ParaLlevar,Delivery',
+                'customer_name' => 'required_if:order_type,Delivery',
+                'customer_phone' => 'required_if:order_type,Delivery',
+                'delivery_address' => 'required_if:order_type,Delivery',
+                'items' => 'required|array',
+            ]);
+
             // Crear la orden principal
-            $order = Order::create([
-                'table_id' => $request->table_id,
-                'customer_id' => $request->customer_id, // Agregamos el customer_id
-                'num_guests' => $request->customer_count,
+            $orderData = [
                 'user_id' => auth()->id(),
-                'order_type' => OrderType::Local->value,
+                'order_type' => $request->order_type,
                 'payment_status' => PaymentsStatus::Pendiente->value,
                 'total' => 0,
-                'order_date' => now()
-            ]);
+                'order_date' => now(),
+                'delivery_address' => $request->delivery_address,
+                'num_guests' => $request->customer_count ?? 1,
+            ];
+
+            // Agregar table_id solo si es orden Local
+            if ($request->order_type === OrderType::Local->value) {
+                $orderData['table_id'] = $request->table_id;
+                if ($request->table_id) {
+                    Table::where('id', $request->table_id)
+                        ->update(['status' => TableStatus::Ocupado->value]);
+                }
+            }
+
+            $order = Order::create($orderData);
 
             // Procesar los items de la orden
             $total = 0;
@@ -110,11 +206,12 @@ class OrderController extends Controller
 
             // Actualizar el total de la orden y mesa
             $order->update(['total' => $total]);
-            Table::where('id', $request->table_id)
-                ->update(['status' => TableStatus::Ocupado->value]);
 
             DB::commit();
-            return response()->json(['success' => true]);
+            return response()->json([
+                'success' => true,
+                'orderId' => $order->id
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
@@ -143,8 +240,8 @@ class OrderController extends Controller
         $menus = MenuItem::with(['sizes' => function ($query) {
             $query->orderBy('price', 'asc');
         }])
-        ->where('available', true)
-        ->get();
+            ->where('available', true)
+            ->get();
 
         return view('orders.edit', compact('order', 'categories', 'menus'));
     }
@@ -172,6 +269,7 @@ class OrderController extends Controller
             foreach ($request->items as $item) {
                 if ($item['is_new']) {
                     // Guardar nuevos ítems para la nueva comanda
+
                     $newItems[] = $item;
 
                     // Crear el nuevo ítem en la orden
@@ -366,13 +464,20 @@ class OrderController extends Controller
 
     public function payment(Order $order)
     {
-        $order->load(['orderItems.menuItem', 'table', 'user']);
+        $order->load(['orderItems.menuItem', 'user']);
+        
+        // Cargar la tabla solo si es una orden Local
+        if ($order->order_type === OrderType::Local->value) {
+            $order->load('table');
+        }
+        
         $paymentMethods = PaymentMethod::all();
         $defaultCustomer = [
             'name' => 'CLIENTE GENERAL',
             'document_type' => 'DNI',
             'document_number' => '00000000'
         ];
+        
         return view('orders.payment', compact('order', 'paymentMethods', 'defaultCustomer'));
     }
 
@@ -444,9 +549,13 @@ class OrderController extends Controller
                 'payment_date' => now()
             ]);
 
-            // Actualizar el estado de la orden y liberar la mesa
+            // Actualizar el estado de la orden
             $order->update(['payment_status' => PaymentsStatus::Pagado->value]);
-            $order->table->update(['status' => TableStatus::Disponible->value]);
+            
+            // Actualizar estado de mesa solo si es orden Local
+            if ($order->order_type === OrderType::Local->value && $order->table) {
+                $order->table->update(['status' => TableStatus::Disponible->value]);
+            }
 
             DB::commit();
 
@@ -455,7 +564,6 @@ class OrderController extends Controller
                 'message' => 'Pago procesado correctamente',
                 'invoice_url' => route('orders.invoice', $order->id)
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error al procesar pago: ' . $e->getMessage());
@@ -476,5 +584,11 @@ class OrderController extends Controller
         $pdf->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm (ancho) x 297mm (alto)
 
         return $pdf->stream('comprobante-' . $order->invoice->series . '-' . $order->invoice->number . '.pdf');
+    }
+
+    public function getDetails(Order $order)
+    {
+        $order->load(['orderItems.menuItem', 'user', 'customer']);
+        return response()->json($order);
     }
 }

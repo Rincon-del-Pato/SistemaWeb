@@ -10,7 +10,11 @@
             <div class="w-full overflow-x-auto bg-white rounded-lg shadow-md lg:w-2/3">
                 <div class="p-4 border-b bg-gray-50">
                     <h3 class="text-lg font-bold text-gray-800">Detalle del Pedido</h3>
-                    <p class="text-sm text-gray-600">Mesa: {{ $order->table->table_number }}</p>
+                    @if($order->order_type === 'Local')
+                        <p class="text-sm text-gray-600">Mesa: {{ $order->table->table_number }}</p>
+                    @else
+                        <p class="text-sm text-gray-600">Tipo: {{ $order->order_type }}</p>
+                    @endif
                     <p class="text-sm text-gray-600">Mozo: {{ $order->user->name }}</p>
                 </div>
                 <div class="p-4">
@@ -374,7 +378,7 @@
             const form = document.getElementById('paymentForm');
             const formData = new FormData(form);
             const data = {};
-            
+
             // Convertir FormData a objeto plano y agregar el token CSRF
             formData.forEach((value, key) => {
                 data[key] = value;
@@ -449,19 +453,19 @@
         function setInvoiceType(type) {
             // Actualizar tipo de documento
             document.getElementById('invoice_type').value = type;
-            
+
             // Actualizar apariencia de botones
             document.getElementById('boletaBtn').classList.toggle('bg-blue-500', type === 'boleta');
             document.getElementById('boletaBtn').classList.toggle('text-white', type === 'boleta');
             document.getElementById('facturaBtn').classList.toggle('bg-blue-500', type === 'factura');
             document.getElementById('facturaBtn').classList.toggle('text-white', type === 'factura');
-            
+
             // Desactivar Cliente General si está activo
             const defaultCustomerBtn = document.getElementById('defaultCustomerBtn');
             if (defaultCustomerBtn.classList.contains('bg-blue-500')) {
                 setDefaultCustomer(); // Esto desactivará el modo Cliente General
             }
-            
+
             handleDocumentTypeChange();
             document.getElementById('documentSearchSection').style.display = 'block';
         }
@@ -581,10 +585,10 @@
         function setDefaultCustomer() {
             const documentSearchSection = document.getElementById('documentSearchSection');
             const defaultCustomerBtn = document.getElementById('defaultCustomerBtn');
-            
+
             // Limpiar campos siempre
             resetFields();
-            
+
             // Si NO está activo el botón de Cliente General, activarlo
             if (!defaultCustomerBtn.classList.contains('bg-blue-500')) {
                 document.getElementById('customer_document_number').value = '00000000';

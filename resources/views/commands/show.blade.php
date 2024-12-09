@@ -23,8 +23,20 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <p><strong>Mesa:</strong> {{ $command->order->table->number }}</p>
-                            <p><strong>Clientes:</strong> {{ $command->order->num_guests }}</p>
+                            @switch($command->order->order_type)
+                                @case('Local')
+                                    <p><strong>Mesa:</strong> {{ $command->order->table->table_number }}</p>
+                                    <p><strong>Clientes:</strong> {{ $command->order->num_guests }}</p>
+                                    @break
+                                @case('ParaLlevar')
+                                    <p><strong>Orden Para Llevar</strong></p>
+                                    @break
+                                @case('Delivery')
+                                    <p><strong>Orden Delivery</strong></p>
+                                    <p><strong>Cliente:</strong> {{ $command->order->customer_name }}</p>
+                                    <p><strong>Dirección:</strong> {{ $command->order->delivery_address }}</p>
+                                    @break
+                            @endswitch
                             <p><strong>Hora:</strong> {{ $command->created_at->format('H:i') }}</p>
                         </div>
                     </div>

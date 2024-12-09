@@ -14,9 +14,8 @@ class CommandTicket extends Model
         'status'
     ];
 
-    protected $casts = [
-        'status' => CommandStatus::class
-    ];
+    // Remover completamente el cast del enum
+    // No usar protected $casts aquí
 
     public function order(): BelongsTo
     {

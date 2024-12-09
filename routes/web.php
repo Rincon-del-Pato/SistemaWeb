@@ -19,6 +19,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\MenuItemSizeController;
 use App\Http\Controllers\InventoryItemsController;
 use App\Http\Controllers\PermissionsionController;
@@ -54,6 +55,8 @@ Route::get('/analytics', function () {
 Route::get('/api/consult-document/{type}/{number}', [DocumentConsultController::class, 'consult'])->name('api.consult-document');
 
 Route::get('/consulta-documento/{type}/{number}', [DocumentConsultController::class, 'consult'])->name('consulta.documento');
+
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 
 Route::middleware([
     'auth:sanctum',
@@ -113,6 +116,8 @@ Route::middleware([
     Route::get('/orders/{order}/payment', [OrderController::class, 'payment'])->name('orders.payment');
     Route::post('/orders/{order}/process-payment', [OrderController::class, 'processPayment'])->name('orders.process-payment');
     Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
+    Route::put('orders/{order}/status', [OrderController::class, 'updateOrderStatus'])->name('orders.updateStatus');
+    Route::get('/orders/{order}/details', [OrderController::class, 'getDetails'])->name('orders.details');
 
     Route::resource('commands', CommandController::class);
     Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');

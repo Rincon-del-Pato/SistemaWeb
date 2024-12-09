@@ -16,6 +16,9 @@
 
         <!-- Styles -->
         @livewireStyles
+
+        <!-- En la sección head -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
     </head>
     <body class="font-sans antialiased">
         <x-banner />
