@@ -123,7 +123,7 @@ Route::middleware([
     Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');
 
     Route::post('analytics', [AnalyticsController::class, 'index'])->name('analytics');
-    Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
+    Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'printInvoice'])->name('invoices.print');
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');

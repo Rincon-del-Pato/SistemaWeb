@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -59,6 +60,17 @@ class InvoiceController extends Controller
         $options->set('creator', config('app.name'));
 
         return $pdf->stream("comprobante-{$invoice->series}-{$invoice->number}.pdf");
+    }
+
+    public function printInvoice(Invoice $invoice)
+    {
+        $order = $invoice->order;
+        $pdf = PDF::loadView('orders.invoice', ['order' => $order]);
+        
+        // Configurar el tamaño del papel para tickets
+        $pdf->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm (ancho) x 297mm (alto)
+
+        return $pdf->stream('comprobante-' . $invoice->series . '-' . $invoice->number . '.pdf');
     }
 
     public function details(Invoice $invoice)

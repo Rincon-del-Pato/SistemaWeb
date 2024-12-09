@@ -581,7 +581,7 @@ class OrderController extends Controller
         $pdf = PDF::loadView('orders.invoice', compact('order'));
 
         // Configurar el tamaño del papel para tickets
-        $pdf->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm (ancho) x 297mm (alto)
+        $pdf->setPaper([0, 0, 226.77, 439.37], 'portrait'); // 80mm x 155mm
 
         return $pdf->stream('comprobante-' . $order->invoice->series . '-' . $order->invoice->number . '.pdf');
     }

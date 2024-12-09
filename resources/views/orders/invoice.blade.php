@@ -1,117 +1,88 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>Comprobante</title>
     <style>
         /* Estilos generales */
-        body {
-            font-family: 'Arial', sans-serif;
-            font-size: 12px;
-            margin: 0;
+        body { 
+            font-family: 'Arial', sans-serif; 
+            font-size: 9px; 
+            margin: 0; 
             padding: 0;
+            width: 226.77px;
+            height: 439.37px; /* 15.5cm convertido a px */
+            overflow: hidden;
         }
-
-        .container {
-            width: 100%;
-            padding: 10px;
+        .container { 
+            width: 100%; 
+            padding: 3px; /* Reducido de 5px */
         }
-
-        .text-center {
-            text-align: center;
+        .logo {
+            width: 50px; /* Reducido de 60px */
+            height: auto;
+            margin: 3px auto;
         }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .mb-2 {
-            margin-bottom: 10px;
-        }
-
-        hr {
-            border: 1px dashed #000;
-            margin: 5px 0;
-        }
-
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mb-2 { margin-bottom: 10px; }
+        hr { border: 1px dashed #000; margin: 3px 0; /* Reducido de 5px */ }
+        
         /* Estilos del encabezado */
-        h2 {
-            font-size: 20px;
-            margin: 0;
-            padding: 0;
+        h2 { 
+            font-size: 14px; 
+            margin: 0; 
+            padding: 0; 
         }
-
-        .invoice-number {
-            font-size: 16px;
-            margin: 5px 0;
+        .invoice-number { 
+            font-size: 12px; 
+            margin: 3px 0; 
         }
-
-        .header-info {
-            margin: 10px 0;
-            font-size: 14px;
+        .header-info { 
+            margin: 3px 0; 
+            font-size: 8px; /* Reducido de 9px */
         }
 
         /* Estilos de la tabla */
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        table { 
+            width: 100%; 
+            font-size: 8px;
+            border-collapse: collapse; 
         }
-
-        table th,
-        table td {
-            padding: 5px;
+        table th, table td { 
+            padding: 2px; 
         }
-
-        table th {
-            text-align: left;
-            border-bottom: 1px solid #000;
-        }
-
-        table td {
-            text-align: right;
-        }
-
-        table td.text-left {
-            text-align: left;
-        }
+        table th { text-align: left; border-bottom: 1px solid #000; }
+        table td { text-align: right; }
+        table td.text-left { text-align: left; }
 
         /* Estilos del pie */
-        .footer {
-            margin-top: 15px;
-            font-size: 12px;
+        .footer { 
+            margin-top: 10px; /* Reducido de 15px */
+            font-size: 8px; /* Reducido de 12px */
         }
-
-        .footer p {
-            margin: 0;
-        }
+        .footer p { margin: 0; }
 
         /* Estilos para los totales */
-        .totals {
-            margin-top: 10px;
-            font-size: 14px;
+        .totals { 
+            margin-top: 5px; /* Reducido de 10px */
+            font-size: 10px; /* Reducido de 14px */
         }
-
-        .totals p {
-            margin: 0;
-            font-weight: bold;
-        }
+        .totals p { margin: 0; font-weight: bold; }
 
         /* Estilo de separación */
-        .separator {
-            border-top: 1px solid #000;
-            margin-top: 5px;
-        }
+        .separator { border-top: 1px solid #000; margin-top: 5px; }
     </style>
 </head>
-
 <body>
     <div class="container">
         <!-- Encabezado -->
         <div class="text-center">
-            <h2>{{ config('app.name') }}</h2>
-            <p class="invoice-number">
-                {{ $order->invoice->series }}-{{ str_pad($order->invoice->number, 8, '0', STR_PAD_LEFT) }}</p>
+            <h2>Rincón del Pato</h2>
+            <img src="{{ public_path('imagen/pato.png') }}" class="logo">
+            <p class="mb-2">RUC: 12345678901</p>
+            <p class="mb-2">Jr. Alianza 782, Guadalupe 13841</p>
+            <p class="mb-2">Guadalupe - Perú</p>
             <div class="header-info">
                 <p>Cliente: {{ $order->invoice->customer_name }}</p>
                 <p>{{ $order->invoice->customer_document_type }}: {{ $order->invoice->customer_document_number }}</p>
@@ -119,6 +90,11 @@
             </div>
             <hr>
         </div>
+        <div class="separator"></div>
+        
+        <!-- Número de comprobante -->
+        <p class="invoice-number">{{ $order->invoice->series }}-{{ str_pad($order->invoice->number, 8, '0', STR_PAD_LEFT) }}</p>
+        <div class="separator"></div>
 
         <!-- Detalle de productos -->
         <table>
@@ -128,7 +104,7 @@
                 <th class="text-right">P.U.</th>
                 <th class="text-right">Total</th>
             </tr>
-            @foreach ($order->invoice->items as $item)
+            @foreach($order->invoice->items as $item)
                 <tr>
                     <td class="text-left">{{ $item->description }}</td>
                     <td>{{ $item->quantity }}</td>
@@ -137,7 +113,7 @@
                 </tr>
             @endforeach
         </table>
-
+        
         <div class="separator"></div>
 
         <!-- Totales -->
@@ -157,5 +133,4 @@
         </div>
     </div>
 </body>
-
 </html>
