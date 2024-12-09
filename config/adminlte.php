@@ -440,6 +440,14 @@ return [
         ],
 
         [
+            'text' => 'Manual de Ayuda',
+            'url'  => 'https://rincon-del-pato.github.io/Manual/',
+            'icon' => 'fas fa-book',
+            'target' => '_blank', // Abre en una nueva pestaña
+            'active' => [], // Deja vacío si no necesitas marcarlo como activo
+        ],
+
+        [
             // 'text' => 'Carta',
             // 'url' => 'menus',
             // 'icon' => 'far fa-file-alt',
