@@ -12,18 +12,18 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $invoices = Invoice::with(['order.user', 'items'])
-            ->when($request->search, function($query, $search) {
-                return $query->where(function($q) use ($search) {
+            ->when($request->search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
                     $q->where('series', 'like', "%{$search}%")
-                      ->orWhere('number', 'like', "%{$search}%")
-                      ->orWhere('customer_name', 'like', "%{$search}%")
-                      ->orWhere('customer_document_number', 'like', "%{$search}%");
+                        ->orWhere('number', 'like', "%{$search}%")
+                        ->orWhere('customer_name', 'like', "%{$search}%")
+                        ->orWhere('customer_document_number', 'like', "%{$search}%");
                 });
             })
-            ->when($request->date_from, function($query, $date) {
+            ->when($request->date_from, function ($query, $date) {
                 return $query->whereDate('issue_date', '>=', $date);
             })
-            ->when($request->date_to, function($query, $date) {
+            ->when($request->date_to, function ($query, $date) {
                 return $query->whereDate('issue_date', '<=', $date);
             })
             ->latest()
@@ -36,7 +36,7 @@ class InvoiceController extends Controller
     {
         $order = $invoice->order;
         $pdf = PDF::loadView('orders.invoice', compact('order'));
-        $pdf->setPaper([0, 0, 226.77, 841.89], 'portrait');
+        $pdf->setPaper([0, 0, 226.77, 439.37], 'portrait'); // 80mm x 155mm
 
         return $pdf->stream('comprobante-' . $invoice->series . '-' . $invoice->number . '.pdf');
     }
@@ -66,9 +66,9 @@ class InvoiceController extends Controller
     {
         $order = $invoice->order;
         $pdf = PDF::loadView('orders.invoice', ['order' => $order]);
-        
+
         // Configurar el tamaño del papel para tickets
-        $pdf->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm (ancho) x 297mm (alto)
+        $pdf->setPaper([0, 0, 226.77, 439.37], 'portrait'); // 80mm x 155mm
 
         return $pdf->stream('comprobante-' . $invoice->series . '-' . $invoice->number . '.pdf');
     }
