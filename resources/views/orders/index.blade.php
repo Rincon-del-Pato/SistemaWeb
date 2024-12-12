@@ -54,7 +54,7 @@
                                         {{ $occupiedCount }} Ocupado
                                     </span>
                                 </div>
-                                <button onclick="showReservationModal()" 
+                                <button onclick="showReservationModal()"
                                     class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-purple-500 rounded-lg shadow-sm hover:bg-purple-600">
                                     <i class="mr-1 sm:mr-2 fas fa-calendar-alt"></i>
                                     Nueva Reservación
@@ -288,7 +288,7 @@
                                     id="tabParaLlevar{{ $estado }}"
                                     onclick="changeTakeAwayTab('{{ $estado }}')">
                                     <span
-                                        class="mr-2 px-2 py-1 text-xs rounded-full 
+                                        class="mr-2 px-2 py-1 text-xs rounded-full
                                         {{ $estado === 'Pendiente' ? 'bg-yellow-100 text-yellow-800' : '' }}
                                         {{ $estado === 'Preparando' ? 'bg-blue-100 text-blue-800' : '' }}
                                         {{ $estado === 'Completado' ? 'bg-green-100 text-green-800' : '' }}">
@@ -400,7 +400,7 @@
                                     id="tabDelivery{{ $estado }}"
                                     onclick="changeDeliveryTab('{{ $estado }}')">
                                     <span
-                                        class="mr-2 px-2 py-1 text-xs rounded-full 
+                                        class="mr-2 px-2 py-1 text-xs rounded-full
                                         {{ $estado === 'Pendiente' ? 'bg-yellow-100 text-yellow-800' : '' }}
                                         {{ $estado === 'Preparando' ? 'bg-blue-100 text-blue-800' : '' }}
                                         {{ $estado === 'Enviando' ? 'bg-purple-100 text-purple-800' : '' }}
@@ -753,6 +753,11 @@
                     @endif
                 }
             @endforeach
+
+            // Añadir un callback para recargar la página después del pago exitoso
+            window.addEventListener('payment-processed', function() {
+                window.location.reload();
+            });
         }
 
         function changeTab(tabName) {
@@ -943,7 +948,7 @@
             backdrop.id = 'modal-backdrop';
             document.body.appendChild(backdrop);
             modal.classList.remove('hidden');
-            
+
             // Establecer fecha mínima
             const now = new Date();
             const year = now.getFullYear();
@@ -951,7 +956,7 @@
             const day = String(now.getDate()).padStart(2, '0');
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            
+
             const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
             document.getElementById('reservation_time').min = minDateTime;
         }
@@ -1191,7 +1196,7 @@
                     Nueva Reservación
                 </h3>
                 <button type="button"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" 
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     onclick="closeReservationModal()">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -1206,7 +1211,7 @@
                         <label for="customer_name" class="block mb-2 text-sm font-medium text-gray-900">Nombre del Cliente</label>
                         <input type="text" id="customer_name" name="customer_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                     </div>
-                    
+
                     <div>
                         <label for="customer_phone" class="block mb-2 text-sm font-medium text-gray-900">Teléfono</label>
                         <input type="text" id="customer_phone" name="customer_phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>

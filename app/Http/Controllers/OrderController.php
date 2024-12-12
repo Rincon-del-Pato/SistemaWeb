@@ -465,19 +465,19 @@ class OrderController extends Controller
     public function payment(Order $order)
     {
         $order->load(['orderItems.menuItem', 'user']);
-        
+
         // Cargar la tabla solo si es una orden Local
         if ($order->order_type === OrderType::Local->value) {
             $order->load('table');
         }
-        
+
         $paymentMethods = PaymentMethod::all();
         $defaultCustomer = [
             'name' => 'CLIENTE GENERAL',
             'document_type' => 'DNI',
             'document_number' => '00000000'
         ];
-        
+
         return view('orders.payment', compact('order', 'paymentMethods', 'defaultCustomer'));
     }
 
@@ -486,7 +486,11 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            $order = Order::findOrFail($id);
+            // Cargar la orden con la relación de tabla
+            $order = Order::with('table')->findOrFail($id);
+
+            // Guardar el table_id antes de cualquier operación
+            $tableId = $order->table_id;
 
             // Validar datos requeridos
             $validated = $request->validate([
@@ -551,18 +555,35 @@ class OrderController extends Controller
 
             // Actualizar el estado de la orden
             $order->update(['payment_status' => PaymentsStatus::Pagado->value]);
-            
-            // Actualizar estado de mesa solo si es orden Local
-            if ($order->order_type === OrderType::Local->value && $order->table) {
-                $order->table->update(['status' => TableStatus::Disponible->value]);
+
+            // Actualizar estado de mesa si es orden Local
+            if ($order->order_type === OrderType::Local->value && $tableId) {
+                // Forzar la actualización de la mesa directamente
+                DB::table('tables')
+                    ->where('id', $tableId)
+                    ->update(['status' => TableStatus::Disponible->value]);
+
+                // También actualizar el modelo por si acaso
+                if ($table = Table::find($tableId)) {
+                    $table->status = TableStatus::Disponible->value;
+                    $table->save();
+                }
             }
 
             DB::commit();
 
+            // Forzar una actualización adicional después de la transacción
+            if ($tableId) {
+                DB::table('tables')
+                    ->where('id', $tableId)
+                    ->update(['status' => TableStatus::Disponible->value]);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Pago procesado correctamente',
-                'invoice_url' => route('orders.invoice', $order->id)
+                'invoice_url' => route('orders.invoice', $order->id),
+                'table_id' => $tableId // Añadir el ID de la mesa en la respuesta
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
