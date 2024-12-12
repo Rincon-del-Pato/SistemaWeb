@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->nullable()->constrained('customers')->onDelete('set null');
             $table->foreignId('table_id')->nullable()->constrained('tables')->onDelete('set null');
             $table->decimal('total', 10, 2);
-            $table->integer('num_guests');
+            $table->integer('num_guests')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->enum('order_type', array_column(OrderType::cases(), 'value'));
             $table->timestamp('order_date')->useCurrent();

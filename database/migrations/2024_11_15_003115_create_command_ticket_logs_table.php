@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('command_ticket_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('command_ticket_id')->constrained('command_tickets')->onDelete('cascade');
-            $table->string('previous_status');
+            $table->string('previous_status')->nullable();
             $table->string('new_status');
             $table->timestamp('change_date')->useCurrent();
             $table->text('notes')->nullable();

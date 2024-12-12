@@ -9,16 +9,22 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CommandController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\MenuItemSizeController;
 use App\Http\Controllers\InventoryItemsController;
 use App\Http\Controllers\PermissionsionController;
+use App\Http\Controllers\DocumentConsultController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
@@ -43,6 +49,15 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
+Route::get('/analytics', function () {
+    return view('analytics.dashboard');
+})->middleware(['auth'])->name('analytics');
+
+Route::get('/api/consult-document/{type}/{number}', [DocumentConsultController::class, 'consult'])->name('api.consult-document');
+
+Route::get('/consulta-documento/{type}/{number}', [DocumentConsultController::class, 'consult'])->name('consulta.documento');
+
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 
 Route::middleware([
     'auth:sanctum',
@@ -93,13 +108,38 @@ Route::middleware([
 
     Route::resource('customers', CustomerController::class)->names('customers');
 
-    Route::resource('orders', OrderController::class)->names('orders');
+    Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+    Route::resource('orders', OrderController::class)->except(['store'])->names('orders');
+    Route::get('/orders/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::get('/orders/{order}/pre-bill', [OrderController::class, 'preBill'])->name('orders.pre-bill');
+    Route::get('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/change-table', [OrderController::class, 'changeTable'])->name('orders.change-table');
+    Route::get('/orders/{order}/payment', [OrderController::class, 'payment'])->name('orders.payment');
+    Route::post('/orders/{order}/process-payment', [OrderController::class, 'processPayment'])->name('orders.process-payment');
+    Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
+    Route::put('orders/{order}/status', [OrderController::class, 'updateOrderStatus'])->name('orders.updateStatus');
+    Route::get('/orders/{order}/details', [OrderController::class, 'getDetails'])->name('orders.details');
 
-    
+    Route::resource('commands', CommandController::class);
+    Route::patch('commands/{command}/status', [CommandController::class, 'updateStatus'])->name('commands.update-status');
 
+    Route::post('analytics', [AnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'printInvoice'])->name('invoices.print');
 
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('/invoices/{invoice}/details', [InvoiceController::class, 'details'])->name('invoices.details');
+    Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
 
+    Route::get('/dashboard/export-employees', [DashboardController::class, 'exportEmployees'])->name('dashboard.export-employees');
+    Route::get('/dashboard/export-daily-sales', [DashboardController::class, 'exportDailySales'])->name('dashboard.export-daily-sales');
+    Route::get('/dashboard/export-orders', [DashboardController::class, 'exportOrders'])->name('dashboard.export-orders');
+    Route::get('/dashboard/export-reservations', [DashboardController::class, 'exportReservations'])->name('dashboard.export-reservations');
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('reports.generate');
 });
+
 
 
 // Route::resource('products', ProductsController::class)->names('products');
@@ -110,7 +150,6 @@ Route::middleware([
 // Route::get('/orders', [OrdersController::class, 'index'])->name('order.index');
 // Route::get('/orders/create/{tableId}', [OrdersController::class, 'create'])->name('orders.create');
 // Route::post('/orders/table/{tableId}', [OrdersController::class, 'store'])->name('orders.store');
-
 
 // Route::post('/orders/{order}/items', [OrdersController::class, 'addItems'])->name('orders.addItems');
 // Route::post('/orders/{order}/complete', [OrdersController::class, 'completeOrder'])->name('orders.complete');

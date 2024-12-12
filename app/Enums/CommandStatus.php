@@ -4,8 +4,14 @@ namespace App\Enums;
 
 enum CommandStatus: string
 {
-    case PENDING = 'pending';
-    case IN_PROGRESS = 'in_progress';
-    case COMPLETED = 'completed';
-    case CANCELLED = 'cancelled';
+    case Pendiente = 'Pendiente';
+    case En_Progreso = 'En_Progreso';
+    case Enviando = 'Enviando';
+    case Completado = 'Completado';
+    case Cancelado = 'Cancelado';
+
+    public static function getNiceText($status): string 
+    {
+        return str_replace('_', ' ', $status);
+    }
 }

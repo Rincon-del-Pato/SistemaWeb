@@ -42,6 +42,94 @@ class RolesPermisosSeeder extends Seeder
         // $role16 = Role::create(['name' => 'Prevencionista','tipo'=>'cargo']);
 
         //---------------------------------------------------------------------------------------------------------------
+
+        // Aqui hazme seeder pero para mis paneles que yo tengo en mi sistema
+        //panel de dashboard
+        Permission::create([
+            'name' => 'panel.Dashboard',
+            'description' => 'Acceso al panel de Dashboard',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7]);
+        //panel de reportes
+        Permission::create([
+            'name' => 'panel.Reportes',
+            'description' => 'Acceso al panel de Reportes',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7]);
+        //panel de ia
+        Permission::create([
+            'name' => 'panel.IA',
+            'description' => 'Acceso al panel de IA',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7]);
+        //panel de roles
+        Permission::create([
+            'name' => 'panel.Roles',
+            'description' => 'Acceso al panel de Roles',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7]);
+        //panel de usuarios
+        Permission::create([
+            'name' => 'panel.Usuarios',
+            'description' => 'Acceso al panel de Usuarios',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7]);
+        //panel de empleados
+        Permission::create([
+            'name' => 'panel.Empleados',
+            'description' => 'Acceso al panel de Empleados',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7]);
+        //panel de mesas
+        Permission::create([
+            'name' => 'panel.Mesas',
+            'description' => 'Acceso al panel de Mesas',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role12]);
+        //panel de categorias
+        Permission::create([
+            'name' => 'panel.Categorias',
+            'description' => 'Acceso al panel de Categorias',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role8, $role9]);
+        //panel de inventario
+        Permission::create([
+            'name' => 'panel.Inventario',
+            'description' => 'Acceso al panel de Inventario',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role8, $role9]);
+        //panel de menu
+        Permission::create([
+            'name' => 'panel.Menu',
+            'description' => 'Acceso al panel de Menu',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role8, $role9]);
+        //panel de clientes
+        Permission::create([
+            'name' => 'panel.Clientes',
+            'description' => 'Acceso al panel de Clientes',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role12]);
+        //panel de ordenes
+        Permission::create([
+            'name' => 'panel.Ordenes',
+            'description' => 'Acceso al panel de Ordenes',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role12]);
+        //panel de comandas
+        Permission::create([
+            'name' => 'panel.Comandas',
+            'description' => 'Acceso al panel de Comandas',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role12]);
+        //panel de comprobantes
+        Permission::create([
+            'name' => 'panel.Comprobantes',
+            'description' => 'Acceso al panel de Comprobantes',
+            'tipo' => 'panel'
+        ])->syncRoles([$role7, $role12]);
+
+
         //permisos
         Permission::create(
             [
