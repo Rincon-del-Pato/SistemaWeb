@@ -73,4 +73,11 @@
 
 @section('js')
     <script> console.log('Hi!'); </script>
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'F1') {
+            event.preventDefault();
+            window.open('https://rincon-del-pato.github.io/Manual/', '_blank');
+        }
+    });
 @stop

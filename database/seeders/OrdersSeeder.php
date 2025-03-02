@@ -32,12 +32,12 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 2,
-                'table_id' => 2,
+                'table_id' => NULL,
                 'total' => 42.30,
-                'num_guests' => 2,
+                'num_guests' => NULL,
                 'user_id' => 3,
                 'order_type' => 'ParaLlevar',
-                'order_date' => Carbon::now()->subDays(2),
+                'order_date' => Carbon::now(),
                 'payment_status' => 'Pagado',
                 'delivery_address' => NULL,
                 'created_at' => Carbon::now(),
@@ -45,17 +45,43 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 3,
-                'table_id' => 3,
+                'table_id' => NULL,
                 'total' => 58.10,
-                'num_guests' => 4,
+                'num_guests' => NULL,
                 'user_id' => 3,
                 'order_type' => 'Delivery',
-                'order_date' => Carbon::now()->subDays(3),
+                'order_date' => Carbon::now(),
                 'payment_status' => 'Pagado',
                 'delivery_address' => 'Calle Falsa 123',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
+            // [
+            //     'customer_id' => 2,
+            //     'table_id' => NULL,
+            //     'total' => 42.30,
+            //     'num_guests' => NULL,
+            //     'user_id' => 3,
+            //     'order_type' => 'ParaLlevar',
+            //     'order_date' => Carbon::now()->subDays(2),
+            //     'payment_status' => 'Pagado',
+            //     'delivery_address' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ],
+            // [
+            //     'customer_id' => 3,
+            //     'table_id' => NULL,
+            //     'total' => 58.10,
+            //     'num_guests' => NULL,
+            //     'user_id' => 3,
+            //     'order_type' => 'Delivery',
+            //     'order_date' => Carbon::now()->subDays(3),
+            //     'payment_status' => 'Pagado',
+            //     'delivery_address' => 'Calle Falsa 123',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ],
             [
                 'customer_id' => 4,
                 'table_id' => 4,
@@ -71,7 +97,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 5,
-                'table_id' => 5,
+                'table_id' => NULL,
                 'total' => 63.20,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -84,7 +110,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 6,
-                'table_id' => 6,
+                'table_id' => NULL,
                 'total' => 15.50,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -110,7 +136,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 8,
-                'table_id' => 8,
+                'table_id' => NULL,
                 'total' => 52.40,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -123,7 +149,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 9,
-                'table_id' => 9,
+                'table_id' => NULL,
                 'total' => 77.90,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -149,7 +175,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 11,
-                'table_id' => 11,
+                'table_id' => NULL,
                 'total' => 49.60,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -162,7 +188,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 12,
-                'table_id' => 12,
+                'table_id' => NULL,
                 'total' => 59.00,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -188,7 +214,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 14,
-                'table_id' => 14,
+                'table_id' => NULL,
                 'total' => 23.50,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -201,7 +227,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 15,
-                'table_id' => 15,
+                'table_id' => NULL,
                 'total' => 40.90,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -227,7 +253,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 17,
-                'table_id' => 17,
+                'table_id' => NULL,
                 'total' => 67.40,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -240,7 +266,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 18,
-                'table_id' => 18,
+                'table_id' => NULL,
                 'total' => 72.60,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -266,7 +292,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 20,
-                'table_id' => 20,
+                'table_id' => NULL,
                 'total' => 93.10,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -292,7 +318,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 22,
-                'table_id' => 2,
+                'table_id' => NULL,
                 'total' => 45.20,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -305,7 +331,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 23,
-                'table_id' => 3,
+                'table_id' => NULL,
                 'total' => 53.30,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -331,7 +357,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 25,
-                'table_id' => 5,
+                'table_id' => NULL,
                 'total' => 61.70,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -344,7 +370,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 26,
-                'table_id' => 6,
+                'table_id' => NULL,
                 'total' => 27.90,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -370,7 +396,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 28,
-                'table_id' => 8,
+                'table_id' => NULL,
                 'total' => 43.00,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -383,7 +409,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 29,
-                'table_id' => 9,
+                'table_id' => NULL,
                 'total' => 88.50,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -409,7 +435,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 31,
-                'table_id' => 11,
+                'table_id' => NULL,
                 'total' => 70.10,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -422,7 +448,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 32,
-                'table_id' => 12,
+                'table_id' => NULL,
                 'total' => 56.40,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -448,7 +474,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 34,
-                'table_id' => 14,
+                'table_id' => NULL,
                 'total' => 72.10,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -461,7 +487,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 35,
-                'table_id' => 15,
+                'table_id' => NULL,
                 'total' => 66.50,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -487,7 +513,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 37,
-                'table_id' => 17,
+                'table_id' => NULL,
                 'total' => 47.90,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -500,7 +526,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 38,
-                'table_id' => 18,
+                'table_id' => NULL,
                 'total' => 60.00,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -526,7 +552,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 40,
-                'table_id' => 20,
+                'table_id' => NULL,
                 'total' => 91.60,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -552,7 +578,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 42,
-                'table_id' => 2,
+                'table_id' => NULL,
                 'total' => 78.90,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -565,7 +591,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 43,
-                'table_id' => 3,
+                'table_id' => NULL,
                 'total' => 63.50,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -591,7 +617,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 45,
-                'table_id' => 5,
+                'table_id' => NULL,
                 'total' => 76.80,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -604,7 +630,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 46,
-                'table_id' => 6,
+                'table_id' => NULL,
                 'total' => 44.10,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -630,7 +656,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 48,
-                'table_id' => 8,
+                'table_id' => NULL,
                 'total' => 59.80,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -643,7 +669,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 49,
-                'table_id' => 9,
+                'table_id' => NULL,
                 'total' => 85.30,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -669,7 +695,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 51,
-                'table_id' => 11,
+                'table_id' => NULL,
                 'total' => 44.70,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -682,7 +708,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 52,
-                'table_id' => 12,
+                'table_id' => NULL,
                 'total' => 82.20,
                 'num_guests' => 6,
                 'user_id' => 3,
@@ -708,7 +734,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 54,
-                'table_id' => 14,
+                'table_id' => NULL,
                 'total' => 53.60,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -721,7 +747,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 55,
-                'table_id' => 15,
+                'table_id' => NULL,
                 'total' => 88.10,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -747,7 +773,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 57,
-                'table_id' => 17,
+                'table_id' => NULL,
                 'total' => 79.10,
                 'num_guests' => 4,
                 'user_id' => 3,
@@ -760,7 +786,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 58,
-                'table_id' => 18,
+                'table_id' => NULL,
                 'total' => 72.30,
                 'num_guests' => 2,
                 'user_id' => 3,
@@ -786,7 +812,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'customer_id' => 60,
-                'table_id' => 20,
+                'table_id' => NULL,
                 'total' => 54.20,
                 'num_guests' => 6,
                 'user_id' => 3,

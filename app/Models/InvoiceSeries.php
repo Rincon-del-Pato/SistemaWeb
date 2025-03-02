@@ -9,5 +9,14 @@ class InvoiceSeries extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['series', 'last_number'];
+    protected $fillable = [
+        'document_type',
+        'series',
+        'current_number',
+        'is_active'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
 }

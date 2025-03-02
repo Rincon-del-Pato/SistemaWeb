@@ -10,6 +10,13 @@
         {{-- Configured left links --}}
         @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-left'), 'item')
 
+        {{-- Help icon link --}}
+        <li class="nav-item">
+            <a class="nav-link" href="https://drive.google.com/uc?export=download&id=1VsbOYeDXnDYB45MIVZaSkzOLn_EWv-fB" title="Descargar Manual de Ayuda" target="_blank">
+                <i class="fas fa-question-circle"></i>
+            </a>
+        </li>
+
         {{-- Custom left links --}}
         @yield('content_top_nav_left')
     </ul>

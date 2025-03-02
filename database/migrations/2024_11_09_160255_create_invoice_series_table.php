@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoice_series', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('series', 4)->unique();
-            $table->integer('last_number')->unsigned()->default(0);
+            $table->id();
+            $table->string('document_type'); // BOLETA o FACTURA
+            $table->string('series', 4); // B001 o F001
+            $table->integer('current_number')->default(1);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

@@ -1,66 +1,391 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# # Sistema de Gestión de Restaurante - El Rincón del Pato
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Requisitos del Sistema
 
-## About Laravel
+- PHP >= 8.2
+- Composer
+- MySQL >= 8.0
+- Node.js >= 16.x
+- NPM >= 8.x
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Instalación
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Clonar el repositorio
+```bash
+git clone <url-repositorio>
+cd <nombre-proyecto>
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. Instalar dependencias
+```bash
+composer install
+npm install
+```
 
-## Learning Laravel
+3. Configurar entorno
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4. Configurar base de datos en 
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+.env
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=restaurante_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+5. Ejecutar migraciones y seeders
+```bash 
+php artisan migrate --seed
+```
 
-### Premium Partners
+6. Compilar assets
+```bash
+npm run build
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+7. Iniciar servidor
+```bash
+php artisan serve
+```
 
-## Contributing
+## Módulos del Sistema
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Gestión de Personal
+- Roles y permisos
+- Usuarios del sistema
+- Empleados
+- Control de accesos
 
-## Code of Conduct
+### 2. Sistema de Restaurante
+- Gestión de mesas
+- Reservaciones 
+- Configuraciones generales
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Inventario
+- Unidades de medida
+- Items de inventario
+- Proveedores
+- Movimientos de stock
+- Registro de suministros
+- Historial de movimientos
 
-## Security Vulnerabilities
+### 4. Menú y Productos
+- Categorías
+- Tamaños de productos
+- Gestión de menú
+- Precios y variaciones
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Operaciones
+- Gestión de clientes
+- Sistema de órdenes
+- Comandas
+- Pre-cuentas
+- Cambios de mesa
+- Proceso de pago
+- Facturación
 
-## License
+### 6. Reportes y Analytics
+- Dashboard con métricas clave
+- Reporte de ventas
+- Estado de inventario
+- Rendimiento de empleados
+- Exportación de datos
+- Análisis de operaciones
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Tecnologías Principales
+
+- Laravel 11
+- AdminLTE 3
+- Tailwind CSS
+- MySQL
+- JavaScript/Node.js
+
+## Características
+
+- Interfaz responsiva
+- Sistema de roles y permisos
+- Gestión de inventario en tiempo real
+- Sistema de facturación
+- Reportes exportables
+- API REST para integraciones
+
+## Configuración Adicional
+
+### AdminLTE
+
+El sistema utiliza AdminLTE 3 para la interfaz administrativa. La configuración se encuentra en:
+```php
+config/adminlte.php
+```
+
+### Tailwind CSS
+
+La configuración de Tailwind está en:
+```javascript
+tailwind.config.js
+```
+
+## Mantenimiento
+
+Para mantener el sistema actualizado:
+
+```bash
+composer update
+npm update
+php artisan migrate
+```
+
+## Seguridad
+
+- Autenticación robusta
+- Protección CSRF
+- Validación de datos
+- Sanitización de entradas
+- Logs de actividad
+
+## Soporte
+
+Para reportar problemas o sugerencias, por favor crear un issue en el repositorio.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT.# Sistema de Gestión de Restaurante - El Rincón del Pato
+
+## Requisitos del Sistema
+
+- PHP >= 8.2
+- Composer
+- MySQL >= 8.0
+- Node.js >= 16.x
+- NPM >= 8.x
+
+## Instalación
+
+1. Clonar el repositorio
+```bash
+git clone <url-repositorio>
+cd <nombre-proyecto>
+```
+
+2. Instalar dependencias
+```bash
+composer install
+npm install
+```
+
+3. Configurar entorno
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. Configurar base de datos en 
+
+.env
+
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=restaurante_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+5. Ejecutar migraciones y seeders
+```bash 
+php artisan migrate --seed
+```
+
+6. Compilar assets
+```bash
+npm run build
+```
+
+7. Iniciar servidor
+```bash
+php artisan serve
+```
+
+## Módulos del Sistema
+
+### 1. Gestión de Personal
+- Roles y permisos
+- Usuarios del sistema
+- Empleados
+- Control de accesos
+
+### 2. Sistema de Restaurante
+- Gestión de mesas
+- Reservaciones 
+- Configuraciones generales
+
+### 3. Inventario
+- Unidades de medida
+- Items de inventario
+- Proveedores
+- Movimientos de stock
+- Registro de suministros
+- Historial de movimientos
+
+### 4. Menú y Productos
+- Categorías
+- Tamaños de productos
+- Gestión de menú
+- Precios y variaciones
+
+### 5. Operaciones
+- Gestión de clientes
+- Sistema de órdenes
+- Comandas
+- Pre-cuentas
+- Cambios de mesa
+- Proceso de pago
+- Facturación
+
+### 6. Reportes y Analytics
+- Dashboard con métricas clave
+- Reporte de ventas
+- Estado de inventario
+- Rendimiento de empleados
+- Exportación de datos
+- Análisis de operaciones
+
+## Tecnologías Principales
+
+- Laravel 11
+- AdminLTE 3
+- Tailwind CSS
+- MySQL
+- JavaScript/Node.js
+
+## Características
+
+- Interfaz responsiva
+- Sistema de roles y permisos
+- Gestión de inventario en tiempo real
+- Sistema de facturación
+- Reportes exportables
+- API REST para integraciones
+
+## Configuración Adicional
+
+### AdminLTE
+
+El sistema utiliza AdminLTE 3 para la interfaz administrativa. La configuración se encuentra en:
+```php
+config/adminlte.php
+```
+
+### Tailwind CSS
+
+La configuración de Tailwind está en:
+```javascript
+tailwind.config.js
+```
+
+## Mantenimiento
+
+Para mantener el sistema actualizado:
+
+```bash
+composer update
+npm update
+php artisan migrate
+```
+
+## Seguridad
+
+- Autenticación robusta
+- Protección CSRF
+- Validación de datos
+- Sanitización de entradas
+- Logs de actividad
+
+## Soporte
+
+Para reportar problemas o sugerencias, por favor crear un issue en el repositorio.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT.
+
+Sistema web desarrollado con Laravel 11, AdminLTE y Tailwind CSS para la gestión integral de restaurantes.
+
+## Requisitos Previos
+
+- PHP >= 8.2
+- Composer
+- Node.js y NPM
+- MySQL
+- Git
+
+## Instalación
+
+1. Clonar el repositorio
+
+## Módulos del Sistema
+
+### 1. Gestión de Personal
+- Roles y permisos
+- Usuarios del sistema
+- Empleados
+- Control de accesos
+
+### 2. Sistema de Restaurante
+- Gestión de mesas
+- Reservaciones
+- Configuraciones generales
+
+### 3. Inventario
+- Unidades de medida
+- Items de inventario
+- Proveedores
+- Movimientos de stock
+- Registro de suministros
+- Historial de movimientos
+
+### 4. Menú y Productos
+- Categorías
+- Tamaños de productos
+- Gestión de menú
+- Precios y variaciones
+
+### 5. Operaciones
+- Gestión de clientes
+- Sistema de órdenes
+- Comandas
+- Pre-cuentas
+- Cambios de mesa
+- Proceso de pago
+- Facturación
+
+### 6. Reportes y Analytics
+- Dashboard con métricas clave
+- Reporte de ventas
+- Estado de inventario
+- Rendimiento de empleados
+- Exportación de datos
+- Análisis de operaciones
+
+## APIs y Servicios
+
+### Consulta de Documentos
+- Validación de documentos de identidad
+- Consultas en tiempo real
+- Verificación de datos
+
+## Rutas y Endpoints del Sistema
+
+### Autenticación
+

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
-            $table->enum('invoice_type', ['boleta', 'factura']);
+            $table->enum('invoice_type', array_column(InvoiceType::cases(), 'value'));
             $table->string('series', 4);
             $table->integer('number');
             $table->timestamp('issue_date')->useCurrent();
